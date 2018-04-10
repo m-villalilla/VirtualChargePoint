@@ -1,6 +1,7 @@
 package ocpp_client_backend;
 
 import eu.chargetime.ocpp.Client;
+import eu.chargetime.ocpp.ClientEvents;
 import eu.chargetime.ocpp.JSONClient;
 import eu.chargetime.ocpp.feature.profile.ClientCoreEventHandler;
 import eu.chargetime.ocpp.feature.profile.ClientCoreProfile;
@@ -124,9 +125,20 @@ public class JSONClientSample {
             }
         });
         client = new JSONClient(core, "chargeboxIdentity");
-        client.connect("ws://localhost:8887", null);
+        client.connect("ws://localhost:8887", new ClientEvents() {
+        	@Override
+        	public void connectionOpened() {
+        		System.out.println("Client connected!");
+        	}
+
+			@Override
+			public void connectionClosed() {
+				System.out.println("Client disconnected!");
+				
+			}
+        });
         
-        System.out.println("DEBUG: JSONClientSample.java connect(): Exit.");
+        System.out.println("DEBUG: JSONClientSample.java connect(): Return.");
     }
 
     public void sendBootNotification() throws Exception {

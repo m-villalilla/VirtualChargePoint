@@ -11,6 +11,10 @@ import eu.chargetime.ocpp.model.core.*;
 
 import java.util.UUID;
 
+import org.java_websocket.WebSocket;
+import org.java_websocket.handshake.ClientHandshake;
+import org.java_websocket.server.WebSocketServer;
+
 /*
  ChargeTime.eu - Java-OCA-OCPP
  Copyright (C) 2015-2016 Thomas Volden <tv@chargetime.eu>
@@ -32,14 +36,16 @@ import java.util.UUID;
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE.
  */
-public class BasicServer
+public class JSONServerSample extends WebSocketServer
 {
     private JSONServer server;
     private ServerCoreProfile core;
 
     public void started() throws Exception
     {
-        if (server != null)
+    	System.out.println("DEBUG: BasicServer.java started(): Called.");
+    	
+    	if (server != null)
             return;
 
         // The core profile is mandatory
@@ -134,6 +140,8 @@ public class BasicServer
             }
 
         });
+        
+        System.out.println("DEBUG: BasicServer.java started(): Return.");
     }
 
     public void sendClearCacheRequest() throws Exception {
@@ -146,5 +154,35 @@ public class BasicServer
         // Select the distination client with the sessionIndex integer.
         server.send(sessionIndex, request).whenComplete((confirmation, throwable) -> System.out.println(confirmation));
     }
+
+	@Override
+	public void onOpen(WebSocket conn, ClientHandshake handshake) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onClose(WebSocket conn, int code, String reason, boolean remote) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMessage(WebSocket conn, String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onError(WebSocket conn, Exception ex) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
