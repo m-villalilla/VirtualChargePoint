@@ -3,6 +3,8 @@ package ocpp_client_backend;
 public class launchClientBackend {
 
 	public static void main(String[] args){
+		System.out.println("DEBUG: launchClientBackend.java main(): Called.");
+		
 		JSONClientSample s = new JSONClientSample();
 		try {
 			s.connect();
@@ -18,7 +20,7 @@ public class launchClientBackend {
 			e.printStackTrace();
 		}
 		
-		System.out.println("launchClientBackend.java main(): Exit.");
+		System.out.println("DEBUG: launchClientBackend.java main(): Exit.");
 	}
 
 }

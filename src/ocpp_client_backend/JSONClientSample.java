@@ -38,7 +38,8 @@ public class JSONClientSample {
     private ClientCoreProfile core;
 
     public void connect() {
-
+    	System.out.println("DEBUG: JSONClientSample.java connect(): Called.");
+    	
         // The core profile is mandatory
         core = new ClientCoreProfile(new ClientCoreEventHandler() {
             @Override
@@ -124,7 +125,8 @@ public class JSONClientSample {
         });
         client = new JSONClient(core, "chargeboxIdentity");
         client.connect("ws://localhost:8887", null);
-        System.out.println("JSONClientSample.java connect(): Exit.");
+        
+        System.out.println("DEBUG: JSONClientSample.java connect(): Exit.");
     }
 
     public void sendBootNotification() throws Exception {
