@@ -124,8 +124,8 @@ public class JSONClientSample {
                 return null; // returning null means unsupported feature
             }
         });
-        client = new JSONClient(core, "chargeboxIdentity");
-        client.connect("ws://localhost:8887", new ClientEvents() {
+        client = new JSONClient(core, "TestPoint01");
+        client.connect("ws://test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/TestPoint01", new ClientEvents() {
         	@Override
         	public void connectionOpened() {
         		System.out.println("Client connected!");
