@@ -1,12 +1,11 @@
 package ocpp_client_backend;
 
-import eu.chargetime.ocpp.Client;
 import eu.chargetime.ocpp.ClientEvents;
 import eu.chargetime.ocpp.JSONClient;
 import eu.chargetime.ocpp.feature.profile.ClientCoreEventHandler;
 import eu.chargetime.ocpp.feature.profile.ClientCoreProfile;
-import eu.chargetime.ocpp.model.Request;
 import eu.chargetime.ocpp.model.core.*;
+
 
 /*
  * ChargeTime.eu - Java-OCA-OCPP
@@ -34,8 +33,9 @@ import eu.chargetime.ocpp.model.core.*;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public class JSONClientSample {
-    private Client client;
+
+public class JSONClientSample {	
+    private JSONClient client;
     private ClientCoreProfile core;
 
     public void connect() {
@@ -144,10 +144,10 @@ public class JSONClientSample {
     public void sendBootNotification() throws Exception {
 
         // Use the feature profile to help create event
-        Request request = core.createBootNotificationRequest("some vendor", "some model");
+        //Request request = core.createBootNotificationRequest("some vendor", "some model");
 
         // Client returns a promise which will be filled once it receives a confirmation.
-        client.send(request).whenComplete((s, ex) -> System.out.println(s));
+        //client.send(request).whenComplete((s, ex) -> System.out.println(s));
     }
 
     public void disconnect() {
