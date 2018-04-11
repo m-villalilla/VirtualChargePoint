@@ -6,32 +6,8 @@
 	<classpathentry kind="lib" path="jars/gson-2.8.2.jar"/>
 	<classpathentry kind="lib" path="jars/Java-WebSocket-1.3.8-sources.jar"/>
 	<classpathentry kind="lib" path="jars/Java-WebSocket-1.3.8.jar" sourcepath="jars/Java-WebSocket-1.3.8-sources.jar"/>
-	<classpathentry kind="lib" path="jars/common-0.5-SNAPSHOT-javadoc.jar"/>
-	<classpathentry kind="lib" path="jars/common-0.5-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="jars/v1_6-0.5-SNAPSHOT-javadoc.jar"/>
 	<classpathentry kind="lib" path="jars/v1_6-0.5-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-1.2-api-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-api-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-appserver-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-cassandra-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-core-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-couchdb-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-flume-ng-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-iostreams-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-jcl-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-jdbc-dbcp2-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-jmx-gui-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-jpa-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-jul-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-liquibase-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-mongodb2-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-mongodb3-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-slf4j-impl-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-taglib-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-to-slf4j-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-web-2.11.0.jar"/>
-	<classpathentry kind="lib" path="jars/slf4j-api-1.7.25.jar"/>
-	<classpathentry kind="lib" path="jars/slf4j-log4j12-1.7.25.jar"/>
-	<classpathentry kind="lib" path="jars/slf4j-simple-1.7.25.jar"/>
+	<classpathentry kind="lib" path="jars/common-0.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
