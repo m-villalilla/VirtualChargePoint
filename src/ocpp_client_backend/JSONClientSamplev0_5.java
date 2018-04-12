@@ -130,11 +130,16 @@ public class JSONClientSamplev0_5 {
 
         // Use the feature profile to help create event
         Request request = core.createBootNotificationRequest(launchClientBackend.CPVendor, launchClientBackend.CPModel);
-
+        
         // Client returns a promise which will be filled once it receives a confirmation.
         client.send(request).whenComplete((s, ex) -> System.out.println(s));
     }
 
+    public void sendAuthorizeRequest(String token) throws Exception {
+    	Request request = core.createAuthorizeRequest(token);
+    	client.send(request).whenComplete((s, ex) -> System.out.println(s));
+    }
+    
     public void disconnect() {
         client.disconnect();
     }

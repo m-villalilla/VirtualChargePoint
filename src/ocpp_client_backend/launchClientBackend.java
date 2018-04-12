@@ -11,17 +11,24 @@ public class launchClientBackend {
 	public static String CPModel = "TestModel";
 	
 	public static void main(String[] args){
-		JSONClientSamplev0_5 s = new JSONClientSamplev0_5();
+		JSONClientSamplev0_5 client = new JSONClientSamplev0_5();
 		
 		try {
-			s.connect();
+		client.connect();
 		} catch (Exception e) {
 			System.out.println("Error while trying to connect to the server.");
 			e.printStackTrace();
 		}
 		
 		try {
-			s.sendBootNotification();
+			client.sendBootNotification();
+		} catch (Exception e) {
+			System.out.println("Error while trying to sent a boot notification");
+			e.printStackTrace();
+		}
+		
+		try {
+			client.sendAuthorizeRequest("1234567890");
 		} catch (Exception e) {
 			System.out.println("Error while trying to sent a boot notification");
 			e.printStackTrace();
