@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="jars/chargetime-v0_5/common-0.5-SNAPSHOT-javadoc.jar"/>
 	<classpathentry kind="lib" path="jars/chargetime-v0_5/common-0.5-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="jars/chargetime-v0_5/v1_6-0.5-SNAPSHOT-javadoc.jar"/>
-	<classpathentry kind="lib" path="jars/chargetime-v0_5/v1_6-0.5-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="jars/chargetime-v0_5/v1_6-0.5-SNAPSHOT.jar" sourcepath="jars/chargetime-v0_5/v1_6-0.5-SNAPSHOT-javadoc.jar"/>
 	<classpathentry kind="lib" path="jars/log4j-api-2.11.0.jar"/>
 	<classpathentry kind="lib" path="jars/log4j-core-2.11.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
