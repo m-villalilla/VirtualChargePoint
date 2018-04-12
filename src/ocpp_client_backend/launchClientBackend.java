@@ -5,24 +5,36 @@ import ocpp_client_backend.JSONClientSamplev0_5;
 public class launchClientBackend {
 
 	public static void main(String[] args){
-		System.out.println("DEBUG: launchClientBackend.java main(): Called.");
+		//Configuration
+		String serverURL = "test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/";
+		String clientName = "TestPoint";
+		String CPVendor = "TestVendor";
+		String CPModel = "TestModel";
+		String testID = "1234567890";
 		
-		JSONClientSamplev0_5 s = new JSONClientSamplev0_5();
+		JSONClientSamplev0_5 client = new JSONClientSamplev0_5();
+		
 		try {
-			s.connect();
+			client.connect(serverURL, clientName);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			System.out.println("Error while trying to connect to the server.");
 			e.printStackTrace();
 		}
 		
 		try {
-			s.sendBootNotification();
+			client.sendBootNotification(CPVendor, CPModel);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			System.out.println("Error while trying to sent a boot notification");
 			e.printStackTrace();
 		}
 		
-		System.out.println("DEBUG: launchClientBackend.java main(): Return.");
+		try {
+			client.sendAuthorizeRequest(testID);
+		} catch (Exception e) {
+			System.out.println("Error while trying to authorize an ID");
+			e.printStackTrace();
+		}
+		
 	}
 
 }

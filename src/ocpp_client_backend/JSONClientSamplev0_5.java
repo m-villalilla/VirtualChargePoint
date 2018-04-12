@@ -37,7 +37,7 @@ public class JSONClientSamplev0_5 {
     private IClientAPI client;
     private ClientCoreProfile core;
 
-    public void connect() throws Exception {
+    public void connect(String serverURL, String clientName) throws Exception {
 
         // The core profile is mandatory
         core = new ClientCoreProfile(new ClientCoreEventHandler() {
@@ -123,18 +123,19 @@ public class JSONClientSamplev0_5 {
             }
         });
         client = new JSONClient(core);
-        client.connect("ws://test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/TestPoint01", null);
+        client.connect("ws://" + serverURL + clientName, null);
     }
 
-    public void sendBootNotification() throws Exception {
-
-        // Use the feature profile to help create event
-        Request request = core.createBootNotificationRequest("some vendor", "some model");
-
-        // Client returns a promise which will be filled once it receives a confirmation.
+    public void sendBootNotification(String CPVendor, String CPModel) throws Exception {
+        Request request = core.createBootNotificationRequest(CPVendor, CPModel);
         client.send(request).whenComplete((s, ex) -> System.out.println(s));
     }
 
+    public void sendAuthorizeRequest(String token) throws Exception {
+    	Request request = core.createAuthorizeRequest(token);
+    	client.send(request).whenComplete((s, ex) -> System.out.println(s));
+    }
+    
     public void disconnect() {
         client.disconnect();
     }
