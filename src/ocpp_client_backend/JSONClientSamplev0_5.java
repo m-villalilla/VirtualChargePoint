@@ -123,7 +123,7 @@ public class JSONClientSamplev0_5 {
             }
         });
         client = new JSONClient(core);
-        client.connect("ws://test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService", null);
+        client.connect("ws://test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/TestPoint01", null);
     }
 
     public void sendBootNotification() throws Exception {
