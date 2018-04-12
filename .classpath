@@ -6,8 +6,9 @@
 	<classpathentry kind="lib" path="jars/gson-2.8.2.jar"/>
 	<classpathentry kind="lib" path="jars/Java-WebSocket-1.3.8-sources.jar"/>
 	<classpathentry kind="lib" path="jars/Java-WebSocket-1.3.8.jar" sourcepath="jars/Java-WebSocket-1.3.8-sources.jar"/>
-	<classpathentry kind="lib" path="jars/v1_6-0.5-SNAPSHOT-javadoc.jar"/>
-	<classpathentry kind="lib" path="jars/v1_6-0.5-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="jars/common-0.3.jar"/>
+	<classpathentry kind="lib" path="jars/chargetime-v0_5/common-0.5-SNAPSHOT-javadoc.jar"/>
+	<classpathentry kind="lib" path="jars/chargetime-v0_5/common-0.5-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="jars/chargetime-v0_5/v1_6-0.5-SNAPSHOT-javadoc.jar"/>
+	<classpathentry kind="lib" path="jars/chargetime-v0_5/v1_6-0.5-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

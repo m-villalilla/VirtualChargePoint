@@ -1,6 +1,6 @@
-package core_features;
+package ocpp_client_backend;
 
-import eu.chargetime.ocpp.Client;
+import eu.chargetime.ocpp.IClientAPI;
 import eu.chargetime.ocpp.JSONClient;
 import eu.chargetime.ocpp.feature.profile.ClientCoreEventHandler;
 import eu.chargetime.ocpp.feature.profile.ClientCoreProfile;
@@ -13,7 +13,7 @@ import eu.chargetime.ocpp.model.core.*;
  *
  * MIT License
  *
- * Copyright (c) 2016 Thomas Volden
+ * Copyright (C) 2016-2018 Thomas Volden
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,8 +33,8 @@ import eu.chargetime.ocpp.model.core.*;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public class JSONClientSample {
-    private Client client;
+public class JSONClientSamplev0_5 {
+    private IClientAPI client;
     private ClientCoreProfile core;
 
     public void connect() throws Exception {
@@ -123,7 +123,7 @@ public class JSONClientSample {
             }
         });
         client = new JSONClient(core);
-        client.connect("ws://hostname:8887");
+        client.connect("ws://test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService", null);
     }
 
     public void sendBootNotification() throws Exception {

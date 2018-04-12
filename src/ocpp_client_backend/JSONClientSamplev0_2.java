@@ -1,4 +1,4 @@
-package core_features;
+package ocpp_client_backend;
 
 import eu.chargetime.ocpp.Client;
 import eu.chargetime.ocpp.JSONClient;
@@ -33,7 +33,7 @@ import eu.chargetime.ocpp.model.core.*;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public class JSONClientSample {
+public class JSONClientSamplev0_2 {
     private Client client;
     private ClientCoreProfile core;
 
@@ -122,8 +122,8 @@ public class JSONClientSample {
                 return null; // returning null means unsupported feature
             }
         });
-        client = new JSONClient(core, "chargeboxIdentity");
-        client.connect("ws://hostname:8887", null);
+        client = new JSONClient(core);
+        client.connect("ws://test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/TestPoint01");
     }
 
     public void sendBootNotification() throws Exception {

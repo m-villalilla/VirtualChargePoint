@@ -1,11 +1,11 @@
 package ocpp_client_backend;
 
-import eu.chargetime.ocpp.ClientEvents;
+import eu.chargetime.ocpp.Client;
 import eu.chargetime.ocpp.JSONClient;
 import eu.chargetime.ocpp.feature.profile.ClientCoreEventHandler;
 import eu.chargetime.ocpp.feature.profile.ClientCoreProfile;
+import eu.chargetime.ocpp.model.Request;
 import eu.chargetime.ocpp.model.core.*;
-
 
 /*
  * ChargeTime.eu - Java-OCA-OCPP
@@ -33,14 +33,12 @@ import eu.chargetime.ocpp.model.core.*;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-public class JSONClientSample_old {	
-    private JSONClient client;
+public class JSONClientSamplev0_3 {
+    private Client client;
     private ClientCoreProfile core;
 
-    public void connect() {
-    	System.out.println("DEBUG: JSONClientSample.java connect(): Called.");
-    	
+    public void connect() throws Exception {
+
         // The core profile is mandatory
         core = new ClientCoreProfile(new ClientCoreEventHandler() {
             @Override
@@ -124,32 +122,17 @@ public class JSONClientSample_old {
                 return null; // returning null means unsupported feature
             }
         });
-        client = new JSONClient(core);
-        
-        ClientEvents clientEvents = new ClientEvents() {
-			
-			@Override
-			public void connectionOpened() {
-				
-			}
-			
-			@Override
-			public void connectionClosed() {
-				
-			}
-		};
-		client.connect("ws://test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/TestPoint01", clientEvents);
-        
-        System.out.println("DEBUG: JSONClientSample.java connect(): Return.");
+        client = new JSONClient(core, "TestPoint01");
+        client.connect("ws://test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService", null);
     }
 
     public void sendBootNotification() throws Exception {
 
         // Use the feature profile to help create event
-        //Request request = core.createBootNotificationRequest("some vendor", "some model");
+        Request request = core.createBootNotificationRequest("some vendor", "some model");
 
         // Client returns a promise which will be filled once it receives a confirmation.
-        //client.send(request).whenComplete((s, ex) -> System.out.println(s));
+        client.send(request).whenComplete((s, ex) -> System.out.println(s));
     }
 
     public void disconnect() {
