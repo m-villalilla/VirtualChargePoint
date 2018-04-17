@@ -35,6 +35,13 @@ public class launchClientBackend {
 			e.printStackTrace();
 		}
 		
+		try {
+			client.sendStartTransactionRequest(1, testID);
+		} catch (Exception e) {
+			System.out.println("Error while trying to start a transaction");
+			e.printStackTrace();
+		}
+		
 	}
 
 }

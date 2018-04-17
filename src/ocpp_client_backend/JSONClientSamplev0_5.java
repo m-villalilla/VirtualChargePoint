@@ -1,5 +1,7 @@
 package ocpp_client_backend;
 
+import java.util.Calendar;
+
 import eu.chargetime.ocpp.IClientAPI;
 import eu.chargetime.ocpp.JSONClient;
 import eu.chargetime.ocpp.feature.profile.ClientCoreEventHandler;
@@ -133,6 +135,19 @@ public class JSONClientSamplev0_5 {
 
     public void sendAuthorizeRequest(String token) throws Exception {
     	Request request = core.createAuthorizeRequest(token);
+    	client.send(request).whenComplete((s, ex) -> System.out.println(s));
+    }
+    
+    /**
+     * 
+     * @param connectorId - used connector of the CP
+     * @param token - authorization identifier
+     * @throws Exception
+     */
+    public void sendStartTransactionRequest(int connectorId, String token) throws Exception {
+    	int meterStart = 0;
+    	Calendar timestamp = Calendar.getInstance();
+		Request request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
     	client.send(request).whenComplete((s, ex) -> System.out.println(s));
     }
     
