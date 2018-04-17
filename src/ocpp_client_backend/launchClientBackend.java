@@ -6,7 +6,7 @@ public class launchClientBackend {
 
 	public static void main(String[] args){
 		//Configuration
-		String serverURL = "test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/";
+		String serverURL = "127.0.0.1:8080/steve/websocket/CentralSystemService/";
 		String clientName = "TestPoint";
 		String CPVendor = "TestVendor";
 		String CPModel = "TestModel";
@@ -32,6 +32,13 @@ public class launchClientBackend {
 			client.sendAuthorizeRequest(testID);
 		} catch (Exception e) {
 			System.out.println("Error while trying to authorize an ID");
+			e.printStackTrace();
+		}
+		
+		try {
+			client.sendStartTransactionRequest(1, testID);
+		} catch (Exception e) {
+			System.out.println("Error while trying to start a transaction");
 			e.printStackTrace();
 		}
 		
