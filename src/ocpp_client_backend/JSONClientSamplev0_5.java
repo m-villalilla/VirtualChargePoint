@@ -128,11 +128,22 @@ public class JSONClientSamplev0_5 {
         client.connect("ws://" + serverURL + clientName, null);
     }
 
+    /**
+     * 
+     * @param CPVendor
+     * @param CPModel
+     * @throws Exception
+     */
     public void sendBootNotification(String CPVendor, String CPModel) throws Exception {
         Request request = core.createBootNotificationRequest(CPVendor, CPModel);
         client.send(request).whenComplete((s, ex) -> System.out.println(s));
     }
 
+    /**
+     * 
+     * @param token - authorization identifier
+     * @throws Exception
+     */
     public void sendAuthorizeRequest(String token) throws Exception {
     	Request request = core.createAuthorizeRequest(token);
     	client.send(request).whenComplete((s, ex) -> System.out.println(s));
