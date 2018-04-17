@@ -6,7 +6,7 @@ public class launchClientBackend {
 
 	public static void main(String[] args){
 		//Configuration
-		String serverURL = "127.0.0.1:8080/steve/websocket/CentralSystemService/";
+		String serverURL = "test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/";
 		String clientName = "TestPoint";
 		String CPVendor = "TestVendor";
 		String CPModel = "TestModel";
