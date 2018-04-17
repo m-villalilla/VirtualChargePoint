@@ -1,16 +1,25 @@
 package ocpp_client_backend;
 
 import ocpp_client_backend.JSONClientSamplev0_5;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.BufferedInputStream;
+import java.util.Properties;
 
 public class launchClientBackend {
-
-	public static void main(String[] args){
-		//Configuration
-		String serverURL = "127.0.0.1:8080/steve/websocket/CentralSystemService/";
-		String clientName = "TestPoint";
-		String CPVendor = "TestVendor";
-		String CPModel = "TestModel";
-		String testID = "1234567890";
+	private static Properties config;
+	
+	public static void main(String[] args) throws IOException {
+		BufferedInputStream stream = new BufferedInputStream(new FileInputStream("client.properties"));
+		config = new Properties();
+		config.load(stream);
+		stream.close();
+		
+		String serverURL  = config.getProperty("serverURL");
+		String clientName = config.getProperty("clientName");
+		String CPVendor   = config.getProperty("CPVendor");
+		String CPModel 	  = config.getProperty("CPModel");
+		String testID     = config.getProperty("testID");
 		
 		JSONClientSamplev0_5 client = new JSONClientSamplev0_5();
 		
@@ -44,4 +53,7 @@ public class launchClientBackend {
 		
 	}
 
+	public static Properties getConfig() {
+		return config;
+	}
 }
