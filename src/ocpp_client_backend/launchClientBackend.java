@@ -21,7 +21,7 @@ public class launchClientBackend {
 		String CPVendor   		= config.getProperty("CPVendor");
 		String CPModel 	  		= config.getProperty("CPModel");
 		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
-		boolean measureMode 	= true;		//Set if you want to measure and print the elapsed time of server calls
+		boolean measureMode 	= true;												//Set if you want to measure and print the elapsed time of server calls
 		
 		JSONClientSamplev0_5 client = new JSONClientSamplev0_5();
 		
@@ -54,7 +54,7 @@ public class launchClientBackend {
 		}
 		
 		try {
-			Thread.sleep(2000);	//Give the server time to respond to ongoing requests
+			Thread.sleep(2000);														//Give the server time to respond to ongoing requests
 			client.disconnect();
 		} catch (InterruptedException e) {
 			System.out.println("Error while trying to disconnect");
