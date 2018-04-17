@@ -17,10 +17,10 @@ public class launchClientBackend {
 		stream.close();
 		
 		String serverURL  		= config.getProperty("serverURL");
-		String ChargeBoxID 		= config.getProperty("ChargeBoxID.00");				//Use ChargeBoxID.00 as example
+		String ChargeBoxID 		= config.getProperty("ChargeBoxID");				//Use ChargeBoxID.00 as example
 		String CPVendor   		= config.getProperty("CPVendor");
 		String CPModel 	  		= config.getProperty("CPModel");
-		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
+		String authorizationID	= config.getProperty("authorizationID");			//Use authorizationID.00 as example
 		boolean measureMode 	= true;		//Set if you want to measure and print the elapsed time of server calls
 		
 		JSONClientSamplev0_5 client = new JSONClientSamplev0_5();
