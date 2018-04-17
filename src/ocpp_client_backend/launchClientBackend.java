@@ -16,17 +16,17 @@ public class launchClientBackend {
 		config.load(stream);
 		stream.close();
 		
-		String serverURL  = config.getProperty("serverURL");
-		String clientName = config.getProperty("clientName");
-		String CPVendor   = config.getProperty("CPVendor");
-		String CPModel 	  = config.getProperty("CPModel");
-		String testID     = config.getProperty("testID");
-		boolean measureMode = true;	//Set if you want to measure and print the elapsed time of server calls
+		String serverURL  		= config.getProperty("serverURL");
+		String ChargeBoxID 		= config.getProperty("ChargeBoxID.00");				//Use ChargeBoxID.00 as example
+		String CPVendor   		= config.getProperty("CPVendor");
+		String CPModel 	  		= config.getProperty("CPModel");
+		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
+		boolean measureMode 	= true;		//Set if you want to measure and print the elapsed time of server calls
 		
 		JSONClientSamplev0_5 client = new JSONClientSamplev0_5();
 		
 		try {
-			client.connect(serverURL, clientName);
+			client.connect(serverURL, ChargeBoxID);
 		} catch (Exception e) {
 			System.out.println("Error while trying to connect to the server.");
 			e.printStackTrace();
@@ -40,14 +40,14 @@ public class launchClientBackend {
 		}
 		
 		try {
-			client.sendAuthorizeRequest(testID, measureMode);
+			client.sendAuthorizeRequest(authorizationID, measureMode);
 		} catch (Exception e) {
 			System.out.println("Error while trying to authorize an ID");
 			e.printStackTrace();
 		}
 		
 		try {
-			client.sendStartTransactionRequest(1, testID, measureMode);
+			client.sendStartTransactionRequest(1, authorizationID, measureMode);
 		} catch (Exception e) {
 			System.out.println("Error while trying to start a transaction");
 			e.printStackTrace();
