@@ -10,6 +10,7 @@ public class launchClientBackend {
 	private static Properties config;
 	
 	public static void main(String[] args) throws IOException {
+		//Reads configuration out of the configuration file
 		BufferedInputStream stream = new BufferedInputStream(new FileInputStream("client.properties"));
 		config = new Properties();
 		config.load(stream);
@@ -53,14 +54,15 @@ public class launchClientBackend {
 		}
 		
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(2000);	//Give the server time to respond to ongoing requests
 			client.disconnect();
 		} catch (InterruptedException e) {
 			System.out.println("Error while trying to disconnect");
 			e.printStackTrace();
 		}
 	}
-
+	
+	// TODO: Discuss: Is this function needed? It is not called anywhere
 	public static Properties getConfig() {
 		return config;
 	}
