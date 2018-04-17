@@ -6,6 +6,7 @@ import eu.chargetime.ocpp.IClientAPI;
 import eu.chargetime.ocpp.JSONClient;
 import eu.chargetime.ocpp.feature.profile.ClientCoreEventHandler;
 import eu.chargetime.ocpp.feature.profile.ClientCoreProfile;
+import eu.chargetime.ocpp.model.Confirmation;
 import eu.chargetime.ocpp.model.Request;
 import eu.chargetime.ocpp.model.core.*;
 
@@ -134,9 +135,10 @@ public class JSONClientSamplev0_5 {
      * @param CPModel
      * @throws Exception
      */
-    public void sendBootNotification(String CPVendor, String CPModel) throws Exception {
-        Request request = core.createBootNotificationRequest(CPVendor, CPModel);
-        client.send(request).whenComplete((s, ex) -> System.out.println(s));
+    public void sendBootNotification(String CPVendor, String CPModel, boolean measureMode) throws Exception {
+        long startTime = System.nanoTime();
+    	Request request = core.createBootNotificationRequest(CPVendor, CPModel);
+        client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, measureMode, startTime));
     }
 
     /**
@@ -165,5 +167,9 @@ public class JSONClientSamplev0_5 {
     public void disconnect() {
         client.disconnect();
     }
-
+    
+    public void functionComplete(Confirmation s, Throwable ex, boolean measureMode, long startTime) {
+    	System.out.println(s);
+    	if(measureMode) System.out.println("\tElapsed time: " + ((System.nanoTime() - startTime)/1000000) + "ms");
+    }
 }

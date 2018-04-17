@@ -31,7 +31,7 @@ public class launchClientBackend {
 		}
 		
 		try {
-			client.sendBootNotification(CPVendor, CPModel);
+			client.sendBootNotification(CPVendor, CPModel, true);
 		} catch (Exception e) {
 			System.out.println("Error while trying to sent a boot notification");
 			e.printStackTrace();
@@ -51,6 +51,13 @@ public class launchClientBackend {
 			e.printStackTrace();
 		}
 		
+		try {
+			Thread.sleep(5000);
+			client.disconnect();
+		} catch (InterruptedException e) {
+			System.out.println("Error while trying to disconnect");
+			e.printStackTrace();
+		}
 	}
 
 	public static Properties getConfig() {
