@@ -182,13 +182,6 @@ public class JSONClientSamplev0_5 {
     }
     
     /**
-     * Disconnects the client from the OCPP server
-     */
-    public void disconnect() {
-        client.disconnect();
-    }
-    
-    /**
      * Called when a request is completed
      * 
      * @param s
@@ -200,4 +193,11 @@ public class JSONClientSamplev0_5 {
     	System.out.println(s);
     	if(measureMode) System.out.println("\tElapsed time: " + ((System.nanoTime() - startTime)/1000000) + "ms");
     }
+    
+    /**
+     * Disconnects the client from the OCPP server
+     */
+    public void disconnect() {
+        client.disconnect();
+    } 
 }

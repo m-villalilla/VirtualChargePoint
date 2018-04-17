@@ -66,4 +66,21 @@ public class launchClientBackend {
 	public static Properties getConfig() {
 		return config;
 	}
+	
+	public void tortureTest(int nrClients, String serverURL, String CPVendor, String CPModel) {
+		JSONClientSamplev0_5 [] clients = null;
+		
+		for (int i = 0; i < nrClients; i++) {
+			clients[i] = new JSONClientSamplev0_5();
+			try {
+				clients[i].connect(serverURL, ("TestPoint" + i));
+				clients[i].sendBootNotification(CPVendor, CPModel, true);
+				clients[i].sendAuthorizeRequest(("0FFFFFF" + i), true);
+			} catch (Exception e) {
+				System.out.println("Error while torture testing");
+			}
+		}
+	}
+    
+    
 }
