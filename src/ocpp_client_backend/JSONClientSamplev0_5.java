@@ -146,9 +146,10 @@ public class JSONClientSamplev0_5 {
      * @param token - authorization identifier
      * @throws Exception
      */
-    public void sendAuthorizeRequest(String token) throws Exception {
+    public void sendAuthorizeRequest(String token, boolean measureMode) throws Exception {
+    	long startTime = System.nanoTime();
     	Request request = core.createAuthorizeRequest(token);
-    	client.send(request).whenComplete((s, ex) -> System.out.println(s));
+    	client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, measureMode, startTime));
     }
     
     /**
@@ -157,11 +158,13 @@ public class JSONClientSamplev0_5 {
      * @param token - authorization identifier
      * @throws Exception
      */
-    public void sendStartTransactionRequest(int connectorId, String token) throws Exception {
+    public void sendStartTransactionRequest(int connectorId, String token, boolean measureMode) throws Exception {
     	int meterStart = 0;
+    	long startTime = System.nanoTime();
+    	
     	Calendar timestamp = Calendar.getInstance();
 		Request request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
-    	client.send(request).whenComplete((s, ex) -> System.out.println(s));
+		client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, measureMode, startTime));
     }
     
     public void disconnect() {

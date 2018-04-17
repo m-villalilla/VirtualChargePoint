@@ -20,6 +20,7 @@ public class launchClientBackend {
 		String CPVendor   = config.getProperty("CPVendor");
 		String CPModel 	  = config.getProperty("CPModel");
 		String testID     = config.getProperty("testID");
+		boolean measureMode = true;	//Set if you want to measure and print the elapsed time of server calls
 		
 		JSONClientSamplev0_5 client = new JSONClientSamplev0_5();
 		
@@ -31,21 +32,21 @@ public class launchClientBackend {
 		}
 		
 		try {
-			client.sendBootNotification(CPVendor, CPModel, true);
+			client.sendBootNotification(CPVendor, CPModel, measureMode);
 		} catch (Exception e) {
 			System.out.println("Error while trying to sent a boot notification");
 			e.printStackTrace();
 		}
 		
 		try {
-			client.sendAuthorizeRequest(testID);
+			client.sendAuthorizeRequest(testID, measureMode);
 		} catch (Exception e) {
 			System.out.println("Error while trying to authorize an ID");
 			e.printStackTrace();
 		}
 		
 		try {
-			client.sendStartTransactionRequest(1, testID);
+			client.sendStartTransactionRequest(1, testID, measureMode);
 		} catch (Exception e) {
 			System.out.println("Error while trying to start a transaction");
 			e.printStackTrace();
