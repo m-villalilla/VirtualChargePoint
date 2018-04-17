@@ -133,6 +133,7 @@ public class JSONClientSamplev0_5 {
      * 
      * @param CPVendor
      * @param CPModel
+     * @param measureMode - sets a flag to print the elapsed time or not
      * @throws Exception
      */
     public void sendBootNotification(String CPVendor, String CPModel, boolean measureMode) throws Exception {
@@ -144,6 +145,7 @@ public class JSONClientSamplev0_5 {
     /**
      * 
      * @param token - authorization identifier
+     * @param measureMode - sets a flag to print the elapsed time or not
      * @throws Exception
      */
     public void sendAuthorizeRequest(String token, boolean measureMode) throws Exception {
@@ -156,6 +158,7 @@ public class JSONClientSamplev0_5 {
      * 
      * @param connectorId - used connector of the CP
      * @param token - authorization identifier
+     * @param measureMode - sets a flag to print the elapsed time or not
      * @throws Exception
      */
     public void sendStartTransactionRequest(int connectorId, String token, boolean measureMode) throws Exception {
