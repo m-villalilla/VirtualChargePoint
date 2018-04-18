@@ -6,6 +6,7 @@ import eu.chargetime.ocpp.IClientAPI;
 import eu.chargetime.ocpp.JSONClient;
 import eu.chargetime.ocpp.feature.profile.ClientCoreEventHandler;
 import eu.chargetime.ocpp.feature.profile.ClientCoreProfile;
+import eu.chargetime.ocpp.model.Confirmation;
 import eu.chargetime.ocpp.model.Request;
 import eu.chargetime.ocpp.model.core.*;
 
@@ -39,6 +40,13 @@ public class JSONClientSamplev0_5 {
     private IClientAPI client;
     private ClientCoreProfile core;
 
+    /**
+     * Called to connect to a OCPP server
+     * 
+     * @param serverURL - specifies the URL of the OCPP server
+     * @param clientName - name of the charge point
+     * @throws Exception
+     */
     public void connect(String serverURL, String clientName) throws Exception {
 
         // The core profile is mandatory
@@ -124,46 +132,72 @@ public class JSONClientSamplev0_5 {
                 return null; // returning null means unsupported feature
             }
         });
+        
         client = new JSONClient(core);
         client.connect("ws://" + serverURL + clientName, null);
     }
 
     /**
+     * Sends a BootNotification to the OCPP server
      * 
      * @param CPVendor
      * @param CPModel
+     * @param measureMode - sets a flag to print the elapsed time or not
      * @throws Exception
      */
-    public void sendBootNotification(String CPVendor, String CPModel) throws Exception {
-        Request request = core.createBootNotificationRequest(CPVendor, CPModel);
-        client.send(request).whenComplete((s, ex) -> System.out.println(s));
+    public void sendBootNotification(String CPVendor, String CPModel, boolean measureMode) throws Exception {
+        long startTime = System.nanoTime();
+    	Request request = core.createBootNotificationRequest(CPVendor, CPModel);
+        client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, measureMode, startTime));
     }
 
     /**
+     * Sends a AuthorizeRequest to the OCPP server 
      * 
      * @param token - authorization identifier
+     * @param measureMode - sets a flag to print the elapsed time or not
      * @throws Exception
      */
-    public void sendAuthorizeRequest(String token) throws Exception {
+    public void sendAuthorizeRequest(String token, boolean measureMode) throws Exception {
+    	long startTime = System.nanoTime();
     	Request request = core.createAuthorizeRequest(token);
-    	client.send(request).whenComplete((s, ex) -> System.out.println(s));
+    	client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, measureMode, startTime));
     }
     
     /**
-     * 
+     * Sends a StartTransactionRequest to the OCPP server.
+     *  
      * @param connectorId - used connector of the CP
      * @param token - authorization identifier
+     * @param measureMode - sets a flag to print the elapsed time or not
      * @throws Exception
      */
-    public void sendStartTransactionRequest(int connectorId, String token) throws Exception {
+    public void sendStartTransactionRequest(int connectorId, String token, boolean measureMode) throws Exception {
     	int meterStart = 0;
+    	long startTime = System.nanoTime();
+    	
     	Calendar timestamp = Calendar.getInstance();
 		Request request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
-    	client.send(request).whenComplete((s, ex) -> System.out.println(s));
+		client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, measureMode, startTime));
     }
     
+    /**
+     * Disconnects the client from the OCPP server
+     */
     public void disconnect() {
         client.disconnect();
     }
-
+    
+    /**
+     * Called when a request is completed
+     * 
+     * @param s
+     * @param ex
+     * @param measureMode - flag for time measuring output
+     * @param startTime - time the function started
+     */
+    public void functionComplete(Confirmation s, Throwable ex, boolean measureMode, long startTime) {
+    	System.out.println(s);
+    	if(measureMode) System.out.println("\tElapsed time: " + ((System.nanoTime() - startTime)/1000000) + "ms");
+    }
 }
