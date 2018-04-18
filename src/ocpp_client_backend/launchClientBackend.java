@@ -25,6 +25,8 @@ public class launchClientBackend {
 		
 		JSONClientSamplev0_5 client = new JSONClientSamplev0_5();
 		
+		tortureTest(10, serverURL, CPVendor, CPModel);
+		
 		try {
 			client.connect(serverURL, ChargeBoxID);
 		} catch (Exception e) {
@@ -67,9 +69,8 @@ public class launchClientBackend {
 		return config;
 	}
 	
-	public void tortureTest(int nrClients, String serverURL, String CPVendor, String CPModel) {
-		JSONClientSamplev0_5 [] clients = null;
-		
+	public static void tortureTest(int nrClients, String serverURL, String CPVendor, String CPModel) {
+		JSONClientSamplev0_5 [] clients = new JSONClientSamplev0_5[nrClients];
 		for (int i = 0; i < nrClients; i++) {
 			clients[i] = new JSONClientSamplev0_5();
 			try {
@@ -79,6 +80,10 @@ public class launchClientBackend {
 			} catch (Exception e) {
 				System.out.println("Error while torture testing");
 			}
+		}
+		
+		for (int i = 0; i < nrClients; i++) {
+			clients[nrClients].disconnect();
 		}
 	}
     
