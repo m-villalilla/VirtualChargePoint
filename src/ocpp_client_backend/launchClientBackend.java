@@ -25,7 +25,7 @@ public class launchClientBackend {
 		
 		JSONClientSamplev0_5 client = new JSONClientSamplev0_5();
 		
-		tortureTest(10, serverURL, CPVendor, CPModel);
+		tortureTest(100, serverURL, CPVendor, CPModel);
 		
 		try {
 			client.connect(serverURL, ChargeBoxID);
@@ -76,14 +76,30 @@ public class launchClientBackend {
 			try {
 				clients[i].connect(serverURL, ("TestPoint" + i));
 				clients[i].sendBootNotification(CPVendor, CPModel, true);
-				clients[i].sendAuthorizeRequest(("0FFFFFF" + i), true);
+				if(i < 10) clients[i].sendAuthorizeRequest(("0FFFFFF" + i), true);
+				if(i >= 10 && i <20) clients[i].sendAuthorizeRequest(("1FFFFFF" + (i%10)), true);
+				if(i >= 20 && i <30) clients[i].sendAuthorizeRequest(("2FFFFFF" + (i%10)), true);
+				if(i >= 30 && i <40) clients[i].sendAuthorizeRequest(("3FFFFFF" + (i%10)), true);
+				if(i >= 40 && i <50) clients[i].sendAuthorizeRequest(("4FFFFFF" + (i%10)), true);
+				if(i >= 50 && i <60) clients[i].sendAuthorizeRequest(("5FFFFFF" + (i%10)), true);
+				if(i >= 60 && i <70) clients[i].sendAuthorizeRequest(("6FFFFFF" + (i%10)), true);
+				if(i >= 70 && i <80) clients[i].sendAuthorizeRequest(("7FFFFFF" + (i%10)), true);
+				if(i >= 80 && i <90) clients[i].sendAuthorizeRequest(("8FFFFFF" + (i%10)), true);
+				if(i >= 90 && i <100) clients[i].sendAuthorizeRequest(("9FFFFFF" + (i%10)), true);
 			} catch (Exception e) {
 				System.out.println("Error while torture testing");
 			}
-		}
+		}		
 		
-		for (int i = 0; i < nrClients; i++) {
-			clients[nrClients].disconnect();
+		try {
+			for (int i = 0; i < nrClients; i++) {
+				clients[i].disconnect();
+			}
+			System.out.println("Done testing.");
+			Thread.sleep(10000);
+			System.exit(0);
+		} catch (Exception e) {
+
 		}
 	}
     
