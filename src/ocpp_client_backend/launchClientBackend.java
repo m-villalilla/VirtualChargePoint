@@ -69,6 +69,14 @@ public class launchClientBackend {
 		return config;
 	}
 	
+	/**
+	 * Tests how the server behaves with a certain amount of clients
+	 * 
+	 * @param nrClients - specifies the number of clients to connect
+	 * @param serverURL - specifies the URL of the server to test
+	 * @param CPVendor - specifies the ChargePoint vendor
+	 * @param CPModel - specifies the ChargePoint model
+	 */
 	public static void tortureTest(int nrClients, String serverURL, String CPVendor, String CPModel) {
 		JSONClientSamplev0_5 [] clients = new JSONClientSamplev0_5[nrClients];
 		for (int i = 0; i < nrClients; i++) {
