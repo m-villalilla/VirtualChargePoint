@@ -78,6 +78,8 @@ public class launchClientBackend {
 	 * @param CPModel - specifies the ChargePoint model
 	 */
 	public static void tortureTest(int nrClients, String serverURL, String CPVendor, String CPModel) {
+		// 100 Clients are no problem for the server, is that intentionally?
+		// TODO: Discuss what to do about this
 		JSONClientSamplev0_5 [] clients = new JSONClientSamplev0_5[nrClients];
 		for (int i = 0; i < nrClients; i++) {
 			clients[i] = new JSONClientSamplev0_5();
@@ -100,11 +102,13 @@ public class launchClientBackend {
 		}		
 		
 		try {
+			//Prepare disconnect and disconnect all clients
+			System.out.println("Done testing.");
+			Thread.sleep(2000);
+			
 			for (int i = 0; i < nrClients; i++) {
 				clients[i].disconnect();
 			}
-			System.out.println("Done testing.");
-			Thread.sleep(10000);
 			System.exit(0);
 		} catch (Exception e) {
 
