@@ -116,6 +116,33 @@ public class launchClientBackend {
 		} catch (Exception e) {
 			System.out.println("Error while disconnecting");
 		}
+		
+		//Evaluation starts here
+		long sumBoot = 0;
+		long minBoot = 10000;
+		long maxBoot = 0;
+		long sumAuthorize = 0;
+		long minAuthorize = 100000;
+		long maxAuthorize = 0;
+		
+		for (int i = 0; i < nrClients; i++) {
+			sumBoot += bootTimeResults[i];
+			if(minBoot >= bootTimeResults[i]) minBoot = bootTimeResults[i];
+			if(maxBoot < bootTimeResults[i]) maxBoot = bootTimeResults[i];
+			sumAuthorize += authorizeTimeResults[i];
+			if(minAuthorize >= authorizeTimeResults[i]) minAuthorize = authorizeTimeResults[i];
+			if(maxAuthorize < authorizeTimeResults[i]) maxAuthorize = authorizeTimeResults[i];
+		}
+		
+		System.out.println("Results for boot notifications:");
+		System.out.println("\tAverage: " + (sumBoot/nrClients) + "ms\n");
+		System.out.println("\tMin:     " + minBoot + "ms\n");
+		System.out.println("\tMax:     " + maxBoot + "ms\n");
+		
+		System.out.println("Results for authorization:");
+		System.out.println("\tAverage: " + (sumAuthorize/nrClients) + "ms\n");
+		System.out.println("\tMin:     " + minAuthorize + "ms\n");
+		System.out.println("\tMax:     " + maxAuthorize + "ms\n");
 		System.exit(0);
 	}
     
