@@ -25,7 +25,7 @@ public class launchClientBackend {
 		
 		JSONClientSamplev0_5 client = new JSONClientSamplev0_5();
 		
-		//tortureTest(100, serverURL, CPVendor, CPModel);
+		tortureTest(100, serverURL, CPVendor, CPModel);
 		
 		try {
 			client.connect(serverURL, ChargeBoxID);
@@ -77,9 +77,10 @@ public class launchClientBackend {
 	 * @param CPModel - specifies the ChargePoint model
 	 */
 	public static void tortureTest(int nrClients, String serverURL, String CPVendor, String CPModel) {
-		// 100 Clients are no problem for the server, is that intentionally?
-		// TODO: Discuss what to do about this
 		JSONClientSamplev0_5 [] clients = new JSONClientSamplev0_5[nrClients];
+		long bootTimeResults[] = new long[nrClients];
+		long authorizeTimeResults[] = new long[nrClients];
+				
 		for (int i = 0; i < nrClients; i++) {
 			clients[i] = new JSONClientSamplev0_5();
 			try {
@@ -106,12 +107,41 @@ public class launchClientBackend {
 			Thread.sleep(2000);
 			
 			for (int i = 0; i < nrClients; i++) {
+				authorizeTimeResults[i] = clients[i].getNextTime();
+				bootTimeResults[i] = clients[i].getNextTime();
 				clients[i].disconnect();
 			}
-			System.exit(0);
 		} catch (Exception e) {
-
+			System.out.println("Error while disconnecting");
 		}
+		
+		//Evaluation starts here
+		long sumBoot = 0;
+		long minBoot = 10000;
+		long maxBoot = 0;
+		long sumAuthorize = 0;
+		long minAuthorize = 100000;
+		long maxAuthorize = 0;
+		
+		for (int i = 0; i < nrClients; i++) {
+			sumBoot += bootTimeResults[i];
+			if(minBoot >= bootTimeResults[i]) minBoot = bootTimeResults[i];
+			if(maxBoot < bootTimeResults[i]) maxBoot = bootTimeResults[i];
+			sumAuthorize += authorizeTimeResults[i];
+			if(minAuthorize >= authorizeTimeResults[i]) minAuthorize = authorizeTimeResults[i];
+			if(maxAuthorize < authorizeTimeResults[i]) maxAuthorize = authorizeTimeResults[i];
+		}
+		
+		System.out.println("\nResults for boot notifications:");
+		System.out.println("\tMin:     " + minBoot + "ms");
+		System.out.println("\tAverage: " + (sumBoot/nrClients) + "ms");
+		System.out.println("\tMax:     " + maxBoot + "ms");
+		
+		System.out.println("Results for authorization:");
+		System.out.println("\tMin:     " + minAuthorize + "ms");
+		System.out.println("\tAverage: " + (sumAuthorize/nrClients) + "ms");
+		System.out.println("\tMax:     " + maxAuthorize + "ms");
+		System.exit(0);
 	}
     
     
