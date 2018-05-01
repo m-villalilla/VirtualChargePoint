@@ -25,7 +25,7 @@ public class launchClientBackend {
 		
 		JSONClientSamplev0_5 client = new JSONClientSamplev0_5();
 		
-		//tortureTest(100, serverURL, CPVendor, CPModel);
+		tortureTest(100, serverURL, CPVendor, CPModel);
 		
 		try {
 			client.connect(serverURL, ChargeBoxID);
@@ -77,8 +77,6 @@ public class launchClientBackend {
 	 * @param CPModel - specifies the ChargePoint model
 	 */
 	public static void tortureTest(int nrClients, String serverURL, String CPVendor, String CPModel) {
-		// 100 Clients are no problem for the server, is that intentionally?
-		// TODO: Discuss what to do about this
 		JSONClientSamplev0_5 [] clients = new JSONClientSamplev0_5[nrClients];
 		long bootTimeResults[] = new long[nrClients];
 		long authorizeTimeResults[] = new long[nrClients];
@@ -134,15 +132,15 @@ public class launchClientBackend {
 			if(maxAuthorize < authorizeTimeResults[i]) maxAuthorize = authorizeTimeResults[i];
 		}
 		
-		System.out.println("Results for boot notifications:");
-		System.out.println("\tAverage: " + (sumBoot/nrClients) + "ms\n");
-		System.out.println("\tMin:     " + minBoot + "ms\n");
-		System.out.println("\tMax:     " + maxBoot + "ms\n");
+		System.out.println("\nResults for boot notifications:");
+		System.out.println("\tMin:     " + minBoot + "ms");
+		System.out.println("\tAverage: " + (sumBoot/nrClients) + "ms");
+		System.out.println("\tMax:     " + maxBoot + "ms");
 		
 		System.out.println("Results for authorization:");
-		System.out.println("\tAverage: " + (sumAuthorize/nrClients) + "ms\n");
-		System.out.println("\tMin:     " + minAuthorize + "ms\n");
-		System.out.println("\tMax:     " + maxAuthorize + "ms\n");
+		System.out.println("\tMin:     " + minAuthorize + "ms");
+		System.out.println("\tAverage: " + (sumAuthorize/nrClients) + "ms");
+		System.out.println("\tMax:     " + maxAuthorize + "ms");
 		System.exit(0);
 	}
     
