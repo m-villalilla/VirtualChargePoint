@@ -1,6 +1,7 @@
 package ocpp_client_backend;
 
 import java.util.Calendar;
+import java.util.LinkedList;
 
 import eu.chargetime.ocpp.IClientAPI;
 import eu.chargetime.ocpp.JSONClient;
@@ -39,8 +40,13 @@ import eu.chargetime.ocpp.model.core.*;
 public class JSONClientSamplev0_5 {
     private IClientAPI client;
     private ClientCoreProfile core;
+    private LinkedList<Long> measurements = new LinkedList<>();
+    
+    public long getNextTime() {
+		return measurements.pop();
+	}
 
-    /**
+	/**
      * Called to connect to a OCPP server
      * 
      * @param serverURL - specifies the URL of the OCPP server
@@ -191,7 +197,11 @@ public class JSONClientSamplev0_5 {
      */
     public void functionComplete(Confirmation s, Throwable ex, boolean measureMode, long startTime) {
     	System.out.println(s);
-    	if(measureMode) System.out.println("\tElapsed time: " + ((System.nanoTime() - startTime)/1000000) + "ms");
+    	if(measureMode) {
+    		long timeElapsed = (System.nanoTime() - startTime)/1000000;
+    		System.out.println("\tElapsed time: " + timeElapsed + "ms");
+    		measurements.add(timeElapsed);
+    	}
     }
     
     /**

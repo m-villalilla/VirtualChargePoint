@@ -80,6 +80,9 @@ public class launchClientBackend {
 		// 100 Clients are no problem for the server, is that intentionally?
 		// TODO: Discuss what to do about this
 		JSONClientSamplev0_5 [] clients = new JSONClientSamplev0_5[nrClients];
+		long bootTimeResults[] = new long[nrClients];
+		long authorizeTimeResults[] = new long[nrClients];
+				
 		for (int i = 0; i < nrClients; i++) {
 			clients[i] = new JSONClientSamplev0_5();
 			try {
@@ -106,12 +109,14 @@ public class launchClientBackend {
 			Thread.sleep(2000);
 			
 			for (int i = 0; i < nrClients; i++) {
+				authorizeTimeResults[i] = clients[i].getNextTime();
+				bootTimeResults[i] = clients[i].getNextTime();
 				clients[i].disconnect();
 			}
-			System.exit(0);
 		} catch (Exception e) {
-
+			System.out.println("Error while disconnecting");
 		}
+		System.exit(0);
 	}
     
     
