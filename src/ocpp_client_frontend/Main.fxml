@@ -66,7 +66,7 @@
       </Pane>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="413.0" layoutY="386.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@icons/DC-COMBO2.png" />
+            <Image url="@icons/DC-COMBO.png" />
          </image>
       </ImageView>
       <Pane fx:id="labelPane" layoutX="71.0" layoutY="574.0" prefHeight="96.0" prefWidth="999.0">
@@ -85,7 +85,7 @@
       </Pane>
       <ImageView fitHeight="127.0" fitWidth="144.0" layoutX="610.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@icons/DC-COMBO2.png" />
+            <Image url="@icons/DC-COMBO.png" />
          </image>
       </ImageView>
    </children>
