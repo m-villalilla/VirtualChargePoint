@@ -50,10 +50,6 @@
       </RadioButton>
       <RadioButton fx:id="rb2" layoutX="664.0" layoutY="350.0" mnemonicParsing="false" onAction="#radioSelect" text="AC" textFill="WHITE" toggleGroup="$myGroup" />
       <RadioButton fx:id="rb3" layoutX="936.0" layoutY="350.0" mnemonicParsing="false" onAction="#radioSelect" prefHeight="21.0" prefWidth="24.0" text="DC CHAdeMO" textFill="WHITE" toggleGroup="$myGroup" />
-      <Label layoutX="647.0" layoutY="410.0" text="AC">
-         <font>
-            <Font name="System Bold" size="35.0" />
-         </font></Label>
       <Label layoutX="838.0" layoutY="410.0" text="DC CHAdeMO">
          <font>
             <Font name="System Bold" size="35.0" />
@@ -87,5 +83,10 @@
             </Label>
          </children>
       </Pane>
+      <ImageView fitHeight="127.0" fitWidth="144.0" layoutX="610.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Desktop/Projektarbeit/AC.jpg" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
