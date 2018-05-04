@@ -1,0 +1,73 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+	
+#pane1{
+	-fx-background-color: dodgerblue;
+}	
+	
+#pane2{
+	-fx-background-color: #53A2AB;
+}
+
+#comboboxPane{
+	-fx-background-color: #001824;
+}
+
+#anchorMain{
+	-fx-background-color: white;
+}
+
+#labelPane{
+	-fx-background-color: #001824;
+}
+
+#anchorAuthentification{
+	-fx-background-color: white;
+}
+
+#anchorTransaction{
+	-fx-background-color: white;
+}
+
+#anchorFunctionVersion{
+	-fx-background-color: white;
+}
+
+#label1{
+	-fx-background-color: white;
+}
+
+#label2{
+	-fx-background-color: white;
+}
+
+#btnStart{
+	-fx-background-color: #375A28;
+}
+
+#btnStop{
+	-fx-background-color: #D61115;
+}
+
+#btnOk1{
+	-fx-background-color: #27627F;
+}
+
+#btnOk2{
+	-fx-background-color: #27627F;
+}
+
+#btnOk3{
+	-fx-background-color: #27627F;
+}
+
+#paneAuthentification{
+	-fx-background-color: #001824;
+}
+
+#paneTransaction{
+	-fx-background-color: #001824;
+}
+
+#paneFunctionVersion{
+	-fx-background-color: #001824;
+}
