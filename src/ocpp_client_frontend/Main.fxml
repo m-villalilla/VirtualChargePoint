@@ -30,7 +30,7 @@
                </font></TextField>
             <ImageView fx:id="zahnrad" fitHeight="85.0" fitWidth="113.0" layoutX="-50.0" layoutY="-32.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@icons/Zahnrad2.png" />
+                  <Image url="@icons/Zahnrad.png" />
                </image>
             </ImageView>
          </children>
