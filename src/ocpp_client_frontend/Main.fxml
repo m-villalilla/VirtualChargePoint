@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorMain" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+<AnchorPane fx:id="anchorMain" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ocpp_client_frontend.MainController">
    <children>
       <Pane fx:id="pane2" layoutX="376.0" layoutY="34.0" prefHeight="267.0" prefWidth="294.0">
          <children>
@@ -30,7 +30,7 @@
                </font></TextField>
             <ImageView fx:id="zahnrad" fitHeight="85.0" fitWidth="113.0" layoutX="-50.0" layoutY="-32.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../Desktop/Projektarbeit/Axure/Zahnrad.png" />
+                  <Image url="@icons/Zahnrad.png" />
                </image>
             </ImageView>
          </children>
@@ -56,7 +56,7 @@
          </font></Label>
       <ImageView fitHeight="198.0" fitWidth="294.0" layoutX="32.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Projektarbeit/Axure/logo.png" />
+            <Image url="@icons/logo.png" />
          </image>
       </ImageView>
       <Pane fx:id="comboboxPane" layoutX="701.0" layoutY="34.0" prefHeight="267.0" prefWidth="369.0">
@@ -66,7 +66,7 @@
       </Pane>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="413.0" layoutY="386.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Projektarbeit/Axure/DCCOMBO2.png" />
+            <Image url="@icons/DC-COMBO.png" />
          </image>
       </ImageView>
       <Pane fx:id="labelPane" layoutX="71.0" layoutY="574.0" prefHeight="96.0" prefWidth="999.0">
@@ -85,7 +85,7 @@
       </Pane>
       <ImageView fitHeight="127.0" fitWidth="144.0" layoutX="610.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Projektarbeit/AC.jpg" />
+            <Image url="@icons/DC-COMBO.png" />
          </image>
       </ImageView>
    </children>
