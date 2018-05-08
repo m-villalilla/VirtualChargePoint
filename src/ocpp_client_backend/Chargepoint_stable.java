@@ -37,7 +37,7 @@ import eu.chargetime.ocpp.model.core.*;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public class JSONClientSamplev0_5 {
+public class Chargepoint_stable {
     private IClientAPI client;
     private ClientCoreProfile core;
     private LinkedList<Long> measurements = new LinkedList<>();
