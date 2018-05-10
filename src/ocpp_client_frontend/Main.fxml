@@ -14,25 +14,35 @@
 
 <AnchorPane fx:id="anchorMain" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
    <children>
-      <Pane fx:id="pane2" layoutX="376.0" layoutY="34.0" prefHeight="267.0" prefWidth="294.0">
+      <Pane fx:id="pane2" layoutX="376.0" layoutY="34.0" prefHeight="343.0" prefWidth="294.0">
          <children>
-            <TextField fx:id="ipAddress" layoutX="38.0" layoutY="64.0" prefHeight="31.0" prefWidth="228.0" promptText="IP-ADDRESS">
+            <TextField fx:id="ipAddress" layoutX="38.0" layoutY="81.0" prefHeight="31.0" prefWidth="228.0" promptText="IP-ADDRESS">
                <font>
                   <Font size="18.0" />
                </font></TextField>
-            <TextField fx:id="chargePointID" layoutX="38.0" layoutY="127.0" prefHeight="31.0" prefWidth="228.0" promptText="CARGE POINT ID">
+            <TextField fx:id="chargePointID" layoutX="38.0" layoutY="172.0" prefHeight="31.0" prefWidth="228.0" promptText="CARGE POINT ID">
                <font>
                   <Font size="18.0" />
                </font></TextField>
-            <TextField fx:id="idAuthorization" layoutX="38.0" layoutY="191.0" prefHeight="31.0" prefWidth="228.0" promptText="ID-AUTHORIZATION">
+            <TextField fx:id="idAuthorization" layoutX="38.0" layoutY="266.0" prefHeight="31.0" prefWidth="228.0" promptText="ID-AUTHORIZATION">
                <font>
                   <Font size="18.0" />
                </font></TextField>
-            <ImageView fx:id="zahnrad" fitHeight="85.0" fitWidth="113.0" layoutX="-50.0" layoutY="-32.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../Desktop/Projektarbeit/Axure/Zahnrad.png" />
-               </image>
-            </ImageView>
+            <Label layoutX="38.0" layoutY="135.0" text="CHARGE POINT ID" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="38.0" layoutY="229.0" text="ID-AUTHORIZATION" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="38.0" layoutY="42.0" text="IP-ADDRESS" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Button fx:id="btnStart" layoutX="318.0" layoutY="708.0" mnemonicParsing="false" onAction="#start" prefHeight="57.0" prefWidth="117.0" text="START" textFill="WHITE">
@@ -43,33 +53,24 @@
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Button>
-      <RadioButton fx:id="rb1" layoutX="474.0" layoutY="350.0" mnemonicParsing="false" onAction="#radioSelect" prefHeight="21.0" prefWidth="33.0" text="DC COMBO 2" textFill="WHITE">
+      <RadioButton fx:id="rb1" layoutX="497.0" layoutY="401.0" mnemonicParsing="false" onAction="#radioSelect" prefHeight="21.0" prefWidth="33.0" text="DC COMBO 2" textFill="WHITE">
          <toggleGroup>
             <ToggleGroup fx:id="myGroup" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="rb2" layoutX="664.0" layoutY="350.0" mnemonicParsing="false" onAction="#radioSelect" text="AC" textFill="WHITE" toggleGroup="$myGroup" />
-      <RadioButton fx:id="rb3" layoutX="936.0" layoutY="350.0" mnemonicParsing="false" onAction="#radioSelect" prefHeight="21.0" prefWidth="24.0" text="DC CHAdeMO" textFill="WHITE" toggleGroup="$myGroup" />
-      <Label layoutX="838.0" layoutY="410.0" text="DC CHAdeMO">
-         <font>
-            <Font name="System Bold" size="35.0" />
-         </font></Label>
+      <RadioButton fx:id="rb2" layoutX="711.0" layoutY="401.0" mnemonicParsing="false" onAction="#radioSelect" text="AC" textFill="WHITE" toggleGroup="$myGroup" />
+      <RadioButton fx:id="rb3" layoutX="928.0" layoutY="401.0" mnemonicParsing="false" onAction="#radioSelect" prefHeight="21.0" prefWidth="24.0" text="DC CHAdeMO" textFill="WHITE" toggleGroup="$myGroup" />
       <ImageView fitHeight="198.0" fitWidth="294.0" layoutX="32.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Projektarbeit/Axure/logo.png" />
+            <Image url="@../../logo.png" />
          </image>
       </ImageView>
-      <Pane fx:id="comboboxPane" layoutX="701.0" layoutY="34.0" prefHeight="267.0" prefWidth="369.0">
+      <Pane fx:id="comboboxPane" layoutX="701.0" layoutY="34.0" prefHeight="343.0" prefWidth="369.0">
          <children>
             <ComboBox fx:id="combobox" layoutX="20.0" layoutY="105.0" onAction="#comboChanged" prefHeight="35.0" prefWidth="335.0" promptText="Functions" />
          </children>
       </Pane>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="413.0" layoutY="386.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../Desktop/Projektarbeit/Axure/DCCOMBO2.png" />
-         </image>
-      </ImageView>
-      <Pane fx:id="labelPane" layoutX="71.0" layoutY="574.0" prefHeight="96.0" prefWidth="999.0">
+      <Pane fx:id="labelPane" layoutX="71.0" layoutY="595.0" prefHeight="96.0" prefWidth="999.0">
          <children>
             <Label fx:id="label1" layoutX="52.0" layoutY="35.0" prefHeight="27.0" prefWidth="404.0" textFill="#003d50">
                <font>
@@ -83,9 +84,24 @@
             </Label>
          </children>
       </Pane>
-      <ImageView fitHeight="127.0" fitWidth="144.0" layoutX="610.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="436.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Desktop/Projektarbeit/AC.jpg" />
+            <Image url="@../../DCCOMBO2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="133.0" fitWidth="169.0" layoutX="636.0" layoutY="439.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../AC.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="871.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../DC%20CHAdeMO.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="zahnrad" fitHeight="85.0" fitWidth="113.0" layoutX="320.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Zahnrad.png" />
          </image>
       </ImageView>
    </children>
