@@ -1,6 +1,6 @@
 package ocpp_client_backend;
 
-import ocpp_client_backend.JSONClientSamplev0_5;
+import ocpp_client_backend.Chargepoint_stable;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.BufferedInputStream;
@@ -23,7 +23,7 @@ public class launchClientBackend {
 		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
 		boolean measureMode 	= true;												//Set if you want to measure and print the elapsed time of server calls
 		
-		JSONClientSamplev0_5 client = new JSONClientSamplev0_5();
+		Chargepoint_stable client = new Chargepoint_stable();
 		
 		tortureTest(100, serverURL, CPVendor, CPModel);
 		
@@ -77,12 +77,12 @@ public class launchClientBackend {
 	 * @param CPModel - specifies the ChargePoint model
 	 */
 	public static void tortureTest(int nrClients, String serverURL, String CPVendor, String CPModel) {
-		JSONClientSamplev0_5 [] clients = new JSONClientSamplev0_5[nrClients];
+		Chargepoint_stable [] clients = new Chargepoint_stable[nrClients];
 		long bootTimeResults[] = new long[nrClients];
 		long authorizeTimeResults[] = new long[nrClients];
 				
 		for (int i = 0; i < nrClients; i++) {
-			clients[i] = new JSONClientSamplev0_5();
+			clients[i] = new Chargepoint_stable();
 			try {
 				clients[i].connect(serverURL, ("TestPoint" + i));
 				clients[i].sendBootNotification(CPVendor, CPModel, true);

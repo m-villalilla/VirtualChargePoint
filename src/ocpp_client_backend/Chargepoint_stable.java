@@ -1,11 +1,15 @@
 package ocpp_client_backend;
 
-import eu.chargetime.ocpp.ClientEvents;
+import java.util.Calendar;
+import java.util.LinkedList;
+
+import eu.chargetime.ocpp.IClientAPI;
 import eu.chargetime.ocpp.JSONClient;
 import eu.chargetime.ocpp.feature.profile.ClientCoreEventHandler;
 import eu.chargetime.ocpp.feature.profile.ClientCoreProfile;
+import eu.chargetime.ocpp.model.Confirmation;
+import eu.chargetime.ocpp.model.Request;
 import eu.chargetime.ocpp.model.core.*;
-
 
 /*
  * ChargeTime.eu - Java-OCA-OCPP
@@ -13,7 +17,7 @@ import eu.chargetime.ocpp.model.core.*;
  *
  * MIT License
  *
- * Copyright (c) 2016 Thomas Volden
+ * Copyright (C) 2016-2018 Thomas Volden
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,14 +37,24 @@ import eu.chargetime.ocpp.model.core.*;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-public class JSONClientSample_old {	
-    private JSONClient client;
+public class Chargepoint_stable {
+    private IClientAPI client;
     private ClientCoreProfile core;
+    private LinkedList<Long> measurements = new LinkedList<>();
+    
+    public long getNextTime() {
+		return measurements.pop();
+	}
 
-    public void connect() {
-    	System.out.println("DEBUG: JSONClientSample.java connect(): Called.");
-    	
+	/**
+     * Called to connect to a OCPP server
+     * 
+     * @param serverURL - specifies the URL of the OCPP server
+     * @param clientName - name of the charge point
+     * @throws Exception
+     */
+    public void connect(String serverURL, String clientName) throws Exception {
+
         // The core profile is mandatory
         core = new ClientCoreProfile(new ClientCoreEventHandler() {
             @Override
@@ -124,36 +138,76 @@ public class JSONClientSample_old {
                 return null; // returning null means unsupported feature
             }
         });
+        
         client = new JSONClient(core);
-        
-        ClientEvents clientEvents = new ClientEvents() {
-			
-			@Override
-			public void connectionOpened() {
-				
-			}
-			
-			@Override
-			public void connectionClosed() {
-				
-			}
-		};
-		client.connect("ws://test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/TestPoint01", clientEvents);
-        
-        System.out.println("DEBUG: JSONClientSample.java connect(): Return.");
+        client.connect("ws://" + serverURL + clientName, null);
     }
 
-    public void sendBootNotification() throws Exception {
-
-        // Use the feature profile to help create event
-        //Request request = core.createBootNotificationRequest("some vendor", "some model");
-
-        // Client returns a promise which will be filled once it receives a confirmation.
-        //client.send(request).whenComplete((s, ex) -> System.out.println(s));
+    /**
+     * Sends a BootNotification to the OCPP server
+     * 
+     * @param CPVendor
+     * @param CPModel
+     * @param measureMode - sets a flag to print the elapsed time or not
+     * @throws Exception
+     */
+    public void sendBootNotification(String CPVendor, String CPModel, boolean measureMode) throws Exception {
+        long startTime = System.nanoTime();
+    	Request request = core.createBootNotificationRequest(CPVendor, CPModel);
+        client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, measureMode, startTime));
     }
 
+    /**
+     * Sends a AuthorizeRequest to the OCPP server 
+     * 
+     * @param token - authorization identifier
+     * @param measureMode - sets a flag to print the elapsed time or not
+     * @throws Exception
+     */
+    public void sendAuthorizeRequest(String token, boolean measureMode) throws Exception {
+    	long startTime = System.nanoTime();
+    	Request request = core.createAuthorizeRequest(token);
+    	client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, measureMode, startTime));
+    }
+    
+    /**
+     * Sends a StartTransactionRequest to the OCPP server.
+     *  
+     * @param connectorId - used connector of the CP
+     * @param token - authorization identifier
+     * @param measureMode - sets a flag to print the elapsed time or not
+     * @throws Exception
+     */
+    public void sendStartTransactionRequest(int connectorId, String token, boolean measureMode) throws Exception {
+    	int meterStart = 0;
+    	long startTime = System.nanoTime();
+    	
+    	Calendar timestamp = Calendar.getInstance();
+		Request request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
+		client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, measureMode, startTime));
+    }
+    
+    /**
+     * Called when a request is completed
+     * 
+     * @param s
+     * @param ex
+     * @param measureMode - flag for time measuring output
+     * @param startTime - time the function started
+     */
+    public void functionComplete(Confirmation s, Throwable ex, boolean measureMode, long startTime) {
+    	System.out.println(s);
+    	if(measureMode) {
+    		long timeElapsed = (System.nanoTime() - startTime)/1000000;
+    		System.out.println("\tElapsed time: " + timeElapsed + "ms");
+    		measurements.add(timeElapsed);
+    	}
+    }
+    
+    /**
+     * Disconnects the client from the OCPP server
+     */
     public void disconnect() {
         client.disconnect();
-    }
-
+    } 
 }
