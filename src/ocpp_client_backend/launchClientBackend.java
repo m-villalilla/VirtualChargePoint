@@ -25,7 +25,7 @@ public class launchClientBackend {
 		
 		JSONClientSamplev0_5 client = new JSONClientSamplev0_5();
 		
-		tortureTest(100, serverURL, CPVendor, CPModel);
+		// tortureTest(100, serverURL, CPVendor, CPModel);
 		
 		try {
 			client.connect(serverURL, ChargeBoxID);
@@ -49,7 +49,7 @@ public class launchClientBackend {
 		}
 		
 		try {
-			//client.sendStartTransactionRequest(1, authorizationID, measureMode);
+			client.checkTransactionSupport(authorizationID, measureMode);
 		} catch (Exception e) {
 			System.out.println("Error while trying to start a transaction");
 			e.printStackTrace();
