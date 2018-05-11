@@ -79,7 +79,7 @@ public class MainController implements Initializable {
 		//if (!ipAddress.getText().equals("") && !chargePointID.getText().equals("") && !idAuthorization.getText().equals("")){
 		if (combobox.getValue().equals("Testing Authentification") && (!idAuthorization.getText().equals("")) && (!ipAddress.getText().equals("")) && (!chargePointID.getText().equals(""))){	
 			Stage primaryStage = new Stage();
-			Parent root = FXMLLoader.load(getClass().getResource("/application/Authentification.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
 			Scene scene = new Scene(root,580,357);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -89,7 +89,7 @@ public class MainController implements Initializable {
 		
 		else if (combobox.getValue().equals("Testing Transaction")&& (!ipAddress.getText().equals("")) && (!idAuthorization.getText().equals("")) && (!chargePointID.getText().equals(""))){	
 			Stage primaryStage = new Stage();
-			Parent root = FXMLLoader.load(getClass().getResource("/application/TestingTransaction.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("TestingTransaction.fxml"));
 			Scene scene = new Scene(root,580,357);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -97,7 +97,7 @@ public class MainController implements Initializable {
 		}
 		else if (combobox.getValue().equals("Getting Server functions & Server version") && (!ipAddress.getText().equals("")) && (!chargePointID.getText().equals(""))){	
 			Stage primaryStage = new Stage();
-			Parent root = FXMLLoader.load(getClass().getResource("/application/ServerFunctionVersion.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
 			Scene scene = new Scene(root,580,357);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
