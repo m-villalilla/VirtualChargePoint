@@ -49,7 +49,7 @@ public class launchClientBackend {
 		}
 		
 		try {
-			//client.sendStartTransactionRequest(1, authorizationID, measureMode);
+			client.checkTransactionSupport(authorizationID, measureMode);
 		} catch (Exception e) {
 			System.out.println("Error while trying to start a transaction");
 			e.printStackTrace();

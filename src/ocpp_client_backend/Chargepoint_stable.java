@@ -41,6 +41,7 @@ public class Chargepoint_stable {
     private IClientAPI client;
     private ClientCoreProfile core;
     private LinkedList<Long> measurements = new LinkedList<>();
+    private int transactionId;
     
     public long getNextTime() {
 		return measurements.pop();
@@ -188,6 +189,55 @@ public class Chargepoint_stable {
     }
     
     /**
+     * Sends a StartTransactionRequest to the OCPP server.
+     * 
+     * @param connectorId 	- used connector of the CP
+     * @param token 		- authorization identifier
+     * @param meterStop		- meter value in Wh on stop
+     * @param measureMode 	- sets a flag to print the elapsed time or not
+     * @return 
+     * @return 
+     * @throws Exception
+     */
+    public void sendStartTransactionRequest(int connectorId, String token, int meterStart, boolean measureMode) throws Exception {
+    	long startTime = System.nanoTime();
+    	Calendar timestamp = Calendar.getInstance();
+		Request request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
+		client.send(request).whenComplete((s, ex) -> { 
+			functionComplete(s, ex, measureMode, startTime);
+			setTranscationId(((StartTransactionConfirmation) s).getTransactionId());
+		});
+    }
+    
+    /**
+     * Sends a StopTransactionRequest to the OCPP server.
+     * 
+     * @param meterStop		- meter value in Wh on stop
+     * @param transactionId	- transaction identifier received from the server
+     * @param measureMode	- sets a flag to print the elapsed time or not
+     * @throws Exception
+     */
+    public void sendStopTransactionRequest(int transactionId, int meterStop, boolean measureMode) throws Exception {
+    	long startTime = System.nanoTime();
+    	Calendar timestamp = Calendar.getInstance();
+    	Request request = core.createStopTransactionRequest(meterStop, timestamp, transactionId);
+    	client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, measureMode, startTime));
+    }
+    
+    /**
+     * Checks transaction procedure
+     * 
+     * @param authorizationID
+     * @param measureMode
+     * @throws Exception
+     */
+	public void checkTransactionSupport(String authorizationID, boolean measureMode) throws Exception {
+		sendStartTransactionRequest(1, authorizationID, 0, measureMode);
+		Thread.sleep(1000);	
+		sendStopTransactionRequest(getTransactionId(), 100, measureMode);
+	}
+    
+    /**
      * Called when a request is completed
      * 
      * @param s
@@ -210,4 +260,21 @@ public class Chargepoint_stable {
     public void disconnect() {
         client.disconnect();
     } 
+    
+    /**
+     * Sets the transactionId returned by sendStartTransactionRequest
+     * 
+     * @param transactionId
+     */
+    public void setTranscationId(int transactionId) {
+    	this.transactionId = transactionId;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public int getTransactionId() {
+    	return this.transactionId;
+    }
 }
