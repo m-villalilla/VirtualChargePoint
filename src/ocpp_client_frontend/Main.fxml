@@ -60,7 +60,7 @@
       </RadioButton>
       <RadioButton fx:id="rb2" layoutX="711.0" layoutY="401.0" mnemonicParsing="false" onAction="#radioSelect" text="AC" textFill="WHITE" toggleGroup="$myGroup" />
       <RadioButton fx:id="rb3" layoutX="928.0" layoutY="401.0" mnemonicParsing="false" onAction="#radioSelect" prefHeight="21.0" prefWidth="24.0" text="DC CHAdeMO" textFill="WHITE" toggleGroup="$myGroup" />
-      <ImageView fitHeight="198.0" fitWidth="294.0" layoutX="32.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="198.0" fitWidth="294.0" layoutX="40.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../logo.png" />
          </image>
@@ -89,7 +89,7 @@
             <Image url="@../../DCCOMBO2.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="133.0" fitWidth="169.0" layoutX="636.0" layoutY="439.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="133.0" fitWidth="170.0" layoutX="636.0" layoutY="439.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../AC.png" />
          </image>
