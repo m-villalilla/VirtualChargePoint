@@ -77,7 +77,7 @@ public class MainController implements Initializable {
 	//regarding selected combobox value pressing start button leads to new message window 
 	public void start(ActionEvent event)throws Exception {
 		//if (!ipAddress.getText().equals("") && !chargePointID.getText().equals("") && !idAuthorization.getText().equals("")){
-		if (combobox.getValue().equals("Testing Authentification") && (!idAuthorization.getText().equals(""))){	
+		if (combobox.getValue().equals("Testing Authentification") && (!idAuthorization.getText().equals("")) && (!ipAddress.getText().equals("")) && (!chargePointID.getText().equals(""))){	
 			Stage primaryStage = new Stage();
 			Parent root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
 			Scene scene = new Scene(root,580,357);
@@ -95,7 +95,7 @@ public class MainController implements Initializable {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}
-		else if (combobox.getValue().equals("Getting Server functions & Server version") && (!ipAddress.getText().equals("")) && (!idAuthorization.getText().equals(""))){	
+		else if (combobox.getValue().equals("Getting Server functions & Server version") && (!ipAddress.getText().equals("")) && (!chargePointID.getText().equals(""))){	
 			Stage primaryStage = new Stage();
 			Parent root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
 			Scene scene = new Scene(root,580,357);
