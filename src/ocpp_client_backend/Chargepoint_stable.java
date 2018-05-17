@@ -44,6 +44,9 @@ public class Chargepoint_stable {
     private int transactionId;
     private boolean measureMode;
     private boolean stressTest;
+    private String vendor;
+    private String model;
+    private String chargeBoxId;
 
 	/**
      * Called to connect to a OCPP server
@@ -52,7 +55,7 @@ public class Chargepoint_stable {
      * @param clientName - name of the charge point
      * @throws Exception
      */
-    public void connect(String serverURL, String clientName) throws Exception {
+    public void connect(String serverURL) throws Exception {
 
         // The core profile is mandatory
         core = new ClientCoreProfile(new ClientCoreEventHandler() {
@@ -139,7 +142,7 @@ public class Chargepoint_stable {
         });
         
         client = new JSONClient(core);
-        client.connect("ws://" + serverURL + clientName, null);
+        client.connect("ws://" + serverURL + chargeBoxId, null);
     }
 
     /**
@@ -150,9 +153,9 @@ public class Chargepoint_stable {
      * @param measureMode - sets a flag to print the elapsed time or not
      * @throws Exception
      */
-    public void sendBootNotification(String CPVendor, String CPModel) throws Exception {
+    public void sendBootNotification() throws Exception {
         long startTime = System.nanoTime();
-    	Request request = core.createBootNotificationRequest(CPVendor, CPModel);
+    	Request request = core.createBootNotificationRequest(vendor, model);
         client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
     }
 
@@ -295,5 +298,29 @@ public class Chargepoint_stable {
 
 	public void setStressTest(boolean stressTest) {
 		this.stressTest = stressTest;
+	}
+
+	public String getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(String vendor) {
+		this.vendor = vendor;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	public String getChargeBoxId() {
+		return chargeBoxId;
+	}
+
+	public void setChargeBoxId(String chargeBoxId) {
+		this.chargeBoxId = chargeBoxId;
 	}
 }

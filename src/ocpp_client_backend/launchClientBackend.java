@@ -24,18 +24,21 @@ public class launchClientBackend {
 		
 		Chargepoint_stable client = new Chargepoint_stable();
 		
-		OCPPServerStressTest.startTest(100, serverURL, CPVendor, CPModel);
+		OCPPServerStressTest.startTest(100, serverURL);
 		client.setMeasureMode(true);
+		client.setChargeBoxId(ChargeBoxID);
+		client.setVendor(CPVendor);
+		client.setModel(CPModel);
 		
 		try {
-			client.connect(serverURL, ChargeBoxID);
+			client.connect(serverURL);
 		} catch (Exception e) {
 			System.out.println("Error while trying to connect to the server.");
 			e.printStackTrace();
 		}
 		
 		try {
-			client.sendBootNotification(CPVendor, CPModel);
+			client.sendBootNotification();
 		} catch (Exception e) {
 			System.out.println("Error while trying to sent a boot notification");
 			e.printStackTrace();

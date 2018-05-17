@@ -13,7 +13,7 @@ public class OCPPServerStressTest {
 	 * @param CPVendor - specifies the ChargePoint vendor
 	 * @param CPModel - specifies the ChargePoint model
 	 */
-	public static void startTest(int nrClients, String serverURL, String CPVendor, String CPModel) {
+	public static void startTest(int nrClients, String serverURL) {
 		clients = new Chargepoint_stable[nrClients];
 		bootTimeResults = new long[nrClients];
 		authorizeTimeResults = new long[nrClients];
@@ -23,9 +23,13 @@ public class OCPPServerStressTest {
 			clients[i] = new Chargepoint_stable();
 			clients[i].setMeasureMode(true);
 			clients[i].setStressTest(true);
+			//The following two lines will be removed, after constructors are implemented
+			clients[i].setVendor("DefaultVendor");
+			clients[i].setModel("DefaultModel");
 			try {
-				clients[i].connect(serverURL, ("TestPoint" + i));
-				clients[i].sendBootNotification(CPVendor, CPModel);
+				clients[i].setChargeBoxId("TestPoint" + i);
+				clients[i].connect(serverURL);
+				clients[i].sendBootNotification();
 				if(i < 10) clients[i].sendAuthorizeRequest(("0FFFFFF" + i));
 				if(i >= 10 && i <20) clients[i].sendAuthorizeRequest(("1FFFFFF" + (i%10)));
 				if(i >= 20 && i <30) clients[i].sendAuthorizeRequest(("2FFFFFF" + (i%10)));
