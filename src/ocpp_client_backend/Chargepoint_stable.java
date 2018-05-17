@@ -42,10 +42,8 @@ public class Chargepoint_stable {
     private ClientCoreProfile core;
     private LinkedList<Long> measurements = new LinkedList<>();
     private int transactionId;
-    
-    public long getNextTime() {
-		return measurements.pop();
-	}
+    private boolean measureMode;
+    private boolean stressTest;
 
 	/**
      * Called to connect to a OCPP server
@@ -152,10 +150,10 @@ public class Chargepoint_stable {
      * @param measureMode - sets a flag to print the elapsed time or not
      * @throws Exception
      */
-    public void sendBootNotification(String CPVendor, String CPModel, boolean measureMode) throws Exception {
+    public void sendBootNotification(String CPVendor, String CPModel) throws Exception {
         long startTime = System.nanoTime();
     	Request request = core.createBootNotificationRequest(CPVendor, CPModel);
-        client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, measureMode, startTime));
+        client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
     }
 
     /**
@@ -165,10 +163,10 @@ public class Chargepoint_stable {
      * @param measureMode - sets a flag to print the elapsed time or not
      * @throws Exception
      */
-    public void sendAuthorizeRequest(String token, boolean measureMode) throws Exception {
+    public void sendAuthorizeRequest(String token) throws Exception {
     	long startTime = System.nanoTime();
     	Request request = core.createAuthorizeRequest(token);
-    	client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, measureMode, startTime));
+    	client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
     }
     
     /**
@@ -179,13 +177,13 @@ public class Chargepoint_stable {
      * @param measureMode - sets a flag to print the elapsed time or not
      * @throws Exception
      */
-    public void sendStartTransactionRequest(int connectorId, String token, boolean measureMode) throws Exception {
+    public void sendStartTransactionRequest(int connectorId, String token) throws Exception {
     	int meterStart = 0;
     	long startTime = System.nanoTime();
     	
     	Calendar timestamp = Calendar.getInstance();
 		Request request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
-		client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, measureMode, startTime));
+		client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
     }
     
     /**
@@ -199,12 +197,12 @@ public class Chargepoint_stable {
      * @return 
      * @throws Exception
      */
-    public void sendStartTransactionRequest(int connectorId, String token, int meterStart, boolean measureMode) throws Exception {
+    public void sendStartTransactionRequest(int connectorId, String token, int meterStart) throws Exception {
     	long startTime = System.nanoTime();
     	Calendar timestamp = Calendar.getInstance();
 		Request request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
 		client.send(request).whenComplete((s, ex) -> { 
-			functionComplete(s, ex, measureMode, startTime);
+			functionComplete(s, ex, startTime);
 			setTranscationId(((StartTransactionConfirmation) s).getTransactionId());
 		});
     }
@@ -217,11 +215,11 @@ public class Chargepoint_stable {
      * @param measureMode	- sets a flag to print the elapsed time or not
      * @throws Exception
      */
-    public void sendStopTransactionRequest(int transactionId, int meterStop, boolean measureMode) throws Exception {
+    public void sendStopTransactionRequest(int transactionId, int meterStop) throws Exception {
     	long startTime = System.nanoTime();
     	Calendar timestamp = Calendar.getInstance();
     	Request request = core.createStopTransactionRequest(meterStop, timestamp, transactionId);
-    	client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, measureMode, startTime));
+    	client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
     }
     
     /**
@@ -231,10 +229,10 @@ public class Chargepoint_stable {
      * @param measureMode
      * @throws Exception
      */
-	public void checkTransactionSupport(String authorizationID, boolean measureMode) throws Exception {
-		sendStartTransactionRequest(1, authorizationID, 0, measureMode);
+	public void checkTransactionSupport(String authorizationID) throws Exception {
+		sendStartTransactionRequest(1, authorizationID, 0);
 		Thread.sleep(1000);	
-		sendStopTransactionRequest(getTransactionId(), 100, measureMode);
+		sendStopTransactionRequest(getTransactionId(), 100);
 	}
     
     /**
@@ -245,11 +243,11 @@ public class Chargepoint_stable {
      * @param measureMode - flag for time measuring output
      * @param startTime - time the function started
      */
-    public void functionComplete(Confirmation s, Throwable ex, boolean measureMode, long startTime) {
-    	System.out.println(s);
+    public void functionComplete(Confirmation s, Throwable ex, long startTime) {
+    	if(!stressTest) System.out.println(s);
     	if(measureMode) {
     		long timeElapsed = (System.nanoTime() - startTime)/1000000;
-    		System.out.println("\tElapsed time: " + timeElapsed + "ms");
+    		if(!stressTest) System.out.println("\tElapsed time: " + timeElapsed + "ms");
     		measurements.add(timeElapsed);
     	}
     }
@@ -270,6 +268,11 @@ public class Chargepoint_stable {
     	this.transactionId = transactionId;
     }
     
+    
+    public long getNextTime() {
+		return measurements.pop();
+	}
+    
     /**
      * 
      * @return
@@ -277,4 +280,20 @@ public class Chargepoint_stable {
     public int getTransactionId() {
     	return this.transactionId;
     }
+
+	public boolean isMeasureMode() {
+		return measureMode;
+	}
+
+	public void setMeasureMode(boolean measureMode) {
+		this.measureMode = measureMode;
+	}
+
+	public boolean isStressTest() {
+		return stressTest;
+	}
+
+	public void setStressTest(boolean stressTest) {
+		this.stressTest = stressTest;
+	}
 }

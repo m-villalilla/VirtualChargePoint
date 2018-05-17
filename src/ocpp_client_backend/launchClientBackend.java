@@ -21,11 +21,11 @@ public class launchClientBackend {
 		String CPVendor   		= config.getProperty("CPVendor");
 		String CPModel 	  		= config.getProperty("CPModel");
 		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
-		boolean measureMode 	= true;												//Set if you want to measure and print the elapsed time of server calls
 		
 		Chargepoint_stable client = new Chargepoint_stable();
 		
 		OCPPServerStressTest.startTest(100, serverURL, CPVendor, CPModel);
+		client.setMeasureMode(true);
 		
 		try {
 			client.connect(serverURL, ChargeBoxID);
@@ -35,21 +35,21 @@ public class launchClientBackend {
 		}
 		
 		try {
-			client.sendBootNotification(CPVendor, CPModel, measureMode);
+			client.sendBootNotification(CPVendor, CPModel);
 		} catch (Exception e) {
 			System.out.println("Error while trying to sent a boot notification");
 			e.printStackTrace();
 		}
 		
 		try {
-			client.sendAuthorizeRequest(authorizationID, measureMode);
+			client.sendAuthorizeRequest(authorizationID);
 		} catch (Exception e) {
 			System.out.println("Error while trying to authorize an ID");
 			e.printStackTrace();
 		}
 		
 		try {
-			client.checkTransactionSupport(authorizationID, measureMode);
+			client.checkTransactionSupport(authorizationID);
 		} catch (Exception e) {
 			System.out.println("Error while trying to start a transaction");
 			e.printStackTrace();
