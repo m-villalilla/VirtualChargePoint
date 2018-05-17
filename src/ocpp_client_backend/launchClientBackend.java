@@ -21,35 +21,35 @@ public class launchClientBackend {
 		String CPVendor   		= config.getProperty("CPVendor");
 		String CPModel 	  		= config.getProperty("CPModel");
 		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
-		boolean measureMode 	= true;												//Set if you want to measure and print the elapsed time of server calls
 		
-		Chargepoint_stable client = new Chargepoint_stable();
+		//OCPPServerStressTest.startTest(100, serverURL);
 		
-		tortureTest(100, serverURL, CPVendor, CPModel);
+		Chargepoint_stable client = new Chargepoint_stable(ChargeBoxID, CPVendor, CPModel, true, false);
 		
 		try {
-			client.connect(serverURL, ChargeBoxID);
+			client.connect(serverURL);
+			System.out.println("Client connected.");
 		} catch (Exception e) {
 			System.out.println("Error while trying to connect to the server.");
 			e.printStackTrace();
 		}
 		
 		try {
-			client.sendBootNotification(CPVendor, CPModel, measureMode);
+			client.sendBootNotification();
 		} catch (Exception e) {
 			System.out.println("Error while trying to sent a boot notification");
 			e.printStackTrace();
 		}
 		
 		try {
-			client.sendAuthorizeRequest(authorizationID, measureMode);
+			client.sendAuthorizeRequest(authorizationID);
 		} catch (Exception e) {
 			System.out.println("Error while trying to authorize an ID");
 			e.printStackTrace();
 		}
 		
 		try {
-			client.checkTransactionSupport(authorizationID, measureMode);
+			client.checkTransactionSupport(authorizationID);
 		} catch (Exception e) {
 			System.out.println("Error while trying to start a transaction");
 			e.printStackTrace();
@@ -58,6 +58,7 @@ public class launchClientBackend {
 		try {
 			Thread.sleep(2000);														//Give the server time to respond to ongoing requests
 			client.disconnect();
+			System.out.println("Client disconnected.");
 		} catch (InterruptedException e) {
 			System.out.println("Error while trying to disconnect");
 			e.printStackTrace();
@@ -67,82 +68,5 @@ public class launchClientBackend {
 	public static Properties getConfig() {
 		return config;
 	}
-	
-	/**
-	 * Tests how the server behaves with a certain amount of clients
-	 * 
-	 * @param nrClients - specifies the number of clients to connect
-	 * @param serverURL - specifies the URL of the server to test
-	 * @param CPVendor - specifies the ChargePoint vendor
-	 * @param CPModel - specifies the ChargePoint model
-	 */
-	public static void tortureTest(int nrClients, String serverURL, String CPVendor, String CPModel) {
-		Chargepoint_stable [] clients = new Chargepoint_stable[nrClients];
-		long bootTimeResults[] = new long[nrClients];
-		long authorizeTimeResults[] = new long[nrClients];
-				
-		for (int i = 0; i < nrClients; i++) {
-			clients[i] = new Chargepoint_stable();
-			try {
-				clients[i].connect(serverURL, ("TestPoint" + i));
-				clients[i].sendBootNotification(CPVendor, CPModel, true);
-				if(i < 10) clients[i].sendAuthorizeRequest(("0FFFFFF" + i), true);
-				if(i >= 10 && i <20) clients[i].sendAuthorizeRequest(("1FFFFFF" + (i%10)), true);
-				if(i >= 20 && i <30) clients[i].sendAuthorizeRequest(("2FFFFFF" + (i%10)), true);
-				if(i >= 30 && i <40) clients[i].sendAuthorizeRequest(("3FFFFFF" + (i%10)), true);
-				if(i >= 40 && i <50) clients[i].sendAuthorizeRequest(("4FFFFFF" + (i%10)), true);
-				if(i >= 50 && i <60) clients[i].sendAuthorizeRequest(("5FFFFFF" + (i%10)), true);
-				if(i >= 60 && i <70) clients[i].sendAuthorizeRequest(("6FFFFFF" + (i%10)), true);
-				if(i >= 70 && i <80) clients[i].sendAuthorizeRequest(("7FFFFFF" + (i%10)), true);
-				if(i >= 80 && i <90) clients[i].sendAuthorizeRequest(("8FFFFFF" + (i%10)), true);
-				if(i >= 90 && i <100) clients[i].sendAuthorizeRequest(("9FFFFFF" + (i%10)), true);
-			} catch (Exception e) {
-				System.out.println("Error while torture testing");
-			}
-		}		
-		
-		try {
-			//Prepare disconnect and disconnect all clients
-			System.out.println("Done testing.");
-			Thread.sleep(2000);
-			
-			for (int i = 0; i < nrClients; i++) {
-				authorizeTimeResults[i] = clients[i].getNextTime();
-				bootTimeResults[i] = clients[i].getNextTime();
-				clients[i].disconnect();
-			}
-		} catch (Exception e) {
-			System.out.println("Error while disconnecting");
-		}
-		
-		//Evaluation starts here
-		long sumBoot = 0;
-		long minBoot = 10000;
-		long maxBoot = 0;
-		long sumAuthorize = 0;
-		long minAuthorize = 100000;
-		long maxAuthorize = 0;
-		
-		for (int i = 0; i < nrClients; i++) {
-			sumBoot += bootTimeResults[i];
-			if(minBoot >= bootTimeResults[i]) minBoot = bootTimeResults[i];
-			if(maxBoot < bootTimeResults[i]) maxBoot = bootTimeResults[i];
-			sumAuthorize += authorizeTimeResults[i];
-			if(minAuthorize >= authorizeTimeResults[i]) minAuthorize = authorizeTimeResults[i];
-			if(maxAuthorize < authorizeTimeResults[i]) maxAuthorize = authorizeTimeResults[i];
-		}
-		
-		System.out.println("\nResults for boot notifications:");
-		System.out.println("\tMin:     " + minBoot + "ms");
-		System.out.println("\tAverage: " + (sumBoot/nrClients) + "ms");
-		System.out.println("\tMax:     " + maxBoot + "ms");
-		
-		System.out.println("Results for authorization:");
-		System.out.println("\tMin:     " + minAuthorize + "ms");
-		System.out.println("\tAverage: " + (sumAuthorize/nrClients) + "ms");
-		System.out.println("\tMax:     " + maxAuthorize + "ms");
-		System.exit(0);
-	}
-    
     
 }
