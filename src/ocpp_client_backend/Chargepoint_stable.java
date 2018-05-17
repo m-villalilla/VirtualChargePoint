@@ -40,15 +40,24 @@ import eu.chargetime.ocpp.model.core.*;
 public class Chargepoint_stable {
     private IClientAPI client;
     private ClientCoreProfile core;
-    private LinkedList<Long> measurements = new LinkedList<>();
     private int transactionId;
+    private LinkedList<Long> measurements;
     private boolean measureMode;
     private boolean stressTest;
     private String vendor;
     private String model;
     private String chargeBoxId;
 
-	/**
+	public Chargepoint_stable() {
+		this.measurements = new LinkedList<>();
+		this.measureMode = false;
+		this.stressTest = false;
+		this.vendor = "DefaultVendor";
+		this.model = "DefaultModel";
+		this.chargeBoxId = "DefaultId";
+	}
+    
+    /**
      * Called to connect to a OCPP server
      * 
      * @param serverURL - specifies the URL of the OCPP server
