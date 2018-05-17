@@ -6,12 +6,10 @@ public class OCPPServerStressTest {
 	private static long authorizeTimeResults[];
 	
 	/**
-	 * Tests how the server behaves with a certain amount of clients
+	 * Tests how the server behaves with a certain amount of clients in terms of responds time
 	 * 
 	 * @param nrClients - specifies the number of clients to connect
 	 * @param serverURL - specifies the URL of the server to test
-	 * @param CPVendor - specifies the ChargePoint vendor
-	 * @param CPModel - specifies the ChargePoint model
 	 */
 	public static void startTest(int nrClients, String serverURL) {
 		clients = new Chargepoint_stable[nrClients];
@@ -59,14 +57,31 @@ public class OCPPServerStressTest {
 		evaluate(nrClients);
 	}
 	
+	/**
+	 * Returns the array with the boot times. 
+	 * Can be used to perform further analysis
+	 * 
+	 * @return Array with the results of boot time
+	 */
 	public static long[] getBootTimeResults() {
 		return bootTimeResults;
 	}
 	
+	/**
+	 * Returns the array with the authorization times. 
+	 * Can be used to perform further analysis
+	 * 
+	 * @return Array with the results of authorization time
+	 */
 	public static long[] getAuthorizeTimeResults() {
 		return authorizeTimeResults;
 	}
 	
+	/**
+	 * Internal function to evaluate the resulted times
+	 * 
+	 * @param nrClients Defines how many clients are used
+	 */
 	private static void evaluate(int nrClients) {
 		long sumBoot = 0;
 		long minBoot = 10000;
