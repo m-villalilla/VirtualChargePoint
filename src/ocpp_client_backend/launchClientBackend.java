@@ -22,16 +22,13 @@ public class launchClientBackend {
 		String CPModel 	  		= config.getProperty("CPModel");
 		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
 		
-		Chargepoint_stable client = new Chargepoint_stable();
+		//OCPPServerStressTest.startTest(100, serverURL);
 		
-		OCPPServerStressTest.startTest(100, serverURL);
-		client.setMeasureMode(true);
-		client.setChargeBoxId(ChargeBoxID);
-		client.setVendor(CPVendor);
-		client.setModel(CPModel);
+		Chargepoint_stable client = new Chargepoint_stable(ChargeBoxID, CPVendor, CPModel, true, false);
 		
 		try {
 			client.connect(serverURL);
+			System.out.println("Client connected.");
 		} catch (Exception e) {
 			System.out.println("Error while trying to connect to the server.");
 			e.printStackTrace();
@@ -61,6 +58,7 @@ public class launchClientBackend {
 		try {
 			Thread.sleep(2000);														//Give the server time to respond to ongoing requests
 			client.disconnect();
+			System.out.println("Client disconnected.");
 		} catch (InterruptedException e) {
 			System.out.println("Error while trying to disconnect");
 			e.printStackTrace();

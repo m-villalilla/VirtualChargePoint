@@ -23,9 +23,6 @@ public class OCPPServerStressTest {
 			clients[i] = new Chargepoint_stable();
 			clients[i].setMeasureMode(true);
 			clients[i].setStressTest(true);
-			//The following two lines will be removed, after constructors are implemented
-			clients[i].setVendor("DefaultVendor");
-			clients[i].setModel("DefaultModel");
 			try {
 				clients[i].setChargeBoxId("TestPoint" + i);
 				clients[i].connect(serverURL);

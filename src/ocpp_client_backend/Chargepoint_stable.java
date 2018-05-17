@@ -56,6 +56,15 @@ public class Chargepoint_stable {
 		this.model = "DefaultModel";
 		this.chargeBoxId = "DefaultId";
 	}
+	
+	public Chargepoint_stable(String chargeBoxId, String vendor, String model, boolean measureMode, boolean stressTest) {
+		this.measurements = new LinkedList<>();
+		this.measureMode = measureMode;
+		this.stressTest = stressTest;
+		this.vendor = vendor;
+		this.model = model;
+		this.chargeBoxId = chargeBoxId;
+	}
     
     /**
      * Called to connect to a OCPP server
