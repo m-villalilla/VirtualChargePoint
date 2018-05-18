@@ -11,7 +11,7 @@
    <children>
       <ImageView fitHeight="79.0" fitWidth="149.0" layoutX="39.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../logo.png" />
+            <Image url="@../../icons/logo.png" />
          </image>
       </ImageView>
       <Pane fx:id="paneFunctionVersion" layoutX="197.0" layoutY="43.0" prefHeight="79.0" prefWidth="357.0">
