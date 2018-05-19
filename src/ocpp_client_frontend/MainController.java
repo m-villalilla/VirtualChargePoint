@@ -18,9 +18,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import ocpp_client_backend.*;
 
 public class MainController implements Initializable {
-	
 	@FXML
 	private TextField ipAddress;
 	@FXML
@@ -44,8 +44,7 @@ public class MainController implements Initializable {
 	
 	//Elements in ComboBox
 	ObservableList<String> list = FXCollections.observableArrayList("Getting Server functions & Server version", "Testing Authentification", "Testing Transaction");
-	
-	
+		
 	//select one of 3 charging options, print output in 2nd label (right one)
 	public void radioSelect(ActionEvent event) {
 		String message = "";
@@ -66,45 +65,58 @@ public class MainController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		combobox.setItems(list);
+		Chargepoint_stable chargepoint = new Chargepoint_stable();
+		// Default values for input fields for development
+		idAuthorization.setText("0FFFFFF0");
+		ipAddress.setText("test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/");
+		chargePointID.setText("TestPoint00");
 	}
 	
 	//print selected value in 1st label (left)
 	public void comboChanged(ActionEvent event){
 		label1.setText(combobox.getValue());
 	}
-
 	
 	//regarding selected combobox value pressing start button leads to new message window 
 	public void start(ActionEvent event)throws Exception {
-		//if (!ipAddress.getText().equals("") && !chargePointID.getText().equals("") && !idAuthorization.getText().equals("")){
-		if (combobox.getValue().equals("Testing Authentification") && (!idAuthorization.getText().equals("")) && (!ipAddress.getText().equals("")) && (!chargePointID.getText().equals(""))){	
+		if(isInputValid()) {
 			Stage primaryStage = new Stage();
-			Parent root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
-			Scene scene = new Scene(root,580,357);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-
-		} 
-		
-		else if (combobox.getValue().equals("Testing Transaction")&& (!ipAddress.getText().equals("")) && (!idAuthorization.getText().equals("")) && (!chargePointID.getText().equals(""))){	
-			Stage primaryStage = new Stage();
-			Parent root = FXMLLoader.load(getClass().getResource("TestingTransaction.fxml"));
-			Scene scene = new Scene(root,580,357);
+			Parent root = null;
+			Scene scene;
+			
+			switch(combobox.getValue()) {
+				case "Testing Authentification":
+					root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
+					break;
+				case "Testing Transaction":
+					root = FXMLLoader.load(getClass().getResource("TestingTransaction.fxml"));
+					break;
+				case "Getting Server functions & Server version":
+					root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
+					break;
+				default:
+					//Do something, even if this should never be executed
+					break;
+			}
+			
+			scene = new Scene(root,580,357);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}
-		else if (combobox.getValue().equals("Getting Server functions & Server version") && (!ipAddress.getText().equals("")) && (!chargePointID.getText().equals(""))){	
-			Stage primaryStage = new Stage();
-			Parent root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
-			Scene scene = new Scene(root,580,357);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		}
-		
 	}
-	
-	
+
+	private boolean isInputValid() {
+		//Input which needs to check always
+			//Replace with Regex to check IP-Input
+			if(ipAddress.getText().equals("")) return false;
+			//Replace with Regex to ckeck ChargepointID
+			if(chargePointID.getText().equals("")) return false;
+		//Input which only needs to be checked depending on the function
+			//Replace with Regex to Check idAuthotization
+			if(idAuthorization.getText().equals("")) return false;
+		
+		//Everything is fine, so return true
+		return true;
+	}	
 }
