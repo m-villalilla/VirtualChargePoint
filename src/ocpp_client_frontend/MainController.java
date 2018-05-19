@@ -3,7 +3,6 @@ package ocpp_client_frontend;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -45,7 +44,11 @@ public class MainController implements Initializable {
 	//Elements in ComboBox
 	ObservableList<String> list = FXCollections.observableArrayList("Getting Server functions & Server version", "Testing Authentification", "Testing Transaction");
 		
-	//select one of 3 charging options, print output in 2nd label (right one)
+	/**
+	 * select one of 3 charging options, print output in 2nd label (right one)
+	 * 
+	 * @param event
+	 */
 	public void radioSelect(ActionEvent event) {
 		String message = "";
 		if(rb1.isSelected()) {
@@ -60,7 +63,12 @@ public class MainController implements Initializable {
 		label2.setText(message);
 	}
 
-	//fill comboBox with predefined values from an observable list
+	/**
+	 * fill comboBox with predefined values from an observable list
+	 * 
+	 * @param arg0
+	 * @param arg1
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
@@ -72,12 +80,21 @@ public class MainController implements Initializable {
 		chargePointID.setText("TestPoint00");
 	}
 	
-	//print selected value in 1st label (left)
+	/**
+	 * print selected value in 1st label (left)
+	 * 
+	 * @param event
+	 */
 	public void comboChanged(ActionEvent event){
 		label1.setText(combobox.getValue());
 	}
 	
-	//regarding selected combobox value pressing start button leads to new message window 
+	/**
+	 * regarding selected combobox value pressing start button leads to new message window 
+	 * 
+	 * @param event
+	 * @throws Exception
+	 */
 	public void start(ActionEvent event)throws Exception {
 		if(isInputValid()) {
 			Stage primaryStage = new Stage();
@@ -106,8 +123,13 @@ public class MainController implements Initializable {
 		}
 	}
 
+	/**
+	 * Checks if the input fields have valid inputs
+	 * 
+	 * @return true if the input is valid
+	 */
 	private boolean isInputValid() {
-		//Input which needs to check always
+		//Input which needs to be checked always
 			//Replace with Regex to check IP-Input
 			if(ipAddress.getText().equals("")) return false;
 			//Replace with Regex to ckeck ChargepointID
