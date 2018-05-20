@@ -34,15 +34,15 @@ public class MainController implements Initializable {
 	private RadioButton rb2;
 	@FXML
 	private RadioButton rb3;
-	@FXML
-	private Label label2;
-	@FXML
-	private Label label1;
-	@FXML
+	//@FXML
+	//private Label label2;
+	//@FXML
+	//private Label label1;
+	//@FXML
 	private Button btnOk1;
 	
 	//Elements in ComboBox
-	ObservableList<String> list = FXCollections.observableArrayList("Getting Server functions & Server version", "Testing Authentification", "Testing Transaction");
+	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions & Server Version", "Testing Authentification", "Testing Transaction");
 		
 	/**
 	 * select one of 3 charging options, print output in 2nd label (right one)
@@ -50,17 +50,17 @@ public class MainController implements Initializable {
 	 * @param event
 	 */
 	public void radioSelect(ActionEvent event) {
-		String message = "";
-		if(rb1.isSelected()) {
-			message += rb1.getText() + "\n";
-		}
-		if(rb2.isSelected()) {
-			message += rb2.getText() + "\n";
-		}
-		if(rb3.isSelected()) {
-			message += rb3.getText() + "\n";	
-		}
-		label2.setText(message);
+		//String message = "";
+		//if(rb1.isSelected()) {
+			//message += rb1.getText() + "\n";
+		//}
+		//if(rb2.isSelected()) {
+			//message += rb2.getText() + "\n";
+		//}
+		//if(rb3.isSelected()) {
+			//message += rb3.getText() + "\n";	
+		//}
+		//label2.setText(message);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class MainController implements Initializable {
 	 * @param event
 	 */
 	public void comboChanged(ActionEvent event){
-		label1.setText(combobox.getValue());
+	//	label1.setText(combobox.getValue());
 	}
 	
 	/**
@@ -108,7 +108,7 @@ public class MainController implements Initializable {
 				case "Testing Transaction":
 					root = FXMLLoader.load(getClass().getResource("TestingTransaction.fxml"));
 					break;
-				case "Getting Server functions & Server version":
+				case "Getting Server Functions & Server Version":
 					root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
 					break;
 				default:
