@@ -134,30 +134,46 @@ public class MainController implements Initializable {
 	 */
 	private boolean isInputValid() {
 		//Input which needs to be checked always
-			//Replace with Regex to check IP-Input
-			//if(ipAddress.getText().equals("")) return false;
-			//Replace with Regex to ckeck ChargepointID
-			//if(chargePointID.getText().equals("")) return false;
-		//Input which only needs to be checked depending on the function
-			//Replace with Regex to Check idAuthotization
-			Pattern id = Pattern.compile("[0-9]+");
+			
+		    //Regex to check IP-Input
+			Pattern ip = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+			Matcher mIp = ip.matcher(ipAddress.getText());
+			
+			//Regex to ckeck ChargepointID
+			Pattern chargePoint = Pattern.compile("[0-9A-Za-z]+");
+			Matcher mChargePoint = chargePoint.matcher(chargePointID.getText());
+			
+			//Regex to Check idAuthotization
+			Pattern id = Pattern.compile("[0-9A-F]{6,8}");
 			Matcher mId = id.matcher(idAuthorization.getText());
-			if(mId.find() && mId.group().equals(idAuthorization.getText())) {
-				return true;
-			}
-			else {
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.setTitle("Validate Fields");
-				alert.setHeaderText(null);
-				alert.setContentText("Please enter a correct id");
-				alert.showAndWait();
-				
+			
+			if(!(mIp.find() && mIp.group().equals(ipAddress.getText()))) {
+				Alert alertIp = new Alert(AlertType.WARNING);
+				alertIp.setTitle("Warning");
+				alertIp.setHeaderText(null);
+				alertIp.setContentText("Please enter a correct IP Address.\n\nA correct IP Address consists of 4 decimal values separated by a point.");
+				alertIp.showAndWait();
 				return false;
 			}
+			else if (!(mChargePoint.find() && mChargePoint.group().equals(chargePointID.getText()))) {
+				Alert alertCharge = new Alert(AlertType.WARNING);
+				alertCharge.setTitle("Warning");
+				alertCharge.setHeaderText(null);
+				alertCharge.setContentText("Please enter a correct ChargePointID.");
+				alertCharge.showAndWait();
+				return false;
+			}
+			else if (!(mId.find() && mId.group().equals(idAuthorization.getText()))) {
+				Alert alertId = new Alert(AlertType.WARNING);
+				alertId.setTitle("Warning");
+				alertId.setHeaderText(null);
+				alertId.setContentText("Please enter a correct authorization id.\n\nA correct authorization id is a sequence of 6 to 8 hex numbers.");
+				alertId.showAndWait();
+				return false;
+			}
+			else {
+				return true;
+			}
 			
-			//if(idAuthorization.getText().equals("")) return false;
-		
-		//Everything is fine, so return true
-		//return true;
 	}	
 }
