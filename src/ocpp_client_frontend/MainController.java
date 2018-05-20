@@ -2,6 +2,8 @@ package ocpp_client_frontend;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +13,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -131,14 +135,29 @@ public class MainController implements Initializable {
 	private boolean isInputValid() {
 		//Input which needs to be checked always
 			//Replace with Regex to check IP-Input
-			if(ipAddress.getText().equals("")) return false;
+			//if(ipAddress.getText().equals("")) return false;
 			//Replace with Regex to ckeck ChargepointID
-			if(chargePointID.getText().equals("")) return false;
+			//if(chargePointID.getText().equals("")) return false;
 		//Input which only needs to be checked depending on the function
 			//Replace with Regex to Check idAuthotization
-			if(idAuthorization.getText().equals("")) return false;
+			Pattern id = Pattern.compile("[0-9]+");
+			Matcher mId = id.matcher(idAuthorization.getText());
+			if(mId.find() && mId.group().equals(idAuthorization.getText())) {
+				return true;
+			}
+			else {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Validate Fields");
+				alert.setHeaderText(null);
+				alert.setContentText("Please enter a correct id");
+				alert.showAndWait();
+				
+				return false;
+			}
+			
+			//if(idAuthorization.getText().equals("")) return false;
 		
 		//Everything is fine, so return true
-		return true;
+		//return true;
 	}	
 }
