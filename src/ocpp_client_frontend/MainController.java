@@ -151,7 +151,7 @@ public class MainController implements Initializable {
 				Alert alertIp = new Alert(AlertType.WARNING);
 				alertIp.setTitle("Warning");
 				alertIp.setHeaderText(null);
-				alertIp.setContentText("Please enter a correct IP Address.\n\nA correct IP Address consists of 4 decimal values separated by a point.");
+				alertIp.setContentText("Please enter a correct IP Address!\n\nA correct IP Address consists of 4 decimal values separated by a point.");
 				alertIp.showAndWait();
 				return false;
 			}
@@ -159,7 +159,7 @@ public class MainController implements Initializable {
 				Alert alertCharge = new Alert(AlertType.WARNING);
 				alertCharge.setTitle("Warning");
 				alertCharge.setHeaderText(null);
-				alertCharge.setContentText("Please enter a correct ChargePointID.");
+				alertCharge.setContentText("Please enter a correct ChargePointID!");
 				alertCharge.showAndWait();
 				return false;
 			}
@@ -167,7 +167,7 @@ public class MainController implements Initializable {
 				Alert alertId = new Alert(AlertType.WARNING);
 				alertId.setTitle("Warning");
 				alertId.setHeaderText(null);
-				alertId.setContentText("Please enter a correct authorization id.\n\nA correct authorization id is a sequence of 6 to 8 hex numbers.");
+				alertId.setContentText("Please enter a correct Authorization ID.\n\nA correct Authorization ID is a sequence of 6 to 8 hex numbers.");
 				alertId.showAndWait();
 				return false;
 			}
