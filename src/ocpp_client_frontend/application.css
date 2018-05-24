@@ -9,7 +9,15 @@
 }
 
 #comboboxPane{
-	-fx-background-color: #001824;
+	-fx-background-color: #27627F;
+}
+
+#combobox {
+	-fx-background: white;
+    -fx-background-color: white;
+    -fx-font-weight: normal;
+    -fx-font-family: System;
+    -fx-font-size: 18;
 }
 
 #anchorMain{
@@ -41,7 +49,7 @@
 }
 
 #btnStart{
-	-fx-background-color: #375A28;
+	-fx-background-color: #90AD56;
 }
 
 #btnStop{
@@ -61,13 +69,13 @@
 }
 
 #paneAuthentification{
-	-fx-background-color: #001824;
+	-fx-background-color: #27627F;
 }
 
 #paneTransaction{
-	-fx-background-color: #001824;
+	-fx-background-color: #27627F;
 }
 
 #paneFunctionVersion{
-	-fx-background-color: #001824;
+	-fx-background-color: #27627F;
 }

@@ -20,7 +20,7 @@
       </ImageView>
       <Pane fx:id="paneAuthentification" layoutX="187.0" layoutY="33.0" prefHeight="79.0" prefWidth="357.0">
          <children>
-            <Label layoutX="40.0" layoutY="24.0" prefHeight="31.0" prefWidth="262.0" text="Testing Authentification" textAlignment="CENTER" textFill="WHITE">
+            <Label layoutX="27.0" layoutY="24.0" prefHeight="31.0" prefWidth="303.0" text="TESTING AUTHENTIFICATION" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="21.0" />
                </font>
