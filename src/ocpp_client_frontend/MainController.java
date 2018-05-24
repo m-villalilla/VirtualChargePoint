@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -123,6 +124,8 @@ public class MainController implements Initializable {
 			scene = new Scene(root,580,357);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
+			Image icon = new Image("file:icons/iconMini.png");
+			primaryStage.getIcons().add(icon);
 			primaryStage.show();
 		}
 	}

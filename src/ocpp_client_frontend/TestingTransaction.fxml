@@ -9,9 +9,9 @@
 
 <AnchorPane fx:id="anchorTransaction" prefHeight="357.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="79.0" fitWidth="149.0" layoutX="29.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="79.0" fitWidth="149.0" layoutX="32.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../icons/logo.png" />
+            <Image url="@../../icons/LogoGreen.png" />
          </image>
       </ImageView>
       <Pane fx:id="paneTransaction" layoutX="197.0" layoutY="28.0" prefHeight="79.0" prefWidth="357.0">
@@ -23,7 +23,7 @@
             </Label>
          </children>
       </Pane>
-      <Label layoutX="145.0" layoutY="208.0" text="transaction was successful " textFill="#003d50">
+      <Label layoutX="108.0" layoutY="195.0" text="The transaction was successful! " textFill="#003d50">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
