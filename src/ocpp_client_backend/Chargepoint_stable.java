@@ -5,6 +5,9 @@ import java.util.LinkedList;
 
 import eu.chargetime.ocpp.IClientAPI;
 import eu.chargetime.ocpp.JSONClient;
+import eu.chargetime.ocpp.OccurenceConstraintException;
+import eu.chargetime.ocpp.PropertyConstraintException;
+import eu.chargetime.ocpp.UnsupportedFeatureException;
 import eu.chargetime.ocpp.feature.profile.ClientCoreEventHandler;
 import eu.chargetime.ocpp.feature.profile.ClientCoreProfile;
 import eu.chargetime.ocpp.model.Confirmation;
@@ -82,9 +85,8 @@ public class Chargepoint_stable {
      * Called to connect to a OCPP server
      * 
      * @param serverURL - specifies the URL of the OCPP server
-     * @throws Exception
      */
-    public void connect(String serverURL) throws Exception {
+    public void connect(String serverURL) {
 
         // The core profile is mandatory
         core = new ClientCoreProfile(new ClientCoreEventHandler() {
@@ -176,25 +178,35 @@ public class Chargepoint_stable {
 
     /**
      * Sends a BootNotification to the OCPP server
-     * 
-     * @throws Exception
      */
-    public void sendBootNotification() throws Exception {
+    public void sendBootNotification(){
         long startTime = System.nanoTime();
     	Request request = core.createBootNotificationRequest(vendor, model);
-        client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
+    	
+        try {
+			client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
+		} catch (OccurenceConstraintException | UnsupportedFeatureException e) {
+			System.out.println("Error in function sendBootNotification()");
+			e.printStackTrace();
+		}
     }
 
     /**
      * Sends a AuthorizeRequest to the OCPP server 
      * 
      * @param token - authorization identifier
-     * @throws Exception
      */
-    public void sendAuthorizeRequest(String token) throws Exception {
+    public void sendAuthorizeRequest(String token){
     	long startTime = System.nanoTime();
-    	Request request = core.createAuthorizeRequest(token);
-    	client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
+    	Request request;
+		
+    	try {
+    		request = core.createAuthorizeRequest(token);
+			client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
+		} catch (OccurenceConstraintException | UnsupportedFeatureException | PropertyConstraintException e) {
+			System.out.println("Error in function sendAuthorizeRequest()");
+			e.printStackTrace();
+		}
     }
     
     /**
@@ -202,15 +214,20 @@ public class Chargepoint_stable {
      *  
      * @param connectorId - used connector of the CP
      * @param token - authorization identifier
-     * @throws Exception
      */
-    public void sendStartTransactionRequest(int connectorId, String token) throws Exception {
+    public void sendStartTransactionRequest(int connectorId, String token) {
     	int meterStart = 0;
     	long startTime = System.nanoTime();
-    	
     	Calendar timestamp = Calendar.getInstance();
-		Request request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
-		client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
+		Request request;
+		
+		try {
+			request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
+			client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
+		} catch (OccurenceConstraintException | UnsupportedFeatureException | PropertyConstraintException e) {
+			System.out.println("Error in function sendStartTransactionRequest()");
+			e.printStackTrace();
+		}
     }
     
     /**
@@ -219,16 +236,22 @@ public class Chargepoint_stable {
      * @param connectorId 	- used connector of the CP
      * @param token 		- authorization identifier
      * @param meterStop		- meter value in Wh on stop
-     * @throws Exception
      */
-    public void sendStartTransactionRequest(int connectorId, String token, int meterStart) throws Exception {
+    public void sendStartTransactionRequest(int connectorId, String token, int meterStart) {
     	long startTime = System.nanoTime();
     	Calendar timestamp = Calendar.getInstance();
-		Request request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
-		client.send(request).whenComplete((s, ex) -> { 
-			functionComplete(s, ex, startTime);
-			setTranscationId(((StartTransactionConfirmation) s).getTransactionId());
-		});
+		Request request;
+		
+		try {
+			request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
+			client.send(request).whenComplete((s, ex) -> { 
+				functionComplete(s, ex, startTime);
+				setTranscationId(((StartTransactionConfirmation) s).getTransactionId());
+			});
+		} catch (OccurenceConstraintException | UnsupportedFeatureException | PropertyConstraintException e) {
+			System.out.println("Error in function sendStartTransactionRequest()");
+			e.printStackTrace();
+		}
     }
     
     /**
@@ -236,24 +259,33 @@ public class Chargepoint_stable {
      * 
      * @param transactionId	- transaction identifier received from the server
      * @param meterStop		- meter value in Wh on stop
-     * @throws Exception
      */
-    public void sendStopTransactionRequest(int transactionId, int meterStop) throws Exception {
+    public void sendStopTransactionRequest(int transactionId, int meterStop) {
     	long startTime = System.nanoTime();
     	Calendar timestamp = Calendar.getInstance();
     	Request request = core.createStopTransactionRequest(meterStop, timestamp, transactionId);
-    	client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
+    	
+    	try {
+			client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
+		} catch (OccurenceConstraintException | UnsupportedFeatureException e) {
+			System.out.println("Error in sendStopTransactionRequest()");
+			e.printStackTrace();
+		}
     }
     
     /**
      * Checks transaction procedure
      * 
      * @param authorizationID Sets the authorization id used in the transaction
-     * @throws Exception
      */
-	public void checkTransactionSupport(String authorizationID) throws Exception {
+	public void checkTransactionSupport(String authorizationID) {
 		sendStartTransactionRequest(1, authorizationID, 0);
-		Thread.sleep(1000);	
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			System.out.println("Error in checkTransactionSupport()");
+			e.printStackTrace();
+		}	
 		sendStopTransactionRequest(getTransactionId(), 100);
 	}
     

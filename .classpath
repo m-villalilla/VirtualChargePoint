@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="jars/chargetime-v0_5-stable/common-0.5-stable.jar"/>
 	<classpathentry kind="lib" path="jars/chargetime-v0_5-stable/v1_6-0.5-stable-javadoc.jar"/>
 	<classpathentry kind="lib" path="jars/chargetime-v0_5-stable/v1_6-0.5-stable.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
