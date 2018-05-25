@@ -211,27 +211,6 @@ public class Chargepoint_stable {
     
     /**
      * Sends a StartTransactionRequest to the OCPP server.
-     *  
-     * @param connectorId - used connector of the CP
-     * @param token - authorization identifier
-     */
-    public void sendStartTransactionRequest(int connectorId, String token) {
-    	int meterStart = 0;
-    	long startTime = System.nanoTime();
-    	Calendar timestamp = Calendar.getInstance();
-		Request request;
-		
-		try {
-			request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
-			client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
-		} catch (OccurenceConstraintException | UnsupportedFeatureException | PropertyConstraintException e) {
-			System.out.println("Error in function sendStartTransactionRequest()");
-			e.printStackTrace();
-		}
-    }
-    
-    /**
-     * Sends a StartTransactionRequest to the OCPP server.
      * 
      * @param connectorId 	- used connector of the CP
      * @param token 		- authorization identifier
