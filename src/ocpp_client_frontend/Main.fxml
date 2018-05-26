@@ -45,7 +45,7 @@
             </Label>
             <ImageView fx:id="zahnrad" fitHeight="85.0" fitWidth="113.0" layoutX="-52.0" layoutY="-39.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../icons/Zahnrad.png" />
+                  <Image url="file:icons/Zahnrad.png" />
                </image>
             </ImageView>
          </children>
@@ -63,7 +63,7 @@
       <RadioButton fx:id="rb3" layoutX="707.0" layoutY="448.0" mnemonicParsing="false" onAction="#radioSelect" prefHeight="21.0" prefWidth="24.0" text="DC CHAdeMO" textFill="WHITE" toggleGroup="$myGroup" />
       <ImageView fitHeight="226.0" fitWidth="420.0" layoutX="213.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../icons/logo.png" />
+            <Image url="file:icons/logo.png" />
          </image>
       </ImageView>
       <Pane fx:id="comboboxPane" layoutX="383.0" layoutY="285.0" prefHeight="92.0" prefWidth="394.0">
@@ -73,17 +73,17 @@
       </Pane>
       <ImageView fitHeight="123.0" fitWidth="113.0" layoutX="375.0" layoutY="488.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../icons/DCCOMBO2.png" />
+            <Image url="file:icons/DCCOMBO2.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="108.0" fitWidth="126.0" layoutX="514.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../icons/AC.png" />
+            <Image url="file:icons/AC.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="133.0" fitWidth="105.0" layoutX="666.0" layoutY="491.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../icons/DC%20CHAdeMO.png" />
+            <Image url="file:icons/DC%20CHAdeMO.png" />
          </image>
       </ImageView>
    </children>
