@@ -25,7 +25,12 @@ public class launchClientBackend {
 		String CPModel 	  		= config.getProperty("CPModel");
 		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
 		
-		//OCPPServerStressTest.startTest(100, serverURL);
+		String[] cps = new String[40];
+		for (int i = 0; i < 40; i++) {
+			cps[i] = config.getProperty("ChargeBoxID." + (i+10));
+		}
+		
+		OCPPServerStressTest.startTest(serverURL, cps, authorizationID);
 		
 		Chargepoint_stable client = new Chargepoint_stable(ChargeBoxID, CPVendor, CPModel, true, false);
 			

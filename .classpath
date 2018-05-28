@@ -10,6 +10,9 @@
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
+		<accessrules>
+			<accessrule kind="accessible" pattern="javafx/**"/>
+		</accessrules>
 	</classpathentry>
 	<classpathentry kind="lib" path="jars/chargetime-v0_5-stable/common-0.5-stable-javadoc.jar"/>
 	<classpathentry kind="lib" path="jars/chargetime-v0_5-stable/common-0.5-stable.jar"/>
