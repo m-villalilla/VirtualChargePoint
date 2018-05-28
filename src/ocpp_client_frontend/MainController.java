@@ -18,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -142,6 +143,10 @@ public class MainController implements Initializable {
 			Pattern ip = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
 			Matcher mIp = ip.matcher(ipAddress.getText());
 			
+			//Regex to ckeck URL input for IP-Address
+			Pattern url = Pattern.compile("[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)");
+			Matcher mUrl = url.matcher(ipAddress.getText());
+			
 			//Regex to ckeck ChargepointID
 			Pattern chargePoint = Pattern.compile("[0-9A-Za-z]+");
 			Matcher mChargePoint = chargePoint.matcher(chargePointID.getText());
@@ -150,27 +155,67 @@ public class MainController implements Initializable {
 			Pattern id = Pattern.compile("[0-9A-F]{6,8}");
 			Matcher mId = id.matcher(idAuthorization.getText());
 			
-			if(!(mIp.find() && mIp.group().equals(ipAddress.getText()))) {
-				Alert alertIp = new Alert(AlertType.WARNING);
-				alertIp.setTitle("Warning");
-				alertIp.setHeaderText(null);
-				alertIp.setContentText("Please enter a correct IP Address!\n\nA correct IP Address consists of 4 decimal values separated by a point.");
+			if( (!(mIp.find() && mIp.group().equals(ipAddress.getText())))&& (!(mUrl.find() && mUrl.group().equals(ipAddress.getText()))) ) {
+				Alert alertIp = new Alert(AlertType.ERROR);
+				alertIp.setTitle("Incorrect IP Address or URL");
+				alertIp.setHeaderText("ERROR");
+				alertIp.setContentText("Please enter a correct IP Address or URL!\n\nA correct IP Address consists of 4 decimal values separated by a point.");
+				
+				//adding stage icon to alert window
+				Stage stage = (Stage) alertIp.getDialogPane().getScene().getWindow();
+				stage.getIcons().add(new Image("file:icons/iconMini.png"));
+				
+				//Styling the alert window
+				DialogPane dialogPane = alertIp.getDialogPane();
+				dialogPane.getStylesheets().add(
+				   getClass().getResource("application.css").toExternalForm());
+				dialogPane.getStyleClass().add("application");
+				
+				alertIp.setResizable(false);
+				alertIp.getDialogPane().setPrefSize(480, 320);
+				
 				alertIp.showAndWait();
 				return false;
 			}
 			else if (!(mChargePoint.find() && mChargePoint.group().equals(chargePointID.getText()))) {
-				Alert alertCharge = new Alert(AlertType.WARNING);
-				alertCharge.setTitle("Warning");
-				alertCharge.setHeaderText(null);
-				alertCharge.setContentText("Please enter a correct ChargePointID!");
+				Alert alertCharge = new Alert(AlertType.ERROR);
+				alertCharge.setTitle("Incorrect Charge Point ID");
+				alertCharge.setHeaderText("ERROR");
+				alertCharge.setContentText("Please enter a correct Charge Point ID!");
+				
+				//adding stage icon to alert window
+				Stage stage = (Stage) alertCharge.getDialogPane().getScene().getWindow();
+				stage.getIcons().add(new Image("file:icons/iconMini.png"));
+				//Styling the alert window
+				DialogPane dialogPane = alertCharge.getDialogPane();
+				dialogPane.getStylesheets().add(
+				   getClass().getResource("application.css").toExternalForm());
+				dialogPane.getStyleClass().add("application");
+				
+				alertCharge.setResizable(false);
+				alertCharge.getDialogPane().setPrefSize(480, 320);
+				
 				alertCharge.showAndWait();
 				return false;
 			}
 			else if (!(mId.find() && mId.group().equals(idAuthorization.getText()))) {
-				Alert alertId = new Alert(AlertType.WARNING);
-				alertId.setTitle("Warning");
-				alertId.setHeaderText(null);
-				alertId.setContentText("Please enter a correct Authorization ID.\n\nA correct Authorization ID is a sequence of 6 to 8 hex numbers.");
+				Alert alertId = new Alert(AlertType.ERROR);
+				alertId.setTitle("Incorrect Authorization ID");
+				alertId.setHeaderText("ERROR");
+				alertId.setContentText("Please enter a correct Authorization ID!\n\nA correct Authorization ID is a sequence of 6 to 8 hex numbers.");
+				
+				//adding stage icon to alert window
+				Stage stage = (Stage) alertId.getDialogPane().getScene().getWindow();
+				stage.getIcons().add(new Image("file:icons/iconMini.png"));
+				//Styling the alert window
+				DialogPane dialogPane = alertId.getDialogPane();
+				dialogPane.getStylesheets().add(
+				   getClass().getResource("application.css").toExternalForm());
+				dialogPane.getStyleClass().add("application");
+				
+				alertId.setResizable(false);
+				alertId.getDialogPane().setPrefSize(480, 320);
+				
 				alertId.showAndWait();
 				return false;
 			}

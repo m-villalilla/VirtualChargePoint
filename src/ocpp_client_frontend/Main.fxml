@@ -33,12 +33,12 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="26.0" layoutY="197.0" text="ID-AUTHORIZATION:" textFill="WHITE">
+            <Label layoutX="26.0" layoutY="197.0" text="AUTHORIZATION ID:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="26.0" layoutY="14.0" prefHeight="30.0" prefWidth="126.0" text="IP-ADDRESS:" textFill="WHITE">
+            <Label layoutX="26.0" layoutY="14.0" prefHeight="30.0" prefWidth="126.0" text="IP ADDRESS:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
