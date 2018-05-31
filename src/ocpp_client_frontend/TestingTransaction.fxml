@@ -23,10 +23,15 @@
             </Label>
          </children>
       </Pane>
-      <Label layoutX="108.0" layoutY="195.0" text="The transaction was successful! " textFill="#003d50">
+      <Label layoutX="50.0" layoutY="199.0" text="The transaction was successful! " textFill="#003d50">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
+      <ImageView fitHeight="150.0" fitWidth="127.0" layoutX="446.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../icons/ErkanAmpelGruen.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

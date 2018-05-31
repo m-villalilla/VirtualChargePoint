@@ -101,26 +101,67 @@ public class MainController implements Initializable {
 	 * @param event
 	 * @throws Exception
 	 */
+	
+	
 	public void start(ActionEvent event)throws Exception {
+		
+		/***
+		 * no selection of a test
+		 * 
+		boolean isMyComboBoxEmpty = combobox.getSelectionModel().isEmpty();
+		if (isMyComboBoxEmpty) {
+		//maybe an alert
+		Alert noSelection = new Alert(AlertType.INFORMATION);
+		noSelection.setTitle("No test is selected");
+		noSelection.setHeaderText("MISSING");
+		noSelection.setContentText("Please select a test.");
+		}***/
+		
+		
+		
+		try {
 		if(isInputValid()) {
 			Stage primaryStage = new Stage();
 			Parent root = null;
 			Scene scene;
+			
+			//test variable boolean - transaction successful running or failed
+			int transactionSuccessful = 1;
+			int transactionFailed = 2;
+			int transactionRunning = 3;
+			
+			int transaction = transactionRunning;
+			
+			
 			
 			switch(combobox.getValue()) {
 				case "Testing Authentification":
 					root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
 					break;
 				case "Testing Transaction":
-					root = FXMLLoader.load(getClass().getResource("TestingTransaction.fxml"));
+					//testing - transaction successful, still running, failed
+					if (transaction == transactionSuccessful ) {
+						root = FXMLLoader.load(getClass().getResource("TestingTransaction.fxml"));}
+					else if (transaction == transactionFailed) {
+						root = FXMLLoader.load(getClass().getResource("TestingTransactionFailed.fxml"));
+					}
+					else if (transaction == transactionRunning) {
+						root = FXMLLoader.load(getClass().getResource("TestingTransactionRunning.fxml"));
+					}
 					break;
 				case "Getting Server Functions & Server Version":
 					root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
 					break;
 				default:
 					//Do something, even if this should never be executed
+					//Alert alertCombo = new Alert(AlertType.INFORMATION);
+					//alertCombo.setTitle("No test selected");
+					//alertCombo.setHeaderText("HINT");
+					//alertCombo.setContentText("Please select a test!");
 					break;
 			}
+			
+			
 			
 			scene = new Scene(root,580,357);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -128,6 +169,11 @@ public class MainController implements Initializable {
 			Image icon = new Image("file:icons/iconMini.png");
 			primaryStage.getIcons().add(icon);
 			primaryStage.show();
+		}
+		}
+		catch (Exception e) {
+			//System.out.println("Exception occurred");
+			System.out.println("No Test selected! Please select a test.");
 		}
 	}
 
