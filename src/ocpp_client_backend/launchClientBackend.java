@@ -24,7 +24,7 @@ public class launchClientBackend {
 		String CPModel 	  		= config.getProperty("CPModel");
 		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
 		
-		String whatToTest = "STRESSTEST"; //STRESSTEST or SINGLECLIENT or WS or VT
+		String whatToTest = "WS"; //STRESSTEST or SINGLECLIENT or WS or VT
 		Chargepoint_stable client = new Chargepoint_stable(ChargeBoxID, CPVendor, CPModel, true, false);
 
 		switch (whatToTest) {
@@ -76,7 +76,7 @@ public class launchClientBackend {
 				break;
 			case "WS":
 		        try {
-		            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + "CP3211"));
+		            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + "TestPoint00"));
 		            clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
 		                public void handleMessage(String message) {
 		                    System.out.println(message);
@@ -92,14 +92,13 @@ public class launchClientBackend {
 		            System.out.println("URISyntaxException exception: " + ex.getMessage());
 		        }
 				break;
-        
-      case "VT":
-        client.testVersions(serverURL);
-        break;
+			case "VT":
+				client.testVersions(serverURL);
+				break;
 			default:
 				System.out.println("Please specify what you want to do.");
 				break;
-		}
+			}
 	}
 	
 	public static Properties getConfig() {
