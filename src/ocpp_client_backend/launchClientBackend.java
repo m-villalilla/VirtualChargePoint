@@ -67,22 +67,7 @@ public class launchClientBackend {
 			e.printStackTrace();
 		}
 		
-        try {
-            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + "CP3211"));
-            clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
-                public void handleMessage(String message) {
-                    System.out.println(message);
-                }
-            });
-            clientEndPoint.sendMessage("{'message': null}");
-
-            // Wait 5 seconds for messages from websocket
-            Thread.sleep(5000);
-        } catch (InterruptedException ex) {
-            System.out.println("InterruptedException exception: " + ex.getMessage());
-        } catch (URISyntaxException ex) {
-            System.out.println("URISyntaxException exception: " + ex.getMessage());
-        }
+        client.testVersions(serverURL);
 	}
 	
 	public static Properties getConfig() {

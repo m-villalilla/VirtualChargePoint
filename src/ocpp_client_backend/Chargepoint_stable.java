@@ -1,5 +1,7 @@
 package ocpp_client_backend;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.LinkedList;
 
@@ -406,5 +408,94 @@ public class Chargepoint_stable {
 	 */
 	public void setChargeBoxId(String chargeBoxId) {
 		this.chargeBoxId = chargeBoxId;
+	}
+	
+	/**
+	 * Used to test which OCPP Versions the server supports
+	 * 
+	 * @param serverURL URL of the Server that you want to test
+	 */
+	public void testVersions(String serverURL) {
+		
+		// OCPP 1.0 Version Check
+		try {
+            final WebsocketClient1_0Endpoint clientEndPoint = new WebsocketClient1_0Endpoint(new URI("ws://" + serverURL + "TestPoint00"));
+            clientEndPoint.addMessageHandler(new WebsocketClient1_0Endpoint.MessageHandler() {
+                public void handleMessage(String message) {
+                    System.out.println(message);
+                }
+            });
+            
+            if(clientEndPoint.userSession != null) {
+            	clientEndPoint.sendMessage("{'message': null}");
+            }
+            // Wait 5 seconds for messages from websocket
+            Thread.sleep(5000);
+        } catch (InterruptedException ex) {
+            System.out.println("InterruptedException exception: " + ex.getMessage());
+        } catch (URISyntaxException ex) {
+            System.out.println("URISyntaxException exception: " + ex.getMessage());
+        }
+		
+		// OCPP 1.5 Version Check
+		try {
+            final WebsocketClient1_5Endpoint clientEndPoint = new WebsocketClient1_5Endpoint(new URI("ws://" + serverURL + "TestPoint00"));
+            clientEndPoint.addMessageHandler(new WebsocketClient1_5Endpoint.MessageHandler() {
+                public void handleMessage(String message) {
+                    System.out.println(message);
+                }
+            });
+            
+            if(clientEndPoint.userSession != null) {
+            	clientEndPoint.sendMessage("{'message': null}");
+            }
+            // Wait 5 seconds for messages from websocket
+            Thread.sleep(5000);
+        } catch (InterruptedException ex) {
+            System.out.println("InterruptedException exception: " + ex.getMessage());
+        } catch (URISyntaxException ex) {
+            System.out.println("URISyntaxException exception: " + ex.getMessage());
+        }
+		
+		// OCPP 1.6 Version Check
+		try {
+            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + "TestPoint00"));
+            clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
+                public void handleMessage(String message) {
+                    System.out.println(message);
+                }
+            });
+            
+            if(clientEndPoint.userSession != null) {
+            	clientEndPoint.sendMessage("{'message': null}");
+            }
+            // Wait 5 seconds for messages from websocket
+            Thread.sleep(5000);
+        } catch (InterruptedException ex) {
+            System.out.println("InterruptedException exception: " + ex.getMessage());
+        } catch (URISyntaxException ex) {
+            System.out.println("URISyntaxException exception: " + ex.getMessage());
+        }
+		
+		// OCPP 2.0 Version Check
+		try {
+            final WebsocketClient2_0Endpoint clientEndPoint = new WebsocketClient2_0Endpoint(new URI("ws://" + serverURL + "TestPoint00"));
+            clientEndPoint.addMessageHandler(new WebsocketClient2_0Endpoint.MessageHandler() {
+                public void handleMessage(String message) {
+                    System.out.println(message);
+                }
+            });
+            
+            if(clientEndPoint.userSession != null) {
+            	clientEndPoint.sendMessage("{'message': null}");
+            }
+            // Wait 5 seconds for messages from websocket
+            Thread.sleep(5000);
+        } catch (InterruptedException ex) {
+            System.out.println("InterruptedException exception: " + ex.getMessage());
+        } catch (URISyntaxException ex) {
+            System.out.println("URISyntaxException exception: " + ex.getMessage());
+        }
+		
 	}
 }
