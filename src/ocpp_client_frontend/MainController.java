@@ -49,7 +49,6 @@ public class MainController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
 		combobox.setItems(list);
 		
 		// Default values for input fields for development
@@ -64,23 +63,7 @@ public class MainController implements Initializable {
 	 * @param event
 	 * @throws Exception
 	 */
-	public void start(ActionEvent event)throws Exception {
-		
-		/***
-		 * no selection of a test
-		 * 
-		boolean isMyComboBoxEmpty = combobox.getSelectionModel().isEmpty();
-		if (isMyComboBoxEmpty) {
-		//maybe an alert
-		Alert noSelection = new Alert(AlertType.INFORMATION);
-		noSelection.setTitle("No test is selected");
-		noSelection.setHeaderText("MISSING");
-		noSelection.setContentText("Please select a test.");
-		}***/
-		
-		
-		
-		try {
+	public void start(ActionEvent event) throws Exception {
 		if(isInputValid()) {
 			Stage primaryStage = new Stage();
 			Parent root = null;
@@ -91,7 +74,6 @@ public class MainController implements Initializable {
 			int transactionSuccessful = 1;
 			int transactionFailed = 2;
 			int transactionRunning = 3;
-			
 			int transaction = transactionRunning;
 			
 			switch(combobox.getValue()) {
@@ -101,7 +83,8 @@ public class MainController implements Initializable {
 				case "Testing Transaction":
 					//testing - transaction successful, still running, failed
 					if (transaction == transactionSuccessful ) {
-						root = FXMLLoader.load(getClass().getResource("TestingTransaction.fxml"));}
+						root = FXMLLoader.load(getClass().getResource("TestingTransaction.fxml"));
+					}
 					else if (transaction == transactionFailed) {
 						root = FXMLLoader.load(getClass().getResource("TestingTransactionFailed.fxml"));
 					}
@@ -113,7 +96,6 @@ public class MainController implements Initializable {
 					root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
 					break;
 				default:
-					
 					break;
 			}
 			
@@ -123,29 +105,6 @@ public class MainController implements Initializable {
 			Image icon = new Image("file:icons/iconMini.png");
 			primaryStage.getIcons().add(icon);
 			primaryStage.show();
-		}
-		}
-		catch (Exception e) {
-			//System.out.println("Exception occurred");
-			System.out.println("No Test selected! Please select a test.");
-			Alert alertCombo = new Alert(AlertType.ERROR);
-			alertCombo.setTitle("No test selected");
-			alertCombo.setHeaderText("WARNING");
-			alertCombo.setContentText("Please select a test!");
-			
-			//adding stage icon to alert window
-			Stage stage = (Stage) alertCombo.getDialogPane().getScene().getWindow();
-			stage.getIcons().add(new Image("file:icons/iconMini.png"));
-			
-			//Styling the alert window
-			DialogPane dialogPane = alertCombo.getDialogPane();
-			dialogPane.getStylesheets().add(
-			getClass().getResource("application.css").toExternalForm());
-			dialogPane.getStyleClass().add("application");
-			
-			alertCombo.setResizable(false);
-			alertCombo.getDialogPane().setPrefSize(480, 320);
-			alertCombo.showAndWait();
 		}
 	}
 
@@ -178,7 +137,10 @@ public class MainController implements Initializable {
 		else if (!(mId.find() && mId.group().equals(idAuthorization.getText()))) {
 			inputError.setTitle("Incorrect Authorization ID");
 			inputError.setContentText("Please enter a correct Authorization ID!\n\nA correct Authorization ID is a sequence of 6 to 8 hex numbers.");
-			
+		}
+		else if (combobox.getValue() == null) {
+			inputError.setTitle("No test selected");
+			inputError.setContentText("Please select a test!");
 		}
 		else {
 			return true;
