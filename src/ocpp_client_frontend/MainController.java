@@ -41,7 +41,7 @@ public class MainController implements Initializable {
 	
 	//Elements in ComboBox
 	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions & Server Version", "Testing Authentification", "Testing Transaction");
-	public static Chargepoint chargepoint = new Chargepoint();
+	static Chargepoint chargepoint = new Chargepoint();
 	
 	/**
 	 * fill comboBox with predefined values from an observable list
@@ -66,48 +66,49 @@ public class MainController implements Initializable {
 	 * @throws Exception
 	 */
 	public void start(ActionEvent event) throws Exception {
-		if(isInputValid()) {
-			Stage primaryStage = new Stage();
-			Parent root = null;
-			Scene scene;
-			
-			//test variable boolean - transaction successful running or failed
-			//only for development
-			int transactionSuccessful = 1;
-			int transactionFailed = 2;
-			int transactionRunning = 3;
-			int transaction = transactionRunning;
-			
-			switch(combobox.getValue()) {
-				case "Testing Authentification":
-					root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
-					break;
-				case "Testing Transaction":
-					//testing - transaction successful, still running, failed
-					if (transaction == transactionSuccessful ) {
-						root = FXMLLoader.load(getClass().getResource("TestingTransaction.fxml"));
-					}
-					else if (transaction == transactionFailed) {
-						root = FXMLLoader.load(getClass().getResource("TestingTransactionFailed.fxml"));
-					}
-					else if (transaction == transactionRunning) {
-						root = FXMLLoader.load(getClass().getResource("TestingTransactionRunning.fxml"));
-					}
-					break;
-				case "Getting Server Functions & Server Version":
-					root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
-					break;
-				default:
-					break;
-			}
-			
-			scene = new Scene(root,580,357);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			Image icon = new Image("file:icons/iconMini.png");
-			primaryStage.getIcons().add(icon);
-			primaryStage.show();
+		if(!isInputValid()) return;
+		
+		Stage primaryStage = new Stage();
+		Parent root = null;
+		Scene scene;
+		
+		//test variable boolean - transaction successful running or failed
+		//only for development
+		int transactionSuccessful = 1;
+		int transactionFailed = 2;
+		int transactionRunning = 3;
+		int transaction = transactionRunning;
+		
+		switch(combobox.getValue()) {
+			case "Testing Authentification":
+				root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
+				break;
+			case "Testing Transaction":
+				//testing - transaction successful, still running, failed
+				if (transaction == transactionSuccessful ) {
+					root = FXMLLoader.load(getClass().getResource("TestingTransaction.fxml"));
+				}
+				else if (transaction == transactionFailed) {
+					root = FXMLLoader.load(getClass().getResource("TestingTransactionFailed.fxml"));
+				}
+				else if (transaction == transactionRunning) {
+					root = FXMLLoader.load(getClass().getResource("TestingTransactionRunning.fxml"));
+				}
+				break;
+			case "Getting Server Functions & Server Version":
+				root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
+				break;
+			default:
+				break;
 		}
+		
+		scene = new Scene(root,580,357);
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		primaryStage.setScene(scene);
+		Image icon = new Image("file:icons/iconMini.png");
+		primaryStage.getIcons().add(icon);
+		primaryStage.show();
+	
 	}
 
 	/**

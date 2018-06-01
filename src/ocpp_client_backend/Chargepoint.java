@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.LinkedList;
+import java.util.Observable;
 
 import eu.chargetime.ocpp.IClientAPI;
 import eu.chargetime.ocpp.JSONClient;
@@ -42,7 +43,8 @@ import eu.chargetime.ocpp.model.core.*;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public class Chargepoint {
+
+public class Chargepoint extends Observable {
     private IClientAPI client;
     private ClientCoreProfile core;
     private int transactionId;
@@ -282,6 +284,13 @@ public class Chargepoint {
     		long timeElapsed = (System.nanoTime() - startTime)/1000000;
     		if(!stressTest) System.out.println("\tElapsed time: " + timeElapsed + "ms");
     		measurements.add(timeElapsed);
+    	}
+    	
+    	setChanged();
+    	if(ex == null) {
+    		notifyObservers(s);
+    	} else{
+    		notifyObservers(ex);
     	}
     }
     
