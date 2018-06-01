@@ -1,7 +1,7 @@
 package ocpp_client_backend;
 
 public class OCPPServerStressTest {
-	private static Chargepoint_stable [] clients;
+	private static Chargepoint [] clients;
 	private static long bootTimeResults[]; 
 	private static long authorizeTimeResults[];
 	
@@ -12,7 +12,7 @@ public class OCPPServerStressTest {
 	 * @param cpIDs - specifies the number of clients to connect
 	 */
 	public static void startTest(String serverURL, String[] cpIDs, String authID) {
-		clients = new Chargepoint_stable[cpIDs.length];
+		clients = new Chargepoint[cpIDs.length];
 		bootTimeResults = new long[cpIDs.length];
 		authorizeTimeResults = new long[cpIDs.length];
 		
@@ -20,7 +20,7 @@ public class OCPPServerStressTest {
 		
 		//Split into two for loops, so that the object preparation doesn't give the server time to answer faster
 		for (int i = 0; i < cpIDs.length; i++) {
-			clients[i] = new Chargepoint_stable();
+			clients[i] = new Chargepoint();
 			clients[i].setMeasureMode(true);
 			clients[i].setStressTest(true);
 			clients[i].setChargeBoxId(cpIDs[i]);

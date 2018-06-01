@@ -1,6 +1,6 @@
 package ocpp_client_backend;
 
-import ocpp_client_backend.Chargepoint_stable;
+import ocpp_client_backend.Chargepoint;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -25,7 +25,7 @@ public class launchClientBackend {
 		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
 		
 		String whatToTest = "VT"; //STRESSTEST or SINGLECLIENT or WS or VT
-		Chargepoint_stable client = new Chargepoint_stable(ChargeBoxID, CPVendor, CPModel, true, false);
+		Chargepoint client = new Chargepoint(ChargeBoxID, CPVendor, CPModel, true, false);
 
 		switch (whatToTest) {
 			case "STRESSTEST":

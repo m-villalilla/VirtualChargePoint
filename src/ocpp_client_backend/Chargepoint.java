@@ -42,7 +42,7 @@ import eu.chargetime.ocpp.model.core.*;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public class Chargepoint_stable {
+public class Chargepoint {
     private IClientAPI client;
     private ClientCoreProfile core;
     private int transactionId;
@@ -56,7 +56,7 @@ public class Chargepoint_stable {
 	/**
 	 * Default constructor for Chargepoint_stable
 	 */
-    public Chargepoint_stable() {
+    public Chargepoint() {
 		this.measurements = new LinkedList<>();
 		this.measureMode = false;
 		this.stressTest = false;
@@ -74,7 +74,7 @@ public class Chargepoint_stable {
 	 * @param measureMode Sets if the time shall be measured
 	 * @param stressTest Sets if the chargepoint is used in the stress test
 	 */
-    public Chargepoint_stable(String chargeBoxId, String vendor, String model, boolean measureMode, boolean stressTest) {
+    public Chargepoint(String chargeBoxId, String vendor, String model, boolean measureMode, boolean stressTest) {
 		this.measurements = new LinkedList<>();
 		this.measureMode = measureMode;
 		this.stressTest = stressTest;
