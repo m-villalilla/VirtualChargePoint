@@ -417,10 +417,11 @@ public class Chargepoint_stable {
 	 */
 	public void testVersions(String serverURL) {
 		
-		// OCPP 1.0 Version Check
+		// OCPP Version 1.0 Check
 		try {
-            final WebsocketClient1_0Endpoint clientEndPoint = new WebsocketClient1_0Endpoint(new URI("ws://" + serverURL + "TestPoint00"));
-            clientEndPoint.addMessageHandler(new WebsocketClient1_0Endpoint.MessageHandler() {
+			WebsocketClientConfigurator.setVersion("ocpp1.0");
+            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + "TestPoint00"));
+            clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
                 public void handleMessage(String message) {
                     System.out.println(message);
                 }
@@ -437,10 +438,11 @@ public class Chargepoint_stable {
             System.out.println("URISyntaxException exception: " + ex.getMessage());
         }
 		
-		// OCPP 1.5 Version Check
+		// OCPP Version 1.5 Check
 		try {
-            final WebsocketClient1_5Endpoint clientEndPoint = new WebsocketClient1_5Endpoint(new URI("ws://" + serverURL + "TestPoint00"));
-            clientEndPoint.addMessageHandler(new WebsocketClient1_5Endpoint.MessageHandler() {
+			WebsocketClientConfigurator.setVersion("ocpp1.5");
+            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + "TestPoint00"));
+            clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
                 public void handleMessage(String message) {
                     System.out.println(message);
                 }
@@ -457,10 +459,11 @@ public class Chargepoint_stable {
             System.out.println("URISyntaxException exception: " + ex.getMessage());
         }
 		
-		// OCPP 1.6 Version Check
+		// OCPP Version 1.6 Check
 		try {
-            final WebsocketClient1_6Endpoint clientEndPoint = new WebsocketClient1_6Endpoint(new URI("ws://" + serverURL + "TestPoint00"));
-            clientEndPoint.addMessageHandler(new WebsocketClient1_6Endpoint.MessageHandler() {
+			WebsocketClientConfigurator.setVersion("ocpp1.6");
+            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + "TestPoint00"));
+            clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
                 public void handleMessage(String message) {
                     System.out.println(message);
                 }
@@ -477,10 +480,11 @@ public class Chargepoint_stable {
             System.out.println("URISyntaxException exception: " + ex.getMessage());
         }
 		
-		// OCPP 2.0 Version Check
+		// OCPP Version 2.0 Check
 		try {
-            final WebsocketClient2_0Endpoint clientEndPoint = new WebsocketClient2_0Endpoint(new URI("ws://" + serverURL + "TestPoint00"));
-            clientEndPoint.addMessageHandler(new WebsocketClient2_0Endpoint.MessageHandler() {
+			WebsocketClientConfigurator.setVersion("ocpp2.0");
+            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + "TestPoint00"));
+            clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
                 public void handleMessage(String message) {
                     System.out.println(message);
                 }
