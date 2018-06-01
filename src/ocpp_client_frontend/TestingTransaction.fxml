@@ -23,7 +23,7 @@
             </Label>
          </children>
       </Pane>
-      <Label layoutX="50.0" layoutY="199.0" text="The transaction was successful! " textFill="#003d50">
+      <Label layoutX="24.0" layoutY="179.0" prefHeight="61.0" prefWidth="432.0" text="The transaction test was successful! " textFill="#003d50">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>

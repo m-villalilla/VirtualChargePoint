@@ -154,9 +154,9 @@ public class MainController implements Initializable {
 					break;
 				default:
 					//Do something, even if this should never be executed
-					//Alert alertCombo = new Alert(AlertType.INFORMATION);
+					//Alert alertCombo = new Alert(AlertType.ERROR);
 					//alertCombo.setTitle("No test selected");
-					//alertCombo.setHeaderText("HINT");
+					//alertCombo.setHeaderText("WARNING");
 					//alertCombo.setContentText("Please select a test!");
 					break;
 			}
@@ -174,6 +174,26 @@ public class MainController implements Initializable {
 		catch (Exception e) {
 			//System.out.println("Exception occurred");
 			System.out.println("No Test selected! Please select a test.");
+			Alert alertCombo = new Alert(AlertType.ERROR);
+			alertCombo.setTitle("No test selected");
+			alertCombo.setHeaderText("WARNING");
+			alertCombo.setContentText("Please select a test!");
+			
+			//adding stage icon to alert window
+			Stage stage = (Stage) alertCombo.getDialogPane().getScene().getWindow();
+			stage.getIcons().add(new Image("file:icons/iconMini.png"));
+			//Styling the alert window
+			DialogPane dialogPane = alertCombo.getDialogPane();
+			dialogPane.getStylesheets().add(
+			   getClass().getResource("application.css").toExternalForm());
+			dialogPane.getStyleClass().add("application");
+			
+			alertCombo.setResizable(false);
+			alertCombo.getDialogPane().setPrefSize(480, 320);
+			
+			
+			alertCombo.showAndWait();
+			
 		}
 	}
 

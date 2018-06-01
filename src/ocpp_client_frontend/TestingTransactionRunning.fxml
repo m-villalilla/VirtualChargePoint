@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane fx:id="anchorTransaction" layoutX="10.0" layoutY="10.0" prefHeight="357.0" prefWidth="580.0">
          <children>
@@ -26,7 +25,7 @@
                   </Label>
                </children>
             </Pane>
-            <Label layoutX="95.0" layoutY="191.0" text="The transaction is running! " textFill="#003d50">
+            <Label layoutX="60.0" layoutY="191.0" text="The transaction test is running! " textFill="#003d50">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
