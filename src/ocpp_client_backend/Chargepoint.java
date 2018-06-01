@@ -89,7 +89,6 @@ public class Chargepoint {
      * @param serverURL - specifies the URL of the OCPP server
      */
     public void connect(String serverURL) {
-
         // The core profile is mandatory
         core = new ClientCoreProfile(new ClientCoreEventHandler() {
             @Override
@@ -290,7 +289,7 @@ public class Chargepoint {
      * Disconnects the client from the OCPP server
      */
     public void disconnect() {
-        client.disconnect();
+        if(client != null) client.disconnect();
     } 
     
     /**

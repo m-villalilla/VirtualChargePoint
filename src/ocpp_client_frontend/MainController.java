@@ -21,6 +21,7 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import ocpp_client_backend.Chargepoint;
 
 public class MainController implements Initializable {
 	@FXML
@@ -40,6 +41,7 @@ public class MainController implements Initializable {
 	
 	//Elements in ComboBox
 	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions & Server Version", "Testing Authentification", "Testing Transaction");
+	public static Chargepoint chargepoint = new Chargepoint();
 	
 	/**
 	 * fill comboBox with predefined values from an observable list
@@ -143,6 +145,8 @@ public class MainController implements Initializable {
 			inputError.setContentText("Please select a test!");
 		}
 		else {
+			chargepoint.setChargeBoxId(chargePointID.getText());
+			chargepoint.setTranscationId(Integer.parseInt(idAuthorization.getText()));
 			return true;
 		}
 		
