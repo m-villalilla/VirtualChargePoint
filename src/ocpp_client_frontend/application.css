@@ -48,6 +48,7 @@
 	-fx-background-color: white;
 }
 
+
 #btnStart{
 	-fx-background-color: #90AD56;
 }
@@ -78,4 +79,26 @@
 
 #paneFunctionVersion{
 	-fx-background-color: #27627F;
+}
+
+/*Styling alert boxes */
+.dialog-pane {
+    -fx-background-color: white;
+    
+}
+
+.dialog-pane .label {
+    -fx-text-fill: #003d50;
+    -fx-font-family: System;
+    -fx-font-Style: Normal;
+    -fx-font-size: 20;
+}
+
+.dialog-pane:header .header-panel {
+    -fx-background-color: #DBDAC1;
+}
+
+.dialog-pane:header .header-panel .label {
+    -fx-font-style: Normal;
+    -fx-font-size: 3em;
 }
