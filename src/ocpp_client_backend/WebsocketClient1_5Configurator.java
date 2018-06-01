@@ -6,10 +6,10 @@ import java.util.Map;
 
 import javax.websocket.ClientEndpointConfig;
 
-public class WebsocketClientConfigurator extends ClientEndpointConfig.Configurator {
+public class WebsocketClient1_5Configurator extends ClientEndpointConfig.Configurator {
 	
     @Override
     public void beforeRequest(Map<String, List<String>> headers) {
-        headers.put("Sec-WebSocket-Protocol", Arrays.asList("ocpp1.6"));
+        headers.put("Sec-WebSocket-Protocol", Arrays.asList("ocpp1.5"));
     }
 }

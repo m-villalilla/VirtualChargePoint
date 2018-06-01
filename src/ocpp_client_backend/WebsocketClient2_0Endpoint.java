@@ -10,19 +10,19 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
-@ClientEndpoint(configurator = WebsocketClientConfigurator.class)
-public class WebsocketClientEndpoint {
+@ClientEndpoint(configurator = WebsocketClient2_0Configurator.class)
+public class WebsocketClient2_0Endpoint {
     Session userSession = null;
     private MessageHandler messageHandler;
     
-    public WebsocketClientEndpoint(URI endpointURI) {
+    public WebsocketClient2_0Endpoint(URI endpointURI) {
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, endpointURI);
-            System.out.println("1.6 Version Check Successful");
+            System.out.println("2.0 Version Check Successful");
         } catch (Exception e) {
-        	System.out.println("1.6 Version Check Failed");
-            throw new RuntimeException(e);
+        	System.out.println("2.0 Version Check Failed");
+
         }
     }
 
