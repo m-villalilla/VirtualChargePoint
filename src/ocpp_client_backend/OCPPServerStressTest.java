@@ -8,44 +8,39 @@ public class OCPPServerStressTest {
 	/**
 	 * Tests how the server behaves with a certain amount of clients in terms of responds time
 	 * 
-	 * @param nrClients - specifies the number of clients to connect
 	 * @param serverURL - specifies the URL of the server to test
+	 * @param cpIDs - specifies the number of clients to connect
 	 */
-	public static void startTest(int nrClients, String serverURL) {
-		clients = new Chargepoint_stable[nrClients];
-		bootTimeResults = new long[nrClients];
-		authorizeTimeResults = new long[nrClients];
+	public static void startTest(String serverURL, String[] cpIDs, String authID) {
+		clients = new Chargepoint_stable[cpIDs.length];
+		bootTimeResults = new long[cpIDs.length];
+		authorizeTimeResults = new long[cpIDs.length];
 		
 		System.out.println("Test is running, please wait...");
-		for (int i = 0; i < nrClients; i++) {
+		
+		//Split into two for loops, so that the object preparation doesn't give the server time to answer faster
+		for (int i = 0; i < cpIDs.length; i++) {
 			clients[i] = new Chargepoint_stable();
 			clients[i].setMeasureMode(true);
 			clients[i].setStressTest(true);
+			clients[i].setChargeBoxId(cpIDs[i]);
+		}
+		for (int i = 0; i < cpIDs.length; i++) {
 			try {
-				clients[i].setChargeBoxId("TestPoint" + i);
 				clients[i].connect(serverURL);
 				clients[i].sendBootNotification();
-				if(i < 10) clients[i].sendAuthorizeRequest(("0FFFFFF" + i));
-				if(i >= 10 && i <20) clients[i].sendAuthorizeRequest(("1FFFFFF" + (i%10)));
-				if(i >= 20 && i <30) clients[i].sendAuthorizeRequest(("2FFFFFF" + (i%10)));
-				if(i >= 30 && i <40) clients[i].sendAuthorizeRequest(("3FFFFFF" + (i%10)));
-				if(i >= 40 && i <50) clients[i].sendAuthorizeRequest(("4FFFFFF" + (i%10)));
-				if(i >= 50 && i <60) clients[i].sendAuthorizeRequest(("5FFFFFF" + (i%10)));
-				if(i >= 60 && i <70) clients[i].sendAuthorizeRequest(("6FFFFFF" + (i%10)));
-				if(i >= 70 && i <80) clients[i].sendAuthorizeRequest(("7FFFFFF" + (i%10)));
-				if(i >= 80 && i <90) clients[i].sendAuthorizeRequest(("8FFFFFF" + (i%10)));
-				if(i >= 90 && i <100) clients[i].sendAuthorizeRequest(("9FFFFFF" + (i%10)));
+				clients[i].sendAuthorizeRequest(authID);
 			} catch (Exception e) {
-				System.out.println("Error while torture testing");
+				System.out.println("Error while stress testing");
 			}
-		}		
+		}
 		
 		try {
 			//Prepare disconnect and disconnect all clients
 			Thread.sleep(2000);
-			System.out.println("Done testing.");
+			System.out.println("Done testing, please wait...");
 						
-			for (int i = 0; i < nrClients; i++) {
+			for (int i = 0; i < cpIDs.length; i++) {
 				authorizeTimeResults[i] = clients[i].getNextTime();
 				bootTimeResults[i] = clients[i].getNextTime();
 				clients[i].disconnect();
@@ -54,7 +49,7 @@ public class OCPPServerStressTest {
 			System.out.println("Error while disconnecting");
 		}
 		
-		evaluate(nrClients);
+		evaluate(cpIDs.length);
 	}
 	
 	/**
