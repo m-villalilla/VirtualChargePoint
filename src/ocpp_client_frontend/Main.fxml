@@ -68,17 +68,17 @@
       </Pane>
       <ImageView fitHeight="123.0" fitWidth="113.0" layoutX="363.0" layoutY="415.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="file:icons/DCCOMBO2Farbe.png" />
+            <Image url="file:icons/PlugDCCOMBO2.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="123.0" fitWidth="126.0" layoutX="493.0" layoutY="421.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="file:icons/ACNeuFarbe.png" />
+            <Image url="file:icons/PlugAC.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="133.0" fitWidth="105.0" layoutX="639.0" layoutY="418.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="file:icons/DCCHAdeMO2Farbe.png" />
+            <Image url="file:icons/PlugDCCHAdeMo.png" />
          </image>
       </ImageView>
    </children>

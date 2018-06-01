@@ -32,7 +32,7 @@
             </Label>
             <ImageView fitHeight="150.0" fitWidth="127.0" layoutX="446.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="file:icons/ErkanAmpelGelb.png" />
+                  <Image url="file:icons/TrafficlightYellow.png" />
                </image>
             </ImageView>
          </children>
