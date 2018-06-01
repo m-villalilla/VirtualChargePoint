@@ -49,13 +49,13 @@
          <font>
             <Font name="System Bold" size="28.0" />
          </font></Button>
-      <RadioButton fx:id="rb1" layoutX="398.0" layoutY="372.0" mnemonicParsing="false" onAction="#radioSelect" prefHeight="21.0" prefWidth="33.0" selected="true" text="DC COMBO 2" textFill="WHITE">
+      <RadioButton fx:id="rb1" layoutX="398.0" layoutY="372.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="33.0" selected="true" text="DC COMBO 2" textFill="WHITE">
          <toggleGroup>
             <ToggleGroup fx:id="myGroup" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="rb2" layoutX="547.0" layoutY="370.0" mnemonicParsing="false" onAction="#radioSelect" text="AC" textFill="WHITE" toggleGroup="$myGroup" />
-      <RadioButton fx:id="rb3" layoutX="682.0" layoutY="372.0" mnemonicParsing="false" onAction="#radioSelect" prefHeight="21.0" prefWidth="24.0" text="DC CHAdeMO" textFill="WHITE" toggleGroup="$myGroup" />
+      <RadioButton fx:id="rb2" layoutX="547.0" layoutY="370.0" mnemonicParsing="false" text="AC" textFill="WHITE" toggleGroup="$myGroup" />
+      <RadioButton fx:id="rb3" layoutX="682.0" layoutY="372.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="24.0" text="DC CHAdeMO" textFill="WHITE" toggleGroup="$myGroup" />
       <ImageView fitHeight="217.0" fitWidth="506.0" layoutX="133.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="file:icons/logo.png" />
@@ -63,7 +63,7 @@
       </ImageView>
       <Pane fx:id="comboboxPane" layoutX="350.0" layoutY="246.0" prefHeight="81.0" prefWidth="394.0">
          <children>
-            <ComboBox fx:id="combobox" layoutX="17.0" layoutY="21.0" onAction="#comboChanged" prefHeight="35.0" prefWidth="360.0" promptText="SELECT A TEST" />
+            <ComboBox fx:id="combobox" layoutX="17.0" layoutY="21.0" prefHeight="35.0" prefWidth="360.0" promptText="SELECT A TEST" />
          </children>
       </Pane>
       <ImageView fitHeight="123.0" fitWidth="113.0" layoutX="363.0" layoutY="415.0" pickOnBounds="true" preserveRatio="true">
