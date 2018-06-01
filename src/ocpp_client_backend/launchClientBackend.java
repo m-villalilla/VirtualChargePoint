@@ -3,6 +3,8 @@ package ocpp_client_backend;
 import ocpp_client_backend.Chargepoint_stable;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.io.BufferedInputStream;
 import java.util.Properties;
 
@@ -23,8 +25,7 @@ public class launchClientBackend {
 		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
 		
 		String whatToTest = "STRESSTEST"; //STRESSTEST or SINGLECLIENT or WS or VT
-		
-     
+		Chargepoint_stable client = new Chargepoint_stable(ChargeBoxID, CPVendor, CPModel, true, false);
 
 		switch (whatToTest) {
 			case "STRESSTEST":
@@ -35,8 +36,6 @@ public class launchClientBackend {
 				OCPPServerStressTest.startTest(serverURL, cps, authorizationID);
 				break;
 			case "SINGLECLIENT":
-				Chargepoint_stable client = new Chargepoint_stable(ChargeBoxID, CPVendor, CPModel, true, false);
-				
 				try {
 					client.connect(serverURL);
 					System.out.println("Client connected.");
