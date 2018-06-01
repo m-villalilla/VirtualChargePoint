@@ -1,11 +1,8 @@
 package ocpp_client_backend;
 
 import ocpp_client_backend.Chargepoint_stable;
-import ocpp_client_backend.WebsocketClientEndpoint;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.io.BufferedInputStream;
 import java.util.Properties;
 

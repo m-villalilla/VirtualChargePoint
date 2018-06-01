@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.websocket.ClientEndpointConfig;
 
-public class WebsocketClientConfigurator extends ClientEndpointConfig.Configurator {
+public class WebsocketClient1_6Configurator extends ClientEndpointConfig.Configurator {
 	
     @Override
     public void beforeRequest(Map<String, List<String>> headers) {

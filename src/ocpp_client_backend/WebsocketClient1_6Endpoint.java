@@ -10,12 +10,12 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
-@ClientEndpoint(configurator = WebsocketClientConfigurator.class)
-public class WebsocketClientEndpoint {
+@ClientEndpoint(configurator = WebsocketClient1_6Configurator.class)
+public class WebsocketClient1_6Endpoint {
     Session userSession = null;
     private MessageHandler messageHandler;
     
-    public WebsocketClientEndpoint(URI endpointURI) {
+    public WebsocketClient1_6Endpoint(URI endpointURI) {
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, endpointURI);

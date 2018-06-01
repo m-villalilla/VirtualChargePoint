@@ -459,8 +459,8 @@ public class Chargepoint_stable {
 		
 		// OCPP 1.6 Version Check
 		try {
-            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + "TestPoint00"));
-            clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
+            final WebsocketClient1_6Endpoint clientEndPoint = new WebsocketClient1_6Endpoint(new URI("ws://" + serverURL + "TestPoint00"));
+            clientEndPoint.addMessageHandler(new WebsocketClient1_6Endpoint.MessageHandler() {
                 public void handleMessage(String message) {
                     System.out.println(message);
                 }
