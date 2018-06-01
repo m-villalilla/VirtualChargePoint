@@ -58,7 +58,7 @@
       <RadioButton fx:id="rb3" layoutX="682.0" layoutY="372.0" mnemonicParsing="false" onAction="#radioSelect" prefHeight="21.0" prefWidth="24.0" text="DC CHAdeMO" textFill="WHITE" toggleGroup="$myGroup" />
       <ImageView fitHeight="217.0" fitWidth="506.0" layoutX="133.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../icons/LogoGreen.png" />
+            <Image url="file:icons/logo.png" />
          </image>
       </ImageView>
       <Pane fx:id="comboboxPane" layoutX="350.0" layoutY="246.0" prefHeight="81.0" prefWidth="394.0">
@@ -68,17 +68,17 @@
       </Pane>
       <ImageView fitHeight="123.0" fitWidth="113.0" layoutX="363.0" layoutY="415.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../icons/DCCOMBO2Farbe.png" />
+            <Image url="file:icons/DCCOMBO2.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="123.0" fitWidth="126.0" layoutX="493.0" layoutY="421.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../icons/ACNeuFarbe.png" />
+            <Image url="file:icons/AC.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="133.0" fitWidth="105.0" layoutX="639.0" layoutY="418.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../icons/DCCHAdeMO2Farbe.png" />
+            <Image url="file:icons/DC%20CHAdeMO.png" />
          </image>
       </ImageView>
    </children>
