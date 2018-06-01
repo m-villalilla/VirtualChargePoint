@@ -1,11 +1,8 @@
 package ocpp_client_backend;
 
 import ocpp_client_backend.Chargepoint_stable;
-import ocpp_client_backend.WebsocketClientEndpoint;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.io.BufferedInputStream;
 import java.util.Properties;
 
@@ -25,8 +22,10 @@ public class launchClientBackend {
 		String CPModel 	  		= config.getProperty("CPModel");
 		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
 		
-		String whatToTest = "STRESSTEST"; //STRESSTEST or SINGLECLIENT or WS
+		String whatToTest = "STRESSTEST"; //STRESSTEST or SINGLECLIENT or WS or VT
 		
+     
+
 		switch (whatToTest) {
 			case "STRESSTEST":
 				String[] cps = new String[40];
@@ -94,6 +93,10 @@ public class launchClientBackend {
 		            System.out.println("URISyntaxException exception: " + ex.getMessage());
 		        }
 				break;
+        
+      case "VT":
+        client.testVersions(serverURL);
+        break;
 			default:
 				System.out.println("Please specify what you want to do.");
 				break;

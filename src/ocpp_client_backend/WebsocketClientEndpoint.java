@@ -14,13 +14,14 @@ import javax.websocket.WebSocketContainer;
 public class WebsocketClientEndpoint {
     Session userSession = null;
     private MessageHandler messageHandler;
-
+    
     public WebsocketClientEndpoint(URI endpointURI) {
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, endpointURI);
+            System.out.println(WebsocketClientConfigurator.getVersion() + " Version Check Successful");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+        	System.out.println(WebsocketClientConfigurator.getVersion() + " Version Check Failed");
         }
     }
 
