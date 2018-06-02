@@ -82,15 +82,15 @@ public class MainController implements Initializable {
 		switch(combobox.getValue()) {
 			case "Testing Authentification":
 				//root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
-				startAuthenticationTest(null);
+				startTest(null, "auth");
 				return;	//Only now needed, since we have no running window yet
 		case "Testing Transaction":
 				root = FXMLLoader.load(getClass().getResource("TestingTransactionRunning.fxml"));
-				startTransactionTest(stage);
+				startTest(stage, "trans");
 				break;
 			case "Getting Server Functions & Server Version":
 				root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
-				startFunctionVersionTest(null);
+				startTest(null, "func");
 				break;
 			default:
 				break;
@@ -105,12 +105,12 @@ public class MainController implements Initializable {
 	}
 
 	/**
-	 * Creates thread to start the transaction test and starts it
+	 * Creates thread to start the test and starts it
 	 * 
 	 * @param stage Previously opened stage, so you can close it if needed
 	 */
-	private void startTransactionTest(Stage stage) {
-		final Thread transactionTest = new Thread(new Runnable() {
+	private void startTest(Stage stage, String test) {
+		final Thread t = new Thread(new Runnable() {
 	        @Override
 	        public void run() {
 	        	Platform.runLater(new Runnable() {
@@ -118,67 +118,32 @@ public class MainController implements Initializable {
 					public void run() {
 						chargepoint.deleteObservers();
 						chargepoint.connect(ipAddress.getText());
-						chargepoint.addObserver(new TestingTransactionWrapper());
-						chargepoint.checkTransactionSupport(idAuthorization.getText());
-						stage.close();
-						btnStart.setDisable(false);
-					}
-	        	});
-	        }
-	    });
-		transactionTest.start();
-	}
-	
-	/**
-	 * Creates thread to start the authentication test and starts it
-	 * 
-	 * @param stage Previously opened stage, so you can close it if needed
-	 */
-	private void startAuthenticationTest(Stage stage) {
-		final Thread authenticaionTest = new Thread(new Runnable() {
-	        @Override
-	        public void run() {
-	        	Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						chargepoint.deleteObservers();
-						chargepoint.connect(ipAddress.getText());
-						chargepoint.addObserver(new TestingAuthenticationWrapper());
-						chargepoint.sendAuthorizeRequest(idAuthorization.getText());
+						switch(test) {
+							case "auth":
+								chargepoint.addObserver(new TestingAuthenticationWrapper());
+								chargepoint.sendAuthorizeRequest(idAuthorization.getText());
+								break;
+							case "trans":
+								chargepoint.addObserver(new TestingTransactionWrapper());
+								chargepoint.checkTransactionSupport(idAuthorization.getText());
+								break;
+							case "func":
+								chargepoint.addObserver(new TestingTransactionWrapper());
+								//chargepoint.checkTransactionSupport(idAuthorization.getText());	//Insert call here when done
+								break;
+							default:
+								break;
+						}
+						
 						if(stage != null) stage.close();
 						btnStart.setDisable(false);
 					}
 	        	});
 	        }
 	    });
-		authenticaionTest.start();
+		t.start();
 	}
-	
-	/**
-	 * Creates thread to start the functions and server test and starts it
-	 * 
-	 * @param stage Previously opened stage, so you can close it if needed
-	 */
-	private void startFunctionVersionTest(Stage stage) {
-		final Thread functionVersionTest = new Thread(new Runnable() {
-	        @Override
-	        public void run() {
-	        	Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						chargepoint.deleteObservers();
-						chargepoint.connect(ipAddress.getText());
-						chargepoint.addObserver(new TestingTransactionWrapper());
-						//chargepoint.checkTransactionSupport(idAuthorization.getText());	//Insert call here when done
-						if(stage != null) stage.close();
-						btnStart.setDisable(false);
-					}
-	        	});
-	        }
-	    });
-		functionVersionTest.start();
-	}
-	
+		
 	/**
 	 * Checks if the input fields have valid inputs
 	 * 
