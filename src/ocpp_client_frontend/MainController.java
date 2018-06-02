@@ -72,19 +72,19 @@ public class MainController implements Initializable {
 	 * @throws Exception
 	 */
 	public void start(ActionEvent event) throws IOException {
-		if(!isInputValid()) return;
-		
-		btnStart.setDisable(true);
-
 		Stage stage = new Stage();
 		Parent root = null;
 		Scene scene;
 		
+		if(!isInputValid()) return;
+		btnStart.setDisable(true);
+		
 		switch(combobox.getValue()) {
 			case "Testing Authentification":
-				root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
-				break;
-			case "Testing Transaction":
+				//root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
+				startAuthenticationTest(null);
+				return;	//Only now needed, since we have no running window yet
+		case "Testing Transaction":
 				root = FXMLLoader.load(getClass().getResource("TestingTransactionRunning.fxml"));
 				startTransactionTest(stage);
 				break;
@@ -120,6 +120,31 @@ public class MainController implements Initializable {
 						chargepoint.addObserver(new TestingTransactionWrapper());
 						chargepoint.checkTransactionSupport(idAuthorization.getText());
 						stage.close();
+						btnStart.setDisable(false);
+					}
+	        	});
+	        }
+	    });
+		transactionTest.start();
+	}
+	
+	/**
+	 * Creates thread to start the authentication test and starts it
+	 * 
+	 * @param stage Previously opened stage, so you can close it if needed
+	 */
+	private void startAuthenticationTest(Stage stage) {
+		final Thread transactionTest = new Thread(new Runnable() {
+	        @Override
+	        public void run() {
+	        	Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						chargepoint.deleteObservers();
+						chargepoint.connect(ipAddress.getText());
+						chargepoint.addObserver(new TestingAuthenticationWrapper());
+						chargepoint.sendAuthorizeRequest(idAuthorization.getText());
+						if(stage != null) stage.close();
 						btnStart.setDisable(false);
 					}
 	        	});
