@@ -1,10 +1,12 @@
 package ocpp_client_frontend;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,9 +17,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -38,6 +42,8 @@ public class MainController implements Initializable {
 	private RadioButton rb2;
 	@FXML
 	private RadioButton rb3;
+	@FXML
+	private Button btnStart;
 	
 	//Elements in ComboBox
 	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions & Server Version", "Testing Authentification", "Testing Transaction");
@@ -52,7 +58,7 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		combobox.setItems(list);
-		
+
 		// Default values for input fields for development
 		idAuthorization.setText("0FFFFFF0");
 		ipAddress.setText("test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/");
@@ -65,35 +71,22 @@ public class MainController implements Initializable {
 	 * @param event
 	 * @throws Exception
 	 */
-	public void start(ActionEvent event) throws Exception {
+	public void start(ActionEvent event) throws IOException {
 		if(!isInputValid()) return;
 		
-		Stage primaryStage = new Stage();
+		btnStart.setDisable(true);
+
+		Stage stage = new Stage();
 		Parent root = null;
 		Scene scene;
-		
-		//test variable boolean - transaction successful running or failed
-		//only for development
-		int transactionSuccessful = 1;
-		int transactionFailed = 2;
-		int transactionRunning = 3;
-		int transaction = transactionRunning;
 		
 		switch(combobox.getValue()) {
 			case "Testing Authentification":
 				root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
 				break;
 			case "Testing Transaction":
-				//testing - transaction successful, still running, failed
-				if (transaction == transactionSuccessful ) {
-					root = FXMLLoader.load(getClass().getResource("TestingTransaction.fxml"));
-				}
-				else if (transaction == transactionFailed) {
-					root = FXMLLoader.load(getClass().getResource("TestingTransactionFailed.fxml"));
-				}
-				else if (transaction == transactionRunning) {
-					root = FXMLLoader.load(getClass().getResource("TestingTransactionRunning.fxml"));
-				}
+				root = FXMLLoader.load(getClass().getResource("TestingTransactionRunning.fxml"));
+				startTransactionTest(stage);
 				break;
 			case "Getting Server Functions & Server Version":
 				root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
@@ -104,13 +97,37 @@ public class MainController implements Initializable {
 		
 		scene = new Scene(root,580,357);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		primaryStage.setScene(scene);
+		stage.setScene(scene);
 		Image icon = new Image("file:icons/iconMini.png");
-		primaryStage.getIcons().add(icon);
-		primaryStage.show();
-	
+		stage.getIcons().add(icon);
+		stage.show();
 	}
 
+	/**
+	 * Creates thread to start the transaction test and starts it
+	 * 
+	 * @param stage Previously opened stage, so you can close it if needed
+	 */
+	private void startTransactionTest(Stage stage) {
+		final Thread transactionTest = new Thread(new Runnable() {
+	        @Override
+	        public void run() {
+	        	Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						chargepoint.deleteObservers();
+						chargepoint.connect(ipAddress.getText());
+						chargepoint.addObserver(new TestingTransactionWrapper());
+						chargepoint.checkTransactionSupport(idAuthorization.getText());
+						stage.close();
+						btnStart.setDisable(false);
+					}
+	        	});
+	        }
+	    });
+		transactionTest.start();
+	}
+	
 	/**
 	 * Checks if the input fields have valid inputs
 	 * 
@@ -147,7 +164,6 @@ public class MainController implements Initializable {
 		}
 		else {
 			chargepoint.setChargeBoxId(chargePointID.getText());
-			chargepoint.setTranscationId(Integer.parseInt(idAuthorization.getText()));
 			return true;
 		}
 		

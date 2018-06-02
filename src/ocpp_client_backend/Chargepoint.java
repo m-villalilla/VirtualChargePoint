@@ -267,7 +267,7 @@ public class Chargepoint extends Observable {
 		} catch (InterruptedException e) {
 			System.out.println("Error in checkTransactionSupport()");
 			e.printStackTrace();
-		}	
+		}
 		sendStopTransactionRequest(getTransactionId(), 100);
 	}
     
@@ -280,6 +280,7 @@ public class Chargepoint extends Observable {
      */
     public void functionComplete(Confirmation s, Throwable ex, long startTime) {
     	if(!stressTest) System.out.println(s);
+    	if(!stressTest) System.out.println(ex);
     	if(measureMode) {
     		long timeElapsed = (System.nanoTime() - startTime)/1000000;
     		if(!stressTest) System.out.println("\tElapsed time: " + timeElapsed + "ms");
