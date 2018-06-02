@@ -90,6 +90,7 @@ public class MainController implements Initializable {
 				break;
 			case "Getting Server Functions & Server Version":
 				root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
+				startFunctionVersionTest(null);
 				break;
 			default:
 				break;
@@ -134,7 +135,7 @@ public class MainController implements Initializable {
 	 * @param stage Previously opened stage, so you can close it if needed
 	 */
 	private void startAuthenticationTest(Stage stage) {
-		final Thread transactionTest = new Thread(new Runnable() {
+		final Thread authenticaionTest = new Thread(new Runnable() {
 	        @Override
 	        public void run() {
 	        	Platform.runLater(new Runnable() {
@@ -150,7 +151,32 @@ public class MainController implements Initializable {
 	        	});
 	        }
 	    });
-		transactionTest.start();
+		authenticaionTest.start();
+	}
+	
+	/**
+	 * Creates thread to start the functions and server test and starts it
+	 * 
+	 * @param stage Previously opened stage, so you can close it if needed
+	 */
+	private void startFunctionVersionTest(Stage stage) {
+		final Thread functionVersionTest = new Thread(new Runnable() {
+	        @Override
+	        public void run() {
+	        	Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						chargepoint.deleteObservers();
+						chargepoint.connect(ipAddress.getText());
+						chargepoint.addObserver(new TestingTransactionWrapper());
+						//chargepoint.checkTransactionSupport(idAuthorization.getText());	//Insert call here when done
+						if(stage != null) stage.close();
+						btnStart.setDisable(false);
+					}
+	        	});
+	        }
+	    });
+		functionVersionTest.start();
 	}
 	
 	/**
