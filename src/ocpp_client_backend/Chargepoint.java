@@ -1,5 +1,6 @@
 package ocpp_client_backend;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
@@ -279,8 +280,8 @@ public class Chargepoint extends Observable {
      * @param startTime - time the function started
      */
     public void functionComplete(Confirmation s, Throwable ex, long startTime) {
-    	if(!stressTest) System.out.println(s);
-    	if(!stressTest) System.out.println(ex);
+    	if(!stressTest && ex == null) System.out.println(s);
+    	if(!stressTest && s == null) System.out.println(ex);
     	if(measureMode) {
     		long timeElapsed = (System.nanoTime() - startTime)/1000000;
     		if(!stressTest) System.out.println("\tElapsed time: " + timeElapsed + "ms");
@@ -446,21 +447,19 @@ public class Chargepoint extends Observable {
 		try {
 			WebsocketClientConfigurator.setVersion(version);
 			clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + chargeBoxId));
-            clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
-                public void handleMessage(String message) {
-                    System.out.println(message);
-                }
-            });
-            
-            if(clientEndPoint.userSession != null) {
-            	clientEndPoint.sendMessage("{'message': null}");
-            }
+
+			if(clientEndPoint.userSession != null) {
+				clientEndPoint.userSession.close();
+			}
+			
             // Wait 5 seconds for messages from websocket
             Thread.sleep(5000);
         } catch (InterruptedException ex) {
             System.out.println("InterruptedException exception: " + ex.getMessage());
         } catch (URISyntaxException ex) {
             System.out.println("URISyntaxException exception: " + ex.getMessage());
+        } catch (IOException ex) {
+        	System.out.println("IOException exception: " + ex.getMessage());
         }
 	}
 }
