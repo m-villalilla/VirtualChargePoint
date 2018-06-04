@@ -22,9 +22,10 @@ public class launchClientBackend {
 		String ChargeBoxID 		= config.getProperty("ChargeBoxID.00");				//Use ChargeBoxID.00 as example
 		String CPVendor   		= config.getProperty("CPVendor");
 		String CPModel 	  		= config.getProperty("CPModel");
-		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
+		//String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
+		String authorizationID = "1234";
 		
-		String whatToTest = "VT"; //STRESSTEST or SINGLECLIENT or WS or VT
+		String whatToTest = "SINGLECLIENT"; //STRESSTEST or SINGLECLIENT or WS or VT
 		Chargepoint client = new Chargepoint(ChargeBoxID, CPVendor, CPModel, true, false);
 
 		switch (whatToTest) {

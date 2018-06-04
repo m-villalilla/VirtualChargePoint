@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.LinkedList;
+import java.util.Observable;
 
 import eu.chargetime.ocpp.IClientAPI;
 import eu.chargetime.ocpp.JSONClient;
@@ -42,7 +43,8 @@ import eu.chargetime.ocpp.model.core.*;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public class Chargepoint {
+
+public class Chargepoint extends Observable {
     private IClientAPI client;
     private ClientCoreProfile core;
     private int transactionId;
@@ -89,7 +91,6 @@ public class Chargepoint {
      * @param serverURL - specifies the URL of the OCPP server
      */
     public void connect(String serverURL) {
-
         // The core profile is mandatory
         core = new ClientCoreProfile(new ClientCoreEventHandler() {
             @Override
@@ -266,7 +267,7 @@ public class Chargepoint {
 		} catch (InterruptedException e) {
 			System.out.println("Error in checkTransactionSupport()");
 			e.printStackTrace();
-		}	
+		}
 		sendStopTransactionRequest(getTransactionId(), 100);
 	}
     
@@ -279,10 +280,18 @@ public class Chargepoint {
      */
     public void functionComplete(Confirmation s, Throwable ex, long startTime) {
     	if(!stressTest) System.out.println(s);
+    	if(!stressTest) System.out.println(ex);
     	if(measureMode) {
     		long timeElapsed = (System.nanoTime() - startTime)/1000000;
     		if(!stressTest) System.out.println("\tElapsed time: " + timeElapsed + "ms");
     		measurements.add(timeElapsed);
+    	}
+    	
+    	setChanged();
+    	if(ex == null) {
+    		notifyObservers(s);
+    	} else{
+    		notifyObservers(ex);
     	}
     }
     
@@ -290,7 +299,7 @@ public class Chargepoint {
      * Disconnects the client from the OCPP server
      */
     public void disconnect() {
-        client.disconnect();
+        if(client != null) client.disconnect();
     } 
     
     /**
