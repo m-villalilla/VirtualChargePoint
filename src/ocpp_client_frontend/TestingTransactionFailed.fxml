@@ -13,7 +13,7 @@
          <children>
             <ImageView fitHeight="79.0" fitWidth="149.0" layoutX="32.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../icons/LogoGreen.png" />
+                  <Image url="file:icons/LogoGreen.png" />
                </image>
             </ImageView>
             <Pane fx:id="paneTransaction" layoutX="197.0" layoutY="28.0" prefHeight="79.0" prefWidth="357.0">
@@ -32,7 +32,7 @@
             </Label>
             <ImageView fitHeight="150.0" fitWidth="127.0" layoutX="446.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../icons/ErkanAmpelRot.png" />
+                  <Image url="file:icons/TrafficlightRed.png" />
                </image>
             </ImageView>
          </children>

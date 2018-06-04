@@ -1,8 +1,10 @@
 package ocpp_client_backend;
 
-import ocpp_client_backend.Chargepoint_stable;
+import ocpp_client_backend.Chargepoint;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.io.BufferedInputStream;
 import java.util.Properties;
 
@@ -22,9 +24,8 @@ public class launchClientBackend {
 		String CPModel 	  		= config.getProperty("CPModel");
 		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
 		
-		String whatToTest = "STRESSTEST"; //STRESSTEST or SINGLECLIENT or WS or VT
-		
-     
+		String whatToTest = "VT"; //STRESSTEST or SINGLECLIENT or WS or VT
+		Chargepoint client = new Chargepoint(ChargeBoxID, CPVendor, CPModel, true, false);
 
 		switch (whatToTest) {
 			case "STRESSTEST":
@@ -35,8 +36,6 @@ public class launchClientBackend {
 				OCPPServerStressTest.startTest(serverURL, cps, authorizationID);
 				break;
 			case "SINGLECLIENT":
-				Chargepoint_stable client = new Chargepoint_stable(ChargeBoxID, CPVendor, CPModel, true, false);
-				
 				try {
 					client.connect(serverURL);
 					System.out.println("Client connected.");
@@ -77,7 +76,7 @@ public class launchClientBackend {
 				break;
 			case "WS":
 		        try {
-		            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + "CP3211"));
+		            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + "TestPoint00"));
 		            clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
 		                public void handleMessage(String message) {
 		                    System.out.println(message);
@@ -93,14 +92,13 @@ public class launchClientBackend {
 		            System.out.println("URISyntaxException exception: " + ex.getMessage());
 		        }
 				break;
-        
-      case "VT":
-        client.testVersions(serverURL);
-        break;
+			case "VT":
+				client.testVersions(serverURL);
+				break;
 			default:
 				System.out.println("Please specify what you want to do.");
 				break;
-		}
+			}
 	}
 	
 	public static Properties getConfig() {

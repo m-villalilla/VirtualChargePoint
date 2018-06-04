@@ -16,14 +16,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import ocpp_client_backend.*;
 
 public class MainController implements Initializable {
 	@FXML
@@ -40,35 +37,10 @@ public class MainController implements Initializable {
 	private RadioButton rb2;
 	@FXML
 	private RadioButton rb3;
-	//@FXML
-	//private Label label2;
-	//@FXML
-	//private Label label1;
-	//@FXML
-	private Button btnOk1;
 	
 	//Elements in ComboBox
 	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions & Server Version", "Testing Authentification", "Testing Transaction");
-		
-	/**
-	 * select one of 3 charging options, print output in 2nd label (right one)
-	 * 
-	 * @param event
-	 */
-	public void radioSelect(ActionEvent event) {
-		//String message = "";
-		//if(rb1.isSelected()) {
-			//message += rb1.getText() + "\n";
-		//}
-		//if(rb2.isSelected()) {
-			//message += rb2.getText() + "\n";
-		//}
-		//if(rb3.isSelected()) {
-			//message += rb3.getText() + "\n";	
-		//}
-		//label2.setText(message);
-	}
-
+	
 	/**
 	 * fill comboBox with predefined values from an observable list
 	 * 
@@ -77,62 +49,32 @@ public class MainController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
 		combobox.setItems(list);
-		Chargepoint_stable chargepoint = new Chargepoint_stable();
+		
 		// Default values for input fields for development
 		idAuthorization.setText("0FFFFFF0");
 		ipAddress.setText("test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/");
 		chargePointID.setText("TestPoint00");
 	}
-	
-	/**
-	 * print selected value in 1st label (left)
-	 * 
-	 * @param event
-	 */
-	public void comboChanged(ActionEvent event){
-	//	label1.setText(combobox.getValue());
-	}
-	
+		
 	/**
 	 * regarding selected combobox value pressing start button leads to new message window 
 	 * 
 	 * @param event
 	 * @throws Exception
 	 */
-	
-	
-	public void start(ActionEvent event)throws Exception {
-		
-		/***
-		 * no selection of a test
-		 * 
-		boolean isMyComboBoxEmpty = combobox.getSelectionModel().isEmpty();
-		if (isMyComboBoxEmpty) {
-		//maybe an alert
-		Alert noSelection = new Alert(AlertType.INFORMATION);
-		noSelection.setTitle("No test is selected");
-		noSelection.setHeaderText("MISSING");
-		noSelection.setContentText("Please select a test.");
-		}***/
-		
-		
-		
-		try {
+	public void start(ActionEvent event) throws Exception {
 		if(isInputValid()) {
 			Stage primaryStage = new Stage();
 			Parent root = null;
 			Scene scene;
 			
 			//test variable boolean - transaction successful running or failed
+			//only for development
 			int transactionSuccessful = 1;
 			int transactionFailed = 2;
 			int transactionRunning = 3;
-			
 			int transaction = transactionRunning;
-			
-			
 			
 			switch(combobox.getValue()) {
 				case "Testing Authentification":
@@ -141,7 +83,8 @@ public class MainController implements Initializable {
 				case "Testing Transaction":
 					//testing - transaction successful, still running, failed
 					if (transaction == transactionSuccessful ) {
-						root = FXMLLoader.load(getClass().getResource("TestingTransaction.fxml"));}
+						root = FXMLLoader.load(getClass().getResource("TestingTransaction.fxml"));
+					}
 					else if (transaction == transactionFailed) {
 						root = FXMLLoader.load(getClass().getResource("TestingTransactionFailed.fxml"));
 					}
@@ -153,15 +96,8 @@ public class MainController implements Initializable {
 					root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
 					break;
 				default:
-					//Do something, even if this should never be executed
-					//Alert alertCombo = new Alert(AlertType.ERROR);
-					//alertCombo.setTitle("No test selected");
-					//alertCombo.setHeaderText("WARNING");
-					//alertCombo.setContentText("Please select a test!");
 					break;
 			}
-			
-			
 			
 			scene = new Scene(root,580,357);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -169,31 +105,6 @@ public class MainController implements Initializable {
 			Image icon = new Image("file:icons/iconMini.png");
 			primaryStage.getIcons().add(icon);
 			primaryStage.show();
-		}
-		}
-		catch (Exception e) {
-			//System.out.println("Exception occurred");
-			System.out.println("No Test selected! Please select a test.");
-			Alert alertCombo = new Alert(AlertType.ERROR);
-			alertCombo.setTitle("No test selected");
-			alertCombo.setHeaderText("WARNING");
-			alertCombo.setContentText("Please select a test!");
-			
-			//adding stage icon to alert window
-			Stage stage = (Stage) alertCombo.getDialogPane().getScene().getWindow();
-			stage.getIcons().add(new Image("file:icons/iconMini.png"));
-			//Styling the alert window
-			DialogPane dialogPane = alertCombo.getDialogPane();
-			dialogPane.getStylesheets().add(
-			   getClass().getResource("application.css").toExternalForm());
-			dialogPane.getStyleClass().add("application");
-			
-			alertCombo.setResizable(false);
-			alertCombo.getDialogPane().setPrefSize(480, 320);
-			
-			
-			alertCombo.showAndWait();
-			
 		}
 	}
 
@@ -203,91 +114,50 @@ public class MainController implements Initializable {
 	 * @return true if the input is valid
 	 */
 	private boolean isInputValid() {
-		//Input which needs to be checked always
-			
-		    //Regex to check IP-Input
-			Pattern ip = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
-			Matcher mIp = ip.matcher(ipAddress.getText());
-			
-			//Regex to ckeck URL input for IP-Address
-			Pattern url = Pattern.compile("[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)");
-			Matcher mUrl = url.matcher(ipAddress.getText());
-			
-			//Regex to ckeck ChargepointID
-			Pattern chargePoint = Pattern.compile("[0-9A-Za-z]+");
-			Matcher mChargePoint = chargePoint.matcher(chargePointID.getText());
-			
-			//Regex to Check idAuthotization
-			Pattern id = Pattern.compile("[0-9A-F]{6,8}");
-			Matcher mId = id.matcher(idAuthorization.getText());
-			
-			if( (!(mIp.find() && mIp.group().equals(ipAddress.getText())))&& (!(mUrl.find() && mUrl.group().equals(ipAddress.getText()))) ) {
-				Alert alertIp = new Alert(AlertType.ERROR);
-				alertIp.setTitle("Incorrect IP Address or URL");
-				alertIp.setHeaderText("ERROR");
-				alertIp.setContentText("Please enter a correct IP Address or URL!\n\nA correct IP Address consists of 4 decimal values separated by a point.");
-				
-				//adding stage icon to alert window
-				Stage stage = (Stage) alertIp.getDialogPane().getScene().getWindow();
-				stage.getIcons().add(new Image("file:icons/iconMini.png"));
-				
-				//Styling the alert window
-				DialogPane dialogPane = alertIp.getDialogPane();
-				dialogPane.getStylesheets().add(
-				   getClass().getResource("application.css").toExternalForm());
-				dialogPane.getStyleClass().add("application");
-				
-				alertIp.setResizable(false);
-				alertIp.getDialogPane().setPrefSize(480, 320);
-				
-				alertIp.showAndWait();
-				return false;
-			}
-			else if (!(mChargePoint.find() && mChargePoint.group().equals(chargePointID.getText()))) {
-				Alert alertCharge = new Alert(AlertType.ERROR);
-				alertCharge.setTitle("Incorrect Charge Point ID");
-				alertCharge.setHeaderText("ERROR");
-				alertCharge.setContentText("Please enter a correct Charge Point ID!");
-				
-				//adding stage icon to alert window
-				Stage stage = (Stage) alertCharge.getDialogPane().getScene().getWindow();
-				stage.getIcons().add(new Image("file:icons/iconMini.png"));
-				//Styling the alert window
-				DialogPane dialogPane = alertCharge.getDialogPane();
-				dialogPane.getStylesheets().add(
-				   getClass().getResource("application.css").toExternalForm());
-				dialogPane.getStyleClass().add("application");
-				
-				alertCharge.setResizable(false);
-				alertCharge.getDialogPane().setPrefSize(480, 320);
-				
-				alertCharge.showAndWait();
-				return false;
-			}
-			else if (!(mId.find() && mId.group().equals(idAuthorization.getText()))) {
-				Alert alertId = new Alert(AlertType.ERROR);
-				alertId.setTitle("Incorrect Authorization ID");
-				alertId.setHeaderText("ERROR");
-				alertId.setContentText("Please enter a correct Authorization ID!\n\nA correct Authorization ID is a sequence of 6 to 8 hex numbers.");
-				
-				//adding stage icon to alert window
-				Stage stage = (Stage) alertId.getDialogPane().getScene().getWindow();
-				stage.getIcons().add(new Image("file:icons/iconMini.png"));
-				//Styling the alert window
-				DialogPane dialogPane = alertId.getDialogPane();
-				dialogPane.getStylesheets().add(
-				   getClass().getResource("application.css").toExternalForm());
-				dialogPane.getStyleClass().add("application");
-				
-				alertId.setResizable(false);
-				alertId.getDialogPane().setPrefSize(480, 320);
-				
-				alertId.showAndWait();
-				return false;
-			}
-			else {
-				return true;
-			}
-			
+		Pattern ip = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+		Pattern url = Pattern.compile("[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)");
+		Pattern chargePoint = Pattern.compile("[0-9A-Za-z]+");
+		Pattern id = Pattern.compile("[0-9A-F]{6,8}");
+		
+		Matcher mIp = ip.matcher(ipAddress.getText());
+		Matcher mUrl = url.matcher(ipAddress.getText());
+		Matcher mChargePoint = chargePoint.matcher(chargePointID.getText());
+		Matcher mId = id.matcher(idAuthorization.getText());
+		
+		Alert inputError = new Alert(AlertType.ERROR);
+		
+		if( (!(mIp.find() && mIp.group().equals(ipAddress.getText())))&& (!(mUrl.find() && mUrl.group().equals(ipAddress.getText()))) ) {
+			inputError.setTitle("Incorrect IP Address or URL");
+			inputError.setContentText("Please enter a correct IP Address or URL!\n\nA correct IP Address consists of 4 decimal values separated by a point.");
+		}
+		else if (!(mChargePoint.find() && mChargePoint.group().equals(chargePointID.getText()))) {
+			inputError.setTitle("Incorrect Charge Point ID");
+			inputError.setContentText("Please enter a correct Charge Point ID!");
+		}
+		else if (!(mId.find() && mId.group().equals(idAuthorization.getText()))) {
+			inputError.setTitle("Incorrect Authorization ID");
+			inputError.setContentText("Please enter a correct Authorization ID!\n\nA correct Authorization ID is a sequence of 6 to 8 hex numbers.");
+		}
+		else if (combobox.getValue() == null) {
+			inputError.setTitle("No test selected");
+			inputError.setContentText("Please select a test!");
+		}
+		else {
+			return true;
+		}
+		
+		Stage stage = (Stage) inputError.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("file:icons/iconMini.png"));
+		
+		DialogPane dialogPane = inputError.getDialogPane();
+		dialogPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		dialogPane.getStyleClass().add("application");
+		
+		inputError.setHeaderText("ERROR");
+		inputError.setResizable(false);
+		inputError.getDialogPane().setPrefSize(480, 320);
+		inputError.showAndWait();
+		
+		return false;
 	}	
 }
