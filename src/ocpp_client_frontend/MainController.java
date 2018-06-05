@@ -46,7 +46,7 @@ public class MainController implements Initializable {
 	private Button btnStart;
 	
 	//Elements in ComboBox
-	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions & Server Version", "Testing Authentification", "Testing Transaction");
+	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions", "Getting Server Version", "Testing Authentification", "Testing Transaction");
 	static Chargepoint chargepoint = new Chargepoint();
 	
 	/**
@@ -84,12 +84,16 @@ public class MainController implements Initializable {
 				//root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
 				startTest(null, "auth");
 				return;	//Only now needed, since we have no running window yet
-		case "Testing Transaction":
+	    	case "Testing Transaction":
 				root = FXMLLoader.load(getClass().getResource("TestingTransactionRunning.fxml"));
 				startTest(stage, "trans");
 				break;
-			case "Getting Server Functions & Server Version":
+			case "Getting Server Functions":
 				root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
+				startTest(null, "func");
+				break;
+			case "Getting Server Version":
+				root = FXMLLoader.load(getClass().getResource("ServerVersion.fxml"));
 				startTest(null, "func");
 				break;
 			default:
@@ -99,7 +103,7 @@ public class MainController implements Initializable {
 		scene = new Scene(root,580,357);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		stage.setScene(scene);
-		Image icon = new Image("file:icons/iconMini.png");
+		Image icon = new Image("file:icons/Tankladesaeule.png");
 		stage.getIcons().add(icon);
 		stage.show();
 	}
@@ -179,12 +183,12 @@ public class MainController implements Initializable {
 			inputError.setContentText("Please select a test!");
 		}
 		else {
-			chargepoint.setChargeBoxId(chargePointID.getText());
+			chargepoint.setChargeBoxId(chargePointID.getText()) ;
 			return true;
 		}
 		
 		Stage stage = (Stage) inputError.getDialogPane().getScene().getWindow();
-		stage.getIcons().add(new Image("file:icons/iconMini.png"));
+		stage.getIcons().add(new Image("file:icons/Tankladesaeule.png"));
 		
 		DialogPane dialogPane = inputError.getDialogPane();
 		dialogPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
