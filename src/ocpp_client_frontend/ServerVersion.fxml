@@ -9,46 +9,28 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="anchorFunctionVersion" prefHeight="357.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane fx:id="anchorFunctionVersion" layoutX="2.0" layoutY="-11.0" prefHeight="357.0" prefWidth="580.0">
+      <ImageView fitHeight="79.0" fitWidth="149.0" layoutX="7.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:icons/LogoGreen.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="paneFunctionVersion" layoutX="164.0" layoutY="25.0" prefHeight="79.0" prefWidth="357.0">
          <children>
-            <ImageView fitHeight="79.0" fitWidth="149.0" layoutX="30.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="file:icons/LogoGreen.png" />
-               </image>
-            </ImageView>
-            <Pane fx:id="paneFunctionVersion" layoutX="197.0" layoutY="43.0" prefHeight="79.0" prefWidth="357.0">
-               <children>
-                  <Label layoutX="83.0" layoutY="23.0" prefHeight="34.0" prefWidth="192.0" text="SERVER VERSION" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="23.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <Label layoutX="145.0" layoutY="161.0" text="SERVER:                xxxxxx" textFill="#003d50">
+            <Label layoutX="72.0" layoutY="22.0" prefHeight="36.0" prefWidth="213.0" text="SERVER VERSION" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
-            <Label layoutX="147.0" layoutY="219.0" text="FEATURES:           xxxxxx" textFill="#003d50">
-               <font>
-                  <Font name="System Bold" size="25.0" />
-               </font>
-            </Label>
-            <Label layoutX="147.0" layoutY="277.0" prefHeight="36.0" prefWidth="253.0" text="VERSION:             1.5" textFill="#003d50">
-               <font>
-                  <Font name="System Bold" size="25.0" />
-               </font>
-            </Label>
-            <TableView layoutX="231.0" layoutY="137.0" prefHeight="200.0" prefWidth="229.0">
-               <columns>
-                  <TableColumn prefWidth="75.0" text="C1" />
-                  <TableColumn prefWidth="75.0" text="C2" />
-               </columns>
-            </TableView>
          </children>
-      </AnchorPane>
+      </Pane>
+      <TableView layoutX="52.0" layoutY="137.0" prefHeight="187.0" prefWidth="469.0">
+         <columns>
+            <TableColumn prefWidth="150.0" text="Charge Point ID" />
+            <TableColumn prefWidth="100.0" text="Server" />
+            <TableColumn prefWidth="217.0" text="Version" />
+         </columns>
+      </TableView>
    </children>
 </AnchorPane>
