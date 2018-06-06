@@ -89,7 +89,7 @@ public class MainController implements Initializable {
 				startTest(stage, "trans");
 				break;
 			case "Getting Server Functions":
-				root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
+				root = FXMLLoader.load(getClass().getResource("ServerFunction.fxml"));
 				startTest(null, "func");
 				break;
 			case "Getting Server Version":
@@ -186,7 +186,7 @@ public class MainController implements Initializable {
 			chargepoint.setChargeBoxId(chargePointID.getText()) ;
 			return true;
 		}
-		
+		  
 		Stage stage = (Stage) inputError.getDialogPane().getScene().getWindow();
 		stage.getIcons().add(new Image("file:icons/Tankladesaeule.png"));
 		

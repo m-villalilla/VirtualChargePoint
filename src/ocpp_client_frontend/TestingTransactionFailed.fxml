@@ -9,7 +9,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane fx:id="anchorTransaction" layoutY="5.0" prefHeight="357.0" prefWidth="580.0">
+      <AnchorPane fx:id="anchorTransaction" layoutY="-9.0" prefHeight="357.0" prefWidth="580.0">
          <children>
             <ImageView fitHeight="79.0" fitWidth="149.0" layoutX="32.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
                <image>
