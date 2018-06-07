@@ -14,7 +14,7 @@
 
 <AnchorPane fx:id="anchorMain" maxHeight="656.0" maxWidth="792.0" prefHeight="656.0" prefWidth="792.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ocpp_client_frontend.MainController">
    <children>
-      <Pane fx:id="pane2" layoutX="55.0" layoutY="246.0" prefHeight="296.0" prefWidth="280.0">
+      <Pane fx:id="pane2" layoutX="55.0" layoutY="246.0" prefHeight="377.0" prefWidth="280.0">
          <children>
             <TextField fx:id="ipAddress" layoutX="26.0" layoutY="51.0" prefHeight="31.0" prefWidth="228.0" promptText="IP-ADDRESS">
                <font>
@@ -43,9 +43,14 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
+            <Button fx:id="btnSettings" layoutX="51.0" layoutY="307.0" mnemonicParsing="false" onAction="#settings" prefHeight="39.0" prefWidth="179.0" text="ADVANCED SETTINGS">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
-      <Button fx:id="btnStart" layoutX="316.0" layoutY="570.0" mnemonicParsing="false" onAction="#start" prefHeight="60.0" prefWidth="126.0" text="START" textFill="WHITE">
+      <Button fx:id="btnStart" layoutX="507.0" layoutY="563.0" mnemonicParsing="false" onAction="#start" prefHeight="60.0" prefWidth="126.0" text="START" textFill="WHITE">
          <font>
             <Font name="System Bold" size="28.0" />
          </font></Button>
@@ -83,4 +88,3 @@
       </ImageView>
    </children>
 </AnchorPane>
-

@@ -50,7 +50,7 @@ public class MainController implements Initializable {
 	@FXML
 	private Button btnStart;
 	@FXML
-	private AnchorPane anchorMain;
+	private Button btnSettings;
 	
 	//Elements in ComboBox
 	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions", "Getting Server Version", "Testing Authentification", "Testing Transaction");
@@ -71,6 +71,22 @@ public class MainController implements Initializable {
 		ipAddress.setText("test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/");
 		chargePointID.setText("TestPoint00");
 	}
+	
+	//Event Handler for Button Advanced Settings
+		public void settings(ActionEvent event)throws Exception {
+			Stage settingStage = new Stage();
+			Parent root = FXMLLoader.load(getClass().getResource("AdvancedSettings.fxml"));
+			Scene scene = new Scene(root,580,370);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			settingStage.setScene(scene);
+			Image icon = new Image("file:icons/ChargePointIcon.png");
+			settingStage.getIcons().add(icon);
+			settingStage.show();
+			//position at center of screen
+			Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+		    settingStage.setX((primScreenBounds.getWidth() - settingStage.getWidth()) / 2); 
+		    settingStage.setY((primScreenBounds.getHeight() - settingStage.getHeight()) / 2);
+		}
 		
 	/**
 	 * regarding selected combobox value pressing start button leads to new message window 
@@ -120,6 +136,7 @@ public class MainController implements Initializable {
 	    stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
 		
 	}
+	
 
 	/**
 	 * Creates thread to start the test and starts it
