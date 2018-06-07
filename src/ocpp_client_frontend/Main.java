@@ -18,7 +18,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root,792,656);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
-			Image icon = new Image("file:icons/Tankladesaeule.png");
+			Image icon = new Image("file:icons/ChargePointIcon.png");
 			primaryStage.getIcons().add(icon);
 			primaryStage.setTitle("Virtual Charge Point");
 			primaryStage.setResizable(false);

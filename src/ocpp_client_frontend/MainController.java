@@ -22,6 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
@@ -48,6 +49,8 @@ public class MainController implements Initializable {
 	private RadioButton rb3;
 	@FXML
 	private Button btnStart;
+	@FXML
+	private AnchorPane anchorMain;
 	
 	//Elements in ComboBox
 	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions", "Getting Server Version", "Testing Authentification", "Testing Transaction");
@@ -107,7 +110,7 @@ public class MainController implements Initializable {
 		scene = new Scene(root,580,357);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		stage.setScene(scene);
-		Image icon = new Image("file:icons/Tankladesaeule.png");
+		Image icon = new Image("file:icons/ChargePointIcon.png");
 		stage.getIcons().add(icon);
 		stage.show();
 		
@@ -198,7 +201,7 @@ public class MainController implements Initializable {
 		}
 		  
 		Stage stage = (Stage) inputError.getDialogPane().getScene().getWindow();
-		stage.getIcons().add(new Image("file:icons/Tankladesaeule.png"));
+		stage.getIcons().add(new Image("file:icons/ChargePointIcon.png"));
 		
 		DialogPane dialogPane = inputError.getDialogPane();
 		dialogPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -214,6 +217,13 @@ public class MainController implements Initializable {
 	    int centerY = (int)screenSize.getHeight()/3 + (int)inputError.getHeight();
 	    inputError.setX(centerX);
 	    inputError.setY(centerY);
+	    
+	  //Alert Window position center of screen - not exactly center
+	  	//Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+	  	//inputError.setX(stage.getX()+ stage.getWidth()/2 - inputError.getWidth()/2); 
+	  	//inputError.setY(stage.getY()+ stage.getHeight()/2 - inputError.getHeight()/2);
+	  	
+	  	
 		
 		inputError.showAndWait();
 			
