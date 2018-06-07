@@ -218,7 +218,7 @@ public class MainController implements Initializable {
 	    inputError.setX(centerX);
 	    inputError.setY(centerY);
 	    
-	  //Alert Window position center of screen - not exactly center
+	  //Alert Window position center of screen - not exactly center 
 	  	//Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 	  	//inputError.setX(stage.getX()+ stage.getWidth()/2 - inputError.getWidth()/2); 
 	  	//inputError.setY(stage.getY()+ stage.getHeight()/2 - inputError.getHeight()/2);
