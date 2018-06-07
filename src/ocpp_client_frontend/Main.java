@@ -2,6 +2,8 @@ package ocpp_client_frontend;
 	
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,11 +18,18 @@ public class Main extends Application {
 			Scene scene = new Scene(root,792,656);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
-			Image icon = new Image("file:icons/iconMini.png");
+			Image icon = new Image("file:icons/ChargePointIcon.png");
 			primaryStage.getIcons().add(icon);
 			primaryStage.setTitle("Virtual Charge Point");
 			primaryStage.setResizable(false);
+			
 			primaryStage.show();
+			
+			//position the primary stage at the center of the screen
+			Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+			primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
+	        primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

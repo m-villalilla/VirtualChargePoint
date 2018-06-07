@@ -102,3 +102,7 @@
     -fx-font-style: Normal;
     -fx-font-size: 3em;
 }
+
+.table-view{
+	-fx-font-size: 18;
+}

@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.sun.javafx.tk.Toolkit;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,17 +15,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import ocpp_client_backend.Chargepoint;
 
@@ -44,9 +49,11 @@ public class MainController implements Initializable {
 	private RadioButton rb3;
 	@FXML
 	private Button btnStart;
+	@FXML
+	private AnchorPane anchorMain;
 	
 	//Elements in ComboBox
-	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions & Server Version", "Testing Authentification", "Testing Transaction");
+	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions", "Getting Server Version", "Testing Authentification", "Testing Transaction");
 	static Chargepoint chargepoint = new Chargepoint();
 	
 	/**
@@ -84,12 +91,16 @@ public class MainController implements Initializable {
 				//root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
 				startTest(null, "auth");
 				return;	//Only now needed, since we have no running window yet
-		case "Testing Transaction":
+	    	case "Testing Transaction":
 				root = FXMLLoader.load(getClass().getResource("TestingTransactionRunning.fxml"));
 				startTest(stage, "trans");
 				break;
-			case "Getting Server Functions & Server Version":
-				root = FXMLLoader.load(getClass().getResource("ServerFunctionVersion.fxml"));
+			case "Getting Server Functions":
+				root = FXMLLoader.load(getClass().getResource("ServerFunction.fxml"));
+				startTest(null, "func");
+				break;
+			case "Getting Server Version":
+				root = FXMLLoader.load(getClass().getResource("ServerVersion.fxml"));
 				startTest(null, "func");
 				break;
 			default:
@@ -99,9 +110,15 @@ public class MainController implements Initializable {
 		scene = new Scene(root,580,357);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		stage.setScene(scene);
-		Image icon = new Image("file:icons/iconMini.png");
+		Image icon = new Image("file:icons/ChargePointIcon.png");
 		stage.getIcons().add(icon);
 		stage.show();
+		
+		//Message Windows position at center of screen
+		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+	    stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2); 
+	    stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
+		
 	}
 
 	/**
@@ -179,12 +196,12 @@ public class MainController implements Initializable {
 			inputError.setContentText("Please select a test!");
 		}
 		else {
-			chargepoint.setChargeBoxId(chargePointID.getText());
+			chargepoint.setChargeBoxId(chargePointID.getText()) ;
 			return true;
 		}
-		
+		  
 		Stage stage = (Stage) inputError.getDialogPane().getScene().getWindow();
-		stage.getIcons().add(new Image("file:icons/iconMini.png"));
+		stage.getIcons().add(new Image("file:icons/ChargePointIcon.png"));
 		
 		DialogPane dialogPane = inputError.getDialogPane();
 		dialogPane.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -193,8 +210,23 @@ public class MainController implements Initializable {
 		inputError.setHeaderText("ERROR");
 		inputError.setResizable(false);
 		inputError.getDialogPane().setPrefSize(480, 320);
-		inputError.showAndWait();
 		
+		//Alert Window position center of screen - not exactly center
+		Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+	    int centerX = (int)screenSize.getWidth()/3 + (int)inputError.getWidth();
+	    int centerY = (int)screenSize.getHeight()/3 + (int)inputError.getHeight();
+	    inputError.setX(centerX);
+	    inputError.setY(centerY);
+	    
+	  //Alert Window position center of screen - not exactly center 
+	  	//Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+	  	//inputError.setX(stage.getX()+ stage.getWidth()/2 - inputError.getWidth()/2); 
+	  	//inputError.setY(stage.getY()+ stage.getHeight()/2 - inputError.getHeight()/2);
+	  	
+	  	
+		
+		inputError.showAndWait();
+			
 		return false;
 	}	
 }

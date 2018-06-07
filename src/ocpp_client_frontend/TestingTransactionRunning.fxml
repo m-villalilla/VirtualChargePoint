@@ -9,18 +9,18 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane fx:id="anchorTransaction" layoutX="10.0" layoutY="10.0" prefHeight="357.0" prefWidth="580.0">
+      <AnchorPane fx:id="anchorTransaction" layoutX="3.0" prefHeight="357.0" prefWidth="580.0">
          <children>
-            <ImageView fitHeight="79.0" fitWidth="149.0" layoutX="32.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="79.0" fitWidth="149.0" layoutX="14.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="file:icons/LogoGreen.png" />
                </image>
             </ImageView>
             <Pane fx:id="paneTransaction" layoutX="197.0" layoutY="28.0" prefHeight="79.0" prefWidth="357.0">
                <children>
-                  <Label layoutX="52.0" layoutY="24.0" prefHeight="31.0" prefWidth="254.0" text="TESTING TRANSACTION" textAlignment="CENTER" textFill="WHITE">
+                  <Label layoutX="34.0" layoutY="22.0" prefHeight="36.0" prefWidth="289.0" text="TESTING TRANSACTION" textAlignment="CENTER" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="21.0" />
+                        <Font name="System Bold" size="25.0" />
                      </font>
                   </Label>
                </children>

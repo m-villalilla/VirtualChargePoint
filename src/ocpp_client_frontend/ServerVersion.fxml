@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,17 +18,19 @@
       </ImageView>
       <Pane fx:id="paneFunctionVersion" layoutX="164.0" layoutY="25.0" prefHeight="79.0" prefWidth="357.0">
          <children>
-            <Label layoutX="12.0" layoutY="22.0" prefHeight="36.0" prefWidth="341.0" text="TESTING AUTHENTIFICATION" textAlignment="CENTER" textFill="WHITE">
+            <Label layoutX="72.0" layoutY="22.0" prefHeight="36.0" prefWidth="213.0" text="SERVER VERSION" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="System Bold" size="25.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <Label layoutX="102.0" layoutY="199.0" text="Authentification was successful!" textFill="#003d50">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-      </Label>
+      <TableView layoutX="52.0" layoutY="137.0" prefHeight="187.0" prefWidth="469.0">
+         <columns>
+            <TableColumn prefWidth="150.0" text="Charge Point ID" />
+            <TableColumn prefWidth="100.0" text="Server" />
+            <TableColumn prefWidth="217.0" text="Version" />
+         </columns>
+      </TableView>
    </children>
 </AnchorPane>
