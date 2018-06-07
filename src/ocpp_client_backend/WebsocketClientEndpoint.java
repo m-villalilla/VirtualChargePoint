@@ -21,6 +21,7 @@ public class WebsocketClientEndpoint {
             container.connectToServer(this, endpointURI);
             System.out.println(WebsocketClientConfigurator.getVersion() + " Version Check Successful");
         } catch (Exception e) {
+        	System.out.println(e.getMessage());
         	System.out.println(WebsocketClientConfigurator.getVersion() + " Version Check Failed");
         }
     }
