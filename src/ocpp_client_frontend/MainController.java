@@ -40,6 +40,10 @@ public class MainController implements Initializable {
 	@FXML
 	private TextField idAuthorization;
 	@FXML
+	private TextField chargePointVendor;
+	@FXML
+	private TextField chargePointModel;
+	@FXML
 	public ComboBox<String> combobox;
 	@FXML
 	private RadioButton rb1;
@@ -55,6 +59,7 @@ public class MainController implements Initializable {
 	//Elements in ComboBox
 	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions", "Getting Server Version", "Testing Authentification", "Testing Transaction");
 	static Chargepoint chargepoint = new Chargepoint();
+	
 	
 	/**
 	 * fill comboBox with predefined values from an observable list
@@ -72,6 +77,7 @@ public class MainController implements Initializable {
 		chargePointID.setText("TestPoint00");
 	}
 	
+
 	//Event Handler for Button Advanced Settings
 		public void settings(ActionEvent event)throws Exception {
 			Stage settingStage = new Stage();

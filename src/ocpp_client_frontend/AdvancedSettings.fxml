@@ -26,12 +26,12 @@
       </Pane>
       <Pane fx:id="pane2" layoutX="203.0" layoutY="133.0" prefHeight="211.0" prefWidth="296.0">
          <children>
-            <TextField fx:id="ipAddress" layoutX="26.0" layoutY="51.0" prefHeight="39.0" prefWidth="249.0" promptText="CHARGE POINT VENDOR">
+            <TextField fx:id="chargePointVendor" layoutX="26.0" layoutY="51.0" prefHeight="39.0" prefWidth="249.0" promptText="CHARGE POINT VENDOR" text="Siemens">
                <font>
                   <Font size="18.0" />
                </font>
             </TextField>
-            <TextField fx:id="chargePointID" layoutX="26.0" layoutY="144.0" prefHeight="39.0" prefWidth="249.0" promptText="CARGE POINT MODEL">
+            <TextField fx:id="chargePointModel" layoutX="26.0" layoutY="144.0" prefHeight="39.0" prefWidth="249.0" promptText="CHARGE POINT MODEL" text="CT4000">
                <font>
                   <Font size="18.0" />
                </font>
