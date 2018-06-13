@@ -40,6 +40,10 @@ public class MainController implements Initializable {
 	@FXML
 	private TextField idAuthorization;
 	@FXML
+	private TextField chargePointVendor;
+	@FXML
+	private TextField chargePointModel;
+	@FXML
 	public ComboBox<String> combobox;
 	@FXML
 	private RadioButton rb1;
@@ -50,11 +54,12 @@ public class MainController implements Initializable {
 	@FXML
 	private Button btnStart;
 	@FXML
-	private AnchorPane anchorMain;
+	private Button btnSettings;
 	
 	//Elements in ComboBox
 	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions", "Getting Server Version", "Testing Authentification", "Testing Transaction");
 	static Chargepoint chargepoint = new Chargepoint();
+	
 	
 	/**
 	 * fill comboBox with predefined values from an observable list
@@ -71,6 +76,23 @@ public class MainController implements Initializable {
 		ipAddress.setText("test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/");
 		chargePointID.setText("TestPoint00");
 	}
+	
+
+	//Event Handler for Button Advanced Settings
+		public void settings(ActionEvent event)throws Exception {
+			Stage settingStage = new Stage();
+			Parent root = FXMLLoader.load(getClass().getResource("AdvancedSettings.fxml"));
+			Scene scene = new Scene(root,580,370);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			settingStage.setScene(scene);
+			Image icon = new Image("file:icons/ChargePointIcon.png");
+			settingStage.getIcons().add(icon);
+			settingStage.show();
+			//position at center of screen
+			Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+		    settingStage.setX((primScreenBounds.getWidth() - settingStage.getWidth()) / 2); 
+		    settingStage.setY((primScreenBounds.getHeight() - settingStage.getHeight()) / 2);
+		}
 		
 	/**
 	 * regarding selected combobox value pressing start button leads to new message window 
@@ -120,6 +142,7 @@ public class MainController implements Initializable {
 	    stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
 		
 	}
+	
 
 	/**
 	 * Creates thread to start the test and starts it
@@ -181,19 +204,19 @@ public class MainController implements Initializable {
 		
 		if( (!(mIp.find() && mIp.group().equals(ipAddress.getText())))&& (!(mUrl.find() && mUrl.group().equals(ipAddress.getText()))) ) {
 			inputError.setTitle("Incorrect IP Address or URL");
-			inputError.setContentText("Please enter a correct IP Address or URL!\n\nA correct IP Address consists of 4 decimal values separated by a point.");
+			inputError.setContentText("\nPlease enter a correct IP Address or URL!");
 		}
 		else if (!(mChargePoint.find() && mChargePoint.group().equals(chargePointID.getText()))) {
 			inputError.setTitle("Incorrect Charge Point ID");
-			inputError.setContentText("Please enter a correct Charge Point ID!");
+			inputError.setContentText("\nPlease enter a correct Charge Point ID!");
 		}
 		else if (!(mId.find() && mId.group().equals(idAuthorization.getText()))) {
 			inputError.setTitle("Incorrect Authorization ID");
-			inputError.setContentText("Please enter a correct Authorization ID!\n\nA correct Authorization ID is a sequence of 6 to 8 hex numbers.");
+			inputError.setContentText("\nPlease enter a correct Authorization ID!");
 		}
 		else if (combobox.getValue() == null) {
 			inputError.setTitle("No test selected");
-			inputError.setContentText("Please select a test!");
+			inputError.setContentText("\nPlease select a test!");
 		}
 		else {
 			chargepoint.setChargeBoxId(chargePointID.getText()) ;
@@ -209,21 +232,15 @@ public class MainController implements Initializable {
 		
 		inputError.setHeaderText("ERROR");
 		inputError.setResizable(false);
-		inputError.getDialogPane().setPrefSize(480, 320);
+		inputError.getDialogPane().setPrefSize(480, 280);
 		
 		//Alert Window position center of screen - not exactly center
 		Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
-	    int centerX = (int)screenSize.getWidth()/3 + (int)inputError.getWidth();
-	    int centerY = (int)screenSize.getHeight()/3 + (int)inputError.getHeight();
+	    int centerX = (int)screenSize.getWidth()/2 - (int)screenSize.getWidth()/8;
+	    int centerY = (int)screenSize.getHeight()/2 - (int)screenSize.getHeight()/8;
 	    inputError.setX(centerX);
 	    inputError.setY(centerY);
 	    
-	  //Alert Window position center of screen - not exactly center 
-	  	//Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
-	  	//inputError.setX(stage.getX()+ stage.getWidth()/2 - inputError.getWidth()/2); 
-	  	//inputError.setY(stage.getY()+ stage.getHeight()/2 - inputError.getHeight()/2);
-	  	
-	  	
 		
 		inputError.showAndWait();
 			
