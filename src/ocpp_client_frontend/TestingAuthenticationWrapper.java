@@ -4,26 +4,43 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import eu.chargetime.ocpp.model.core.AuthorizeConfirmation;
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-public class TestingAuthenticationWrapper implements Observer {
+public class TestingAuthenticationWrapper implements Observer{
 	private Stage stage = new Stage();
+	FXMLLoader loader;
+	
+	@FXML
+	private Label blub;
 	
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Platform.runLater( () -> {
-				// TODO: Check what is in arg1 and decide based on that which window to open
 				Parent root = null;
 				Scene scene;
+				FXMLLoader fxmll;
+				
 				try {
-					root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
+					//root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
+					fxmll = new FXMLLoader(getClass().getResource("Authentification.fxml"));
+
+					if(((AuthorizeConfirmation) arg1).getIdTagInfo().getStatus().toString() != "Accepted") {
+						fxmll.getNamespace().put("authLabelText", "The entered authorization ID is invalid.");
+					} else {
+						fxmll.getNamespace().put("authLabelText", "The entered authorization ID is valid.");
+					}
+					
+					root = fxmll.load();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

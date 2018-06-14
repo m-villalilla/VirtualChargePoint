@@ -55,6 +55,7 @@ public class Chargepoint extends Observable {
     private String vendor;
     private String model;
     private String chargeBoxId;
+    private Boolean isConnected;
 
 	/**
 	 * Default constructor for Chargepoint_stable
@@ -66,6 +67,8 @@ public class Chargepoint extends Observable {
 		this.vendor = "DefaultVendor";
 		this.model = "DefaultModel";
 		this.chargeBoxId = "DefaultId";
+		this.isConnected = false;
+		this.transactionId = 0;
 	}
 	
 	/**
@@ -84,6 +87,8 @@ public class Chargepoint extends Observable {
 		this.vendor = vendor;
 		this.model = model;
 		this.chargeBoxId = chargeBoxId;
+		this.isConnected = false;
+		this.transactionId = 0;
 	}
     
     /**
@@ -178,19 +183,21 @@ public class Chargepoint extends Observable {
         
         client = new JSONClient(core);
         client.connect("ws://" + serverURL + chargeBoxId, null);
+        this.isConnected = true;
     }
 
     /**
      * Sends a BootNotification to the OCPP server
      */
     public void sendBootNotification(){
-        long startTime = System.nanoTime();
-    	Request request = core.createBootNotificationRequest(vendor, model);
-    	
-        try {
+    	try {
+    		if(!this.isConnected) throw new NotConnectedException();
+    		
+    		long startTime = System.nanoTime();
+    		Request request = core.createBootNotificationRequest(vendor, model);
 			client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
-		} catch (OccurenceConstraintException | UnsupportedFeatureException e) {
-			System.out.println("Error in function sendBootNotification()");
+		} catch (OccurenceConstraintException | UnsupportedFeatureException | NotConnectedException e) {
+			System.out.println("Error in sendBootNotification()");
 			e.printStackTrace();
 		}
     }
@@ -201,14 +208,22 @@ public class Chargepoint extends Observable {
      * @param token - authorization identifier
      */
     public void sendAuthorizeRequest(String token){
-    	long startTime = System.nanoTime();
-    	Request request;
-		
     	try {
+    		if(!this.isConnected) throw new NotConnectedException();
+    		
+    		long startTime = System.nanoTime();
+    		Request request;
     		request = core.createAuthorizeRequest(token);
-			client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
-		} catch (OccurenceConstraintException | UnsupportedFeatureException | PropertyConstraintException e) {
-			System.out.println("Error in function sendAuthorizeRequest()");
+			client.send(request).whenComplete((s, ex) -> 
+			{				
+				functionComplete(s, ex, startTime);
+				try {
+			    	if(((AuthorizeConfirmation) s).getIdTagInfo().getStatus().toString() != "Accepted") 
+			    		throw new InvalidIdException("ID was not accepted by the server.");
+				} catch (InvalidIdException e) {}
+			});
+		} catch (OccurenceConstraintException | UnsupportedFeatureException | PropertyConstraintException | NotConnectedException e) {
+			System.out.println("Error in sendAuthorizeRequest()");
 			e.printStackTrace();
 		}
     }
@@ -221,18 +236,20 @@ public class Chargepoint extends Observable {
      * @param meterStop		- meter value in Wh on stop
      */
     public void sendStartTransactionRequest(int connectorId, String token, int meterStart) {
-    	long startTime = System.nanoTime();
-    	Calendar timestamp = Calendar.getInstance();
-		Request request;
-		
-		try {
-			request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
+    	try {
+	    	if(!this.isConnected) throw new NotConnectedException();
+	    	sendAuthorizeRequest(token);
+	    	
+	    	long startTime = System.nanoTime();
+	    	Calendar timestamp = Calendar.getInstance();
+			Request request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
 			client.send(request).whenComplete((s, ex) -> { 
 				functionComplete(s, ex, startTime);
-				setTranscationId(((StartTransactionConfirmation) s).getTransactionId());
+				this.transactionId = ((StartTransactionConfirmation) s).getTransactionId();
+				
 			});
-		} catch (OccurenceConstraintException | UnsupportedFeatureException | PropertyConstraintException e) {
-			System.out.println("Error in function sendStartTransactionRequest()");
+		} catch (OccurenceConstraintException | UnsupportedFeatureException | PropertyConstraintException | NotConnectedException e) {
+			System.out.println("Error in sendStartTransactionRequest()");
 			e.printStackTrace();
 		}
     }
@@ -244,13 +261,18 @@ public class Chargepoint extends Observable {
      * @param meterStop		- meter value in Wh on stop
      */
     public void sendStopTransactionRequest(int transactionId, int meterStop) {
-    	long startTime = System.nanoTime();
-    	Calendar timestamp = Calendar.getInstance();
-    	Request request = core.createStopTransactionRequest(meterStop, timestamp, transactionId);
-    	
     	try {
-			client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
-		} catch (OccurenceConstraintException | UnsupportedFeatureException e) {
+	    	if(!this.isConnected) throw new NotConnectedException();
+	    	if(this.transactionId == 0) throw new NoTransactionException();
+	    	
+	    	long startTime = System.nanoTime();
+	    	Calendar timestamp = Calendar.getInstance();
+	    	Request request = core.createStopTransactionRequest(meterStop, timestamp, transactionId);
+			client.send(request).whenComplete((s, ex) -> {
+				functionComplete(s, ex, startTime);
+				this.transactionId = 0;
+			});
+		} catch (OccurenceConstraintException | UnsupportedFeatureException | NotConnectedException | NoTransactionException e) {
 			System.out.println("Error in sendStopTransactionRequest()");
 			e.printStackTrace();
 		}
@@ -262,14 +284,14 @@ public class Chargepoint extends Observable {
      * @param authorizationID Sets the authorization id used in the transaction
      */
 	public void checkTransactionSupport(String authorizationID) {
-		sendStartTransactionRequest(1, authorizationID, 0);
 		try {
-			Thread.sleep(1000);
+			sendStartTransactionRequest(1, authorizationID, 0);
+			Thread.sleep(3000);
+			sendStopTransactionRequest(getTransactionId(), 100);
 		} catch (InterruptedException e) {
 			System.out.println("Error in checkTransactionSupport()");
 			e.printStackTrace();
 		}
-		sendStopTransactionRequest(getTransactionId(), 100);
 	}
     
     /**
@@ -291,7 +313,7 @@ public class Chargepoint extends Observable {
     	setChanged();
     	if(ex == null) {
     		notifyObservers(s);
-    	} else{
+    	} else {
     		notifyObservers(ex);
     	}
     }
@@ -301,16 +323,8 @@ public class Chargepoint extends Observable {
      */
     public void disconnect() {
         if(client != null) client.disconnect();
+        this.isConnected = false;
     } 
-    
-    /**
-     * Sets the transactionId returned by sendStartTransactionRequest
-     * 
-     * @param transactionId
-     */
-    public void setTranscationId(int transactionId) {
-    	this.transactionId = transactionId;
-    }
     
     /**
      * Used to get the next measured time from the linked list
@@ -421,7 +435,8 @@ public class Chargepoint extends Observable {
 	}
 	
 	/**
-	 * Used to test which OCPP Versions the server supports
+	 * Used to test which OCPP Versions the server supports.
+	 * It tests all versions separately
 	 * 
 	 * @param serverURL URL of the Server that you want to test
 	 */
@@ -448,9 +463,7 @@ public class Chargepoint extends Observable {
 			WebsocketClientConfigurator.setVersion(version);
 			clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + chargeBoxId));
 
-			if(clientEndPoint.userSession != null) {
-				clientEndPoint.userSession.close();
-			}
+			if(clientEndPoint.userSession != null) clientEndPoint.userSession.close();
 			
             // Wait 5 seconds for messages from websocket
             Thread.sleep(5000);
