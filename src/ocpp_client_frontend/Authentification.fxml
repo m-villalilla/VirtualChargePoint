@@ -23,7 +23,7 @@
             </Label>
          </children>
       </Pane>
-      <Label layoutX="102.0" layoutY="199.0" text="Authentification was successful!" textFill="#003d50">
+      <Label layoutX="102.0" layoutY="199.0" text="$authLabelText" textFill="#003d50">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>

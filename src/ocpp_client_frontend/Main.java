@@ -7,10 +7,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
+import javafx.scene.image.Image; 
 
 
 public class Main extends Application {
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -23,13 +24,12 @@ public class Main extends Application {
 			primaryStage.setTitle("Virtual Charge Point");
 			primaryStage.setResizable(false);
 			
-			primaryStage.show();
-			
 			//position the primary stage at the center of the screen
 			Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 			primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
 	        primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
-			
+				        
+	        primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

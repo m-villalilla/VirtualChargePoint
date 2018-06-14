@@ -5,9 +5,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.sun.javafx.tk.Toolkit;
-
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,10 +19,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Screen;
@@ -60,7 +55,6 @@ public class MainController implements Initializable {
 	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions", "Getting Server Version", "Testing Authentification", "Testing Transaction");
 	static Chargepoint chargepoint = new Chargepoint();
 	
-	
 	/**
 	 * fill comboBox with predefined values from an observable list
 	 * 
@@ -73,26 +67,30 @@ public class MainController implements Initializable {
 
 		// Default values for input fields for development
 		idAuthorization.setText("0FFFFFF0");
-		ipAddress.setText("test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/");
+		ipAddress.setText("192.168.0.3:8080/steve/websocket/CentralSystemService/");
 		chargePointID.setText("TestPoint00");
 	}
 	
-
+	// TODO: Fix vendor and model, maybe a button is needed to save changes
 	//Event Handler for Button Advanced Settings
-		public void settings(ActionEvent event)throws Exception {
-			Stage settingStage = new Stage();
-			Parent root = FXMLLoader.load(getClass().getResource("AdvancedSettings.fxml"));
-			Scene scene = new Scene(root,580,370);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			settingStage.setScene(scene);
-			Image icon = new Image("file:icons/ChargePointIcon.png");
-			settingStage.getIcons().add(icon);
-			settingStage.show();
-			//position at center of screen
-			Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-		    settingStage.setX((primScreenBounds.getWidth() - settingStage.getWidth()) / 2); 
-		    settingStage.setY((primScreenBounds.getHeight() - settingStage.getHeight()) / 2);
-		}
+	public void settings(ActionEvent event) throws Exception {
+		Stage settingStage = new Stage();
+		Parent root = FXMLLoader.load(getClass().getResource("AdvancedSettings.fxml"));
+		Scene scene = new Scene(root,580,370);
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		settingStage.setScene(scene);
+		Image icon = new Image("file:icons/ChargePointIcon.png");
+		settingStage.getIcons().add(icon);
+		
+		//position at center of the screen
+		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+	    settingStage.setX((primScreenBounds.getWidth() - settingStage.getWidth()) / 2); 
+	    settingStage.setY((primScreenBounds.getHeight() - settingStage.getHeight()) / 2);
+	    
+	    settingStage.showAndWait();
+	    chargepoint.setModel(chargePointModel.getText());
+	    chargepoint.setVendor(chargePointVendor.getText());
+	}
 		
 	/**
 	 * regarding selected combobox value pressing start button leads to new message window 
@@ -104,15 +102,19 @@ public class MainController implements Initializable {
 		Stage stage = new Stage();
 		Parent root = null;
 		Scene scene;
+		FXMLLoader fxmll = null;
 		
 		if(!isInputValid()) return;
 		btnStart.setDisable(true);
 		
+		chargepoint.setChargeBoxId(chargePointID.getText());
+		
 		switch(combobox.getValue()) {
 			case "Testing Authentification":
-				//root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
-				startTest(null, "auth");
-				return;	//Only now needed, since we have no running window yet
+				fxmll = new FXMLLoader(getClass().getResource("Authentification.fxml"));
+				fxmll.getNamespace().put("authLabelText", "Test is running...");
+				startTest(stage, "auth");
+				break;
 	    	case "Testing Transaction":
 				root = FXMLLoader.load(getClass().getResource("TestingTransactionRunning.fxml"));
 				startTest(stage, "trans");
@@ -128,7 +130,7 @@ public class MainController implements Initializable {
 			default:
 				break;
 		}
-		
+		root = fxmll.load();
 		scene = new Scene(root,580,357);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		stage.setScene(scene);
@@ -244,6 +246,6 @@ public class MainController implements Initializable {
 		
 		inputError.showAndWait();
 			
-		return false;
+		return true; //TODO: CHANGE THAT BACK TO FALSE!!
 	}	
 }
