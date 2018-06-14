@@ -68,6 +68,7 @@ public class Chargepoint extends Observable {
 		this.model = "DefaultModel";
 		this.chargeBoxId = "DefaultId";
 		this.isConnected = false;
+		this.transactionId = 0;
 	}
 	
 	/**
@@ -87,6 +88,7 @@ public class Chargepoint extends Observable {
 		this.model = model;
 		this.chargeBoxId = chargeBoxId;
 		this.isConnected = false;
+		this.transactionId = 0;
 	}
     
     /**
@@ -240,11 +242,11 @@ public class Chargepoint extends Observable {
 	    	Calendar timestamp = Calendar.getInstance();
 			Request request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
 			client.send(request).whenComplete((s, ex) -> { 
-				functionComplete(s, ex, startTime);
 				try {
 					isIdValid(s);
+					functionComplete(s, ex, startTime);
+					setTranscationId(((StartTransactionConfirmation) s).getTransactionId());
 				} catch (InvalidIdException e) {}
-				setTranscationId(((StartTransactionConfirmation) s).getTransactionId());
 			});
 		} catch (OccurenceConstraintException | UnsupportedFeatureException | PropertyConstraintException | NotConnectedException e) {
 			System.out.println("Error in sendStartTransactionRequest()");
@@ -261,11 +263,16 @@ public class Chargepoint extends Observable {
     public void sendStopTransactionRequest(int transactionId, int meterStop) {
     	try {
 	    	if(!this.isConnected) throw new NotConnectedException();
+	    	if(this.transactionId == 0) throw new NoTransactionException();
+	    	
 	    	long startTime = System.nanoTime();
 	    	Calendar timestamp = Calendar.getInstance();
 	    	Request request = core.createStopTransactionRequest(meterStop, timestamp, transactionId);
-			client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
-		} catch (OccurenceConstraintException | UnsupportedFeatureException | NotConnectedException e) {
+			client.send(request).whenComplete((s, ex) -> {
+				functionComplete(s, ex, startTime);
+				this.transactionId = 0;
+			});
+		} catch (OccurenceConstraintException | UnsupportedFeatureException | NotConnectedException | NoTransactionException e) {
 			System.out.println("Error in sendStopTransactionRequest()");
 			e.printStackTrace();
 		}
