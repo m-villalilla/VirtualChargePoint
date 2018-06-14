@@ -101,7 +101,7 @@ public class MainController implements Initializable {
 	public void start(ActionEvent event) throws IOException {
 		Stage stage = new Stage();
 		Parent root = null;
-		Scene scene;
+		Scene scene = null;
 		FXMLLoader fxmll = null;
 		
 		if(!isInputValid()) return;
@@ -111,12 +111,14 @@ public class MainController implements Initializable {
 		
 		switch(combobox.getValue()) {
 			case "Testing Authentification":
-				fxmll = new FXMLLoader(getClass().getResource("Authentification.fxml"));
+				fxmll = new FXMLLoader(getClass().getResource("TestingAuthentification.fxml"));
 				fxmll.getNamespace().put("authLabelText", "Test is running...");
 				startTest(stage, "auth");
 				break;
 	    	case "Testing Transaction":
-				root = FXMLLoader.load(getClass().getResource("TestingTransactionRunning.fxml"));
+				fxmll = new FXMLLoader(getClass().getResource("TestingTransaction.fxml"));
+				fxmll.getNamespace().put("transLabelText", "Test is running...");
+				fxmll.getNamespace().put("transImgUrl", "file:icons/TrafficlightYellow.png");
 				startTest(stage, "trans");
 				break;
 			case "Getting Server Functions":
@@ -130,6 +132,7 @@ public class MainController implements Initializable {
 			default:
 				break;
 		}
+		
 		root = fxmll.load();
 		scene = new Scene(root,580,357);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -137,12 +140,11 @@ public class MainController implements Initializable {
 		Image icon = new Image("file:icons/ChargePointIcon.png");
 		stage.getIcons().add(icon);
 		stage.show();
-		
 		//Message Windows position at center of screen
 		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 	    stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2); 
 	    stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
-		
+	    
 	}
 	
 

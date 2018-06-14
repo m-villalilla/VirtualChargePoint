@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import eu.chargetime.ocpp.model.core.AuthorizeConfirmation;
+import eu.chargetime.ocpp.model.core.StopTransactionConfirmation;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -15,18 +17,40 @@ import javafx.stage.Stage;
 
 public class TestingTransactionWrapper implements Observer {
 	private Stage stage = new Stage();
+	private boolean errorOccured = false;
 	
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Platform.runLater( () -> {
-				// TODO: Check what is in arg1 and decide based on that which window to open
 				Parent root = null;
 				Scene scene;
-				try {
-					root = FXMLLoader.load(getClass().getResource("TestingTransaction.fxml"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				FXMLLoader fxmll = new FXMLLoader(getClass().getResource("TestingTransaction.fxml"));
+				
+				if(errorOccured) return;
+				if(arg1 instanceof AuthorizeConfirmation) {
+					if(((AuthorizeConfirmation) arg1).getIdTagInfo().getStatus().toString() == "Accepted") {
+						return;
+					}
+					else {
+						try {
+							errorOccured = true;
+							fxmll.getNamespace().put("transLabelText", "Test was not successful.\nReason: ID invalid.");
+							fxmll.getNamespace().put("transImgUrl", "file:icons/TrafficlightRed.png");
+							root = fxmll.load();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				} else if(arg1 instanceof StopTransactionConfirmation && !errorOccured){
+					try { 
+						fxmll.getNamespace().put("transLabelText", "Test was successful.");
+						fxmll.getNamespace().put("transImgUrl", "file:icons/TrafficlightGreen.png");
+						
+						root = fxmll.load();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} else return;
 				
 				scene = new Scene(root,580,357);
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -39,6 +63,8 @@ public class TestingTransactionWrapper implements Observer {
 				Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 			    stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2); 
 			    stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
+			
+				
 			}
 		);
 	}

@@ -285,7 +285,7 @@ public class Chargepoint extends Observable {
      */
 	public void checkTransactionSupport(String authorizationID) {
 		try {
-			sendStartTransactionRequest(1, authorizationID, 0);
+			sendStartTransactionRequest(1, authorizationID, 300);
 			Thread.sleep(3000);
 			sendStopTransactionRequest(getTransactionId(), 100);
 		} catch (InterruptedException e) {

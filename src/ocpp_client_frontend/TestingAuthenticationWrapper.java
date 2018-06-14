@@ -6,12 +6,10 @@ import java.util.Observer;
 
 import eu.chargetime.ocpp.model.core.AuthorizeConfirmation;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -20,22 +18,18 @@ public class TestingAuthenticationWrapper implements Observer{
 	private Stage stage = new Stage();
 	FXMLLoader loader;
 	
-	@FXML
-	private Label blub;
-	
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Platform.runLater( () -> {
 				Parent root = null;
 				Scene scene;
-				FXMLLoader fxmll;
+				String status = ((AuthorizeConfirmation) arg1).getIdTagInfo().getStatus().toString();
+				
+				FXMLLoader fxmll = new FXMLLoader(getClass().getResource("TestingAuthentification.fxml"));
 				
 				try {
-					//root = FXMLLoader.load(getClass().getResource("Authentification.fxml"));
-					fxmll = new FXMLLoader(getClass().getResource("Authentification.fxml"));
-
-					if(((AuthorizeConfirmation) arg1).getIdTagInfo().getStatus().toString() != "Accepted") {
-						fxmll.getNamespace().put("authLabelText", "The entered authorization ID is invalid.");
+					if(status != "Accepted") {
+						fxmll.getNamespace().put("authLabelText", "The entered authorization ID is invalid.\nStatus: " + status);
 					} else {
 						fxmll.getNamespace().put("authLabelText", "The entered authorization ID is valid.");
 					}
