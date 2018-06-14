@@ -218,7 +218,8 @@ public class Chargepoint extends Observable {
 			{				
 				functionComplete(s, ex, startTime);
 				try {
-					isIdValid(s);
+			    	if(((AuthorizeConfirmation) s).getIdTagInfo().getStatus().toString() != "Accepted") 
+			    		throw new InvalidIdException("ID was not accepted by the server.");
 				} catch (InvalidIdException e) {}
 			});
 		} catch (OccurenceConstraintException | UnsupportedFeatureException | PropertyConstraintException | NotConnectedException e) {
@@ -237,16 +238,15 @@ public class Chargepoint extends Observable {
     public void sendStartTransactionRequest(int connectorId, String token, int meterStart) {
     	try {
 	    	if(!this.isConnected) throw new NotConnectedException();
+	    	sendAuthorizeRequest(token);
 	    	
 	    	long startTime = System.nanoTime();
 	    	Calendar timestamp = Calendar.getInstance();
 			Request request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
 			client.send(request).whenComplete((s, ex) -> { 
-				try {
-					isIdValid(s);
-					functionComplete(s, ex, startTime);
-					setTranscationId(((StartTransactionConfirmation) s).getTransactionId());
-				} catch (InvalidIdException e) {}
+				functionComplete(s, ex, startTime);
+				this.transactionId = ((StartTransactionConfirmation) s).getTransactionId();
+				
 			});
 		} catch (OccurenceConstraintException | UnsupportedFeatureException | PropertyConstraintException | NotConnectedException e) {
 			System.out.println("Error in sendStartTransactionRequest()");
@@ -286,7 +286,7 @@ public class Chargepoint extends Observable {
 	public void checkTransactionSupport(String authorizationID) {
 		try {
 			sendStartTransactionRequest(1, authorizationID, 0);
-			Thread.sleep(1000);
+			Thread.sleep(3000);
 			sendStopTransactionRequest(getTransactionId(), 100);
 		} catch (InterruptedException e) {
 			System.out.println("Error in checkTransactionSupport()");
@@ -318,11 +318,6 @@ public class Chargepoint extends Observable {
     	}
     }
     
-    private void isIdValid(Confirmation s) throws InvalidIdException {
-    	if(((AuthorizeConfirmation) s).getIdTagInfo().getStatus().toString() != "Accepted") 
-    		throw new InvalidIdException("ID was not accepted by the server.");
-    }
-    
     /**
      * Disconnects the client from the OCPP server
      */
@@ -330,15 +325,6 @@ public class Chargepoint extends Observable {
         if(client != null) client.disconnect();
         this.isConnected = false;
     } 
-    
-    /**
-     * Sets the transactionId returned by sendStartTransactionRequest
-     * 
-     * @param transactionId
-     */
-    public void setTranscationId(int transactionId) {
-    	this.transactionId = transactionId;
-    }
     
     /**
      * Used to get the next measured time from the linked list
@@ -449,7 +435,8 @@ public class Chargepoint extends Observable {
 	}
 	
 	/**
-	 * Used to test which OCPP Versions the server supports
+	 * Used to test which OCPP Versions the server supports.
+	 * It tests all versions separately
 	 * 
 	 * @param serverURL URL of the Server that you want to test
 	 */
@@ -476,9 +463,7 @@ public class Chargepoint extends Observable {
 			WebsocketClientConfigurator.setVersion(version);
 			clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + chargeBoxId));
 
-			if(clientEndPoint.userSession != null) {
-				clientEndPoint.userSession.close();
-			}
+			if(clientEndPoint.userSession != null) clientEndPoint.userSession.close();
 			
             // Wait 5 seconds for messages from websocket
             Thread.sleep(5000);

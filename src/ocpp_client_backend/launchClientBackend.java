@@ -18,14 +18,15 @@ public class launchClientBackend {
 		config.load(stream);
 		stream.close();
 		
-		String serverURL  		= config.getProperty("serverURL");
+		//String serverURL  		= config.getProperty("serverURL");
+		String serverURL = "192.168.0.3:8080/steve/websocket/CentralSystemService/";
 		String ChargeBoxID 		= config.getProperty("ChargeBoxID.00");				//Use ChargeBoxID.00 as example
 		String CPVendor   		= config.getProperty("CPVendor");
 		String CPModel 	  		= config.getProperty("CPModel");
 		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
 		//String authorizationID = "1234";
 		
-		String whatToTest = "VT"; //STRESSTEST or SINGLECLIENT or WS or VT
+		String whatToTest = "SINGLECLIENT"; //STRESSTEST or SINGLECLIENT or WS or VT
 		Chargepoint client = new Chargepoint(ChargeBoxID, CPVendor, CPModel, true, false);
 
 		switch (whatToTest) {
@@ -40,36 +41,13 @@ public class launchClientBackend {
 				try {
 					client.connect(serverURL);
 					System.out.println("Client connected.");
-				} catch (Exception e) {
-					System.out.println("Error while trying to connect to the server.");
-					e.printStackTrace();
-				}
-				
-				try {
 					client.sendBootNotification();
-				} catch (Exception e) {
-					System.out.println("Error while trying to sent a boot notification");
-					e.printStackTrace();
-				}
-				
-				try {
 					client.sendAuthorizeRequest(authorizationID);
-				} catch (Exception e) {
-					System.out.println("Error while trying to authorize an ID");
-					e.printStackTrace();
-				}
-				
-				try {
 					client.checkTransactionSupport(authorizationID);
-				} catch (Exception e) {
-					System.out.println("Error while trying to start a transaction");
-					e.printStackTrace();
-				}
-				
-				try {
 					Thread.sleep(2000);	// Give the server time to respond to ongoing requests
 					client.disconnect();
 					System.out.println("Client disconnected.");
+					
 				} catch (InterruptedException e) {
 					System.out.println("Error while trying to disconnect");
 					e.printStackTrace();
