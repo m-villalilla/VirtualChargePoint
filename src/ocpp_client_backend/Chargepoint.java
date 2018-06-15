@@ -46,27 +46,27 @@ import eu.chargetime.ocpp.model.core.*;
  */
 
 public class Chargepoint extends Observable {
-    private IClientAPI client;
-    private ClientCoreProfile core;
-    private int transactionId;
+    private IClientAPI client = null;
+    private ClientCoreProfile core = null;
     private LinkedList<Long> measurements;
-    private boolean measureMode;
-    private boolean stressTest;
     private String vendor;
     private String model;
     private String chargeBoxId;
-    private Boolean isConnected;
+    private boolean measureMode;
+    private boolean stressTest;
+    private boolean isConnected;
+    private int transactionId;
 
 	/**
 	 * Default constructor for Chargepoint_stable
 	 */
     public Chargepoint() {
 		this.measurements = new LinkedList<>();
-		this.measureMode = false;
-		this.stressTest = false;
 		this.vendor = "DefaultVendor";
 		this.model = "DefaultModel";
 		this.chargeBoxId = "DefaultId";
+		this.measureMode = false;
+		this.stressTest = false;
 		this.isConnected = false;
 		this.transactionId = 0;
 	}
@@ -82,11 +82,11 @@ public class Chargepoint extends Observable {
 	 */
     public Chargepoint(String chargeBoxId, String vendor, String model, boolean measureMode, boolean stressTest) {
 		this.measurements = new LinkedList<>();
-		this.measureMode = measureMode;
-		this.stressTest = stressTest;
 		this.vendor = vendor;
 		this.model = model;
 		this.chargeBoxId = chargeBoxId;
+		this.measureMode = measureMode;
+		this.stressTest = stressTest;
 		this.isConnected = false;
 		this.transactionId = 0;
 	}
@@ -97,86 +97,58 @@ public class Chargepoint extends Observable {
      * @param serverURL - specifies the URL of the OCPP server
      */
     public void connect(String serverURL) {
-        // The core profile is mandatory
         core = new ClientCoreProfile(new ClientCoreEventHandler() {
             @Override
             public ChangeAvailabilityConfirmation handleChangeAvailabilityRequest(ChangeAvailabilityRequest request) {
-
                 System.out.println(request);
-                // ... handle event
-
                 return new ChangeAvailabilityConfirmation(AvailabilityStatus.Accepted);
             }
 
             @Override
             public GetConfigurationConfirmation handleGetConfigurationRequest(GetConfigurationRequest request) {
-
                 System.out.println(request);
-                // ... handle event
-
                 return null; // returning null means unsupported feature
             }
 
             @Override
             public ChangeConfigurationConfirmation handleChangeConfigurationRequest(ChangeConfigurationRequest request) {
-
-                System.out.println(request);
-                // ... handle event
-
+            	System.out.println(request);
                 return null; // returning null means unsupported feature
             }
 
             @Override
             public ClearCacheConfirmation handleClearCacheRequest(ClearCacheRequest request) {
-
-                System.out.println(request);
-                // ... handle event
-
+            	System.out.println(request);
                 return null; // returning null means unsupported feature
             }
 
             @Override
             public DataTransferConfirmation handleDataTransferRequest(DataTransferRequest request) {
-
                 System.out.println(request);
-                // ... handle event
-
                 return null; // returning null means unsupported feature
             }
 
             @Override
             public RemoteStartTransactionConfirmation handleRemoteStartTransactionRequest(RemoteStartTransactionRequest request) {
-
                 System.out.println(request);
-                // ... handle event
-
                 return null; // returning null means unsupported feature
             }
 
             @Override
             public RemoteStopTransactionConfirmation handleRemoteStopTransactionRequest(RemoteStopTransactionRequest request) {
-
                 System.out.println(request);
-                // ... handle event
-
                 return null; // returning null means unsupported feature
             }
 
             @Override
             public ResetConfirmation handleResetRequest(ResetRequest request) {
-
-                System.out.println(request);
-                // ... handle event
-
+            	System.out.println(request);
                 return null; // returning null means unsupported feature
             }
 
             @Override
             public UnlockConnectorConfirmation handleUnlockConnectorRequest(UnlockConnectorRequest request) {
-
                 System.out.println(request);
-                // ... handle event
-
                 return null; // returning null means unsupported feature
             }
         });
@@ -190,11 +162,12 @@ public class Chargepoint extends Observable {
      * Sends a BootNotification to the OCPP server
      */
     public void sendBootNotification(){
+    	long startTime = System.nanoTime();
+    	Request request = null;
+    	
     	try {
     		if(!this.isConnected) throw new NotConnectedException();
-    		
-    		long startTime = System.nanoTime();
-    		Request request = core.createBootNotificationRequest(vendor, model);
+    		request = core.createBootNotificationRequest(vendor, model);
 			client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
 		} catch (OccurenceConstraintException | UnsupportedFeatureException | NotConnectedException e) {
 			System.out.println("Error in sendBootNotification()");
@@ -208,11 +181,11 @@ public class Chargepoint extends Observable {
      * @param token - authorization identifier
      */
     public void sendAuthorizeRequest(String token){
+    	long startTime = System.nanoTime();
+    	Request request = null;
+    	
     	try {
     		if(!this.isConnected) throw new NotConnectedException();
-    		
-    		long startTime = System.nanoTime();
-    		Request request;
     		request = core.createAuthorizeRequest(token);
 			client.send(request).whenComplete((s, ex) -> 
 			{				
@@ -236,13 +209,14 @@ public class Chargepoint extends Observable {
      * @param meterStop		- meter value in Wh on stop
      */
     public void sendStartTransactionRequest(int connectorId, String token, int meterStart) {
+    	Calendar timestamp = Calendar.getInstance();
+    	long startTime = System.nanoTime();
+    	Request request = null;
+    	
     	try {
 	    	if(!this.isConnected) throw new NotConnectedException();
+	    	request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
 	    	sendAuthorizeRequest(token);
-	    	
-	    	long startTime = System.nanoTime();
-	    	Calendar timestamp = Calendar.getInstance();
-			Request request = core.createStartTransactionRequest(connectorId, token, meterStart, timestamp);
 			client.send(request).whenComplete((s, ex) -> { 
 				functionComplete(s, ex, startTime);
 				this.transactionId = ((StartTransactionConfirmation) s).getTransactionId();
@@ -261,13 +235,14 @@ public class Chargepoint extends Observable {
      * @param meterStop		- meter value in Wh on stop
      */
     public void sendStopTransactionRequest(int transactionId, int meterStop) {
+    	Calendar timestamp = Calendar.getInstance();
+    	long startTime = System.nanoTime();
+    	Request request;
+    	
     	try {
 	    	if(!this.isConnected) throw new NotConnectedException();
 	    	if(this.transactionId == 0) throw new NoTransactionException();
-	    	
-	    	long startTime = System.nanoTime();
-	    	Calendar timestamp = Calendar.getInstance();
-	    	Request request = core.createStopTransactionRequest(meterStop, timestamp, transactionId);
+	    	request = core.createStopTransactionRequest(meterStop, timestamp, transactionId);
 			client.send(request).whenComplete((s, ex) -> {
 				functionComplete(s, ex, startTime);
 				this.transactionId = 0;
@@ -318,122 +293,6 @@ public class Chargepoint extends Observable {
     	}
     }
     
-    /**
-     * Disconnects the client from the OCPP server
-     */
-    public void disconnect() {
-        if(client != null) client.disconnect();
-        this.isConnected = false;
-    } 
-    
-    /**
-     * Used to get the next measured time from the linked list
-     * 
-     * @return last time from the linked list
-     */
-    public long getNextTime() {
-		return measurements.pop();
-	}
-    
-    /**
-     * Used to get the transaction id of the client
-     * 
-     * @return
-     */
-    public int getTransactionId() {
-    	return this.transactionId;
-    }
-
-	/**
-	 * Used to get the current value of measureMode of the client
-	 * 
-	 * @return value of variable measureMode
-	 */
-    public boolean isMeasureMode() {
-		return measureMode;
-	}
-
-	/**
-	 * Used to set the measureMode variable of the client
-	 * 
-	 * @param measureMode
-	 */
-    public void setMeasureMode(boolean measureMode) {
-		this.measureMode = measureMode;
-	}
-
-	/**
-	 * Used to get the current value of stressTest of the client
-	 * 
-	 * @return value of variable stressTest
-	 */
-    public boolean isStressTest() {
-		return stressTest;
-	}
-
-	/**
-	 * Used to set the stressTest variable of the client
-	 * 
-	 * @param stressTest
-	 */
-    public void setStressTest(boolean stressTest) {
-		this.stressTest = stressTest;
-	}
-
-	/**
-	 * Used to get the vendor of the client
-	 * 
-	 * @return value of the variable vendor
-	 */
-    public String getVendor() {
-		return vendor;
-	}
-
-	/**
-	 * Used to set the vendor of the client
-	 * 
-	 * @param vendor
-	 */
-    public void setVendor(String vendor) {
-		this.vendor = vendor;
-	}
-
-	/**
-	 * Used to get the model of the client
-	 * 
-	 * @return value of the variable model
-	 */
-	public String getModel() {
-		return model;
-	}
-
-	/**
-	 * Used to set the model of the client
-	 * 
-	 * @param model
-	 */
-	public void setModel(String model) {
-		this.model = model;
-	}
-
-	/**
-	 * Used to get the chargeBoxId of the client
-	 * 
-	 * @return value of the variable chargeBoxId
-	 */
-	public String getChargeBoxId() {
-		return chargeBoxId;
-	}
-
-	/**
-	 * Used to set the chargeBoxid of the client
-	 * 
-	 * @param chargeBoxId
-	 */
-	public void setChargeBoxId(String chargeBoxId) {
-		this.chargeBoxId = chargeBoxId;
-	}
-	
 	/**
 	 * Used to test which OCPP Versions the server supports.
 	 * It tests all versions separately
@@ -454,13 +313,11 @@ public class Chargepoint extends Observable {
 	 * @param serverURL URL of the Server that you want to test
 	 * @param version the specific OCPP version which you want to test
 	 */
-
-	
 	public void testVersion(String serverURL, String version) {
-		WebsocketClientEndpoint clientEndPoint;
+		WebsocketClientEndpoint clientEndPoint = null;
+		WebsocketClientConfigurator.setVersion(version);
 		
 		try {
-			WebsocketClientConfigurator.setVersion(version);
 			clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + chargeBoxId));
 			if(clientEndPoint.userSession != null) clientEndPoint.userSession.close();
 			
@@ -476,5 +333,107 @@ public class Chargepoint extends Observable {
         } catch (IOException ex) {
         	System.out.println("IOException exception: " + ex.getMessage());
         }
+	}
+	
+    /**
+     * Disconnects the client from the OCPP server
+     */
+    public void disconnect() {
+        if(client != null) client.disconnect();
+        this.isConnected = false;
+    } 
+    
+    /**
+     * @return last time from the linked list
+     */
+    public long getNextTime() {
+		return measurements.pop();
+	}
+    
+    /**
+     * @return Returns the transaction id of the client
+     */
+    public int getTransactionId() {
+    	return this.transactionId;
+    }
+
+	/**
+	 * @return value of variable measureMode
+	 */
+    public boolean isMeasureMode() {
+		return measureMode;
+	}
+
+	/**
+	 * Used to set the measureMode variable of the client
+	 * 
+	 * @param measureMode
+	 */
+    public void setMeasureMode(boolean measureMode) {
+		this.measureMode = measureMode;
+	}
+
+	/**
+	 * @return value of variable stressTest
+	 */
+    public boolean isStressTest() {
+		return stressTest;
+	}
+
+	/**
+	 * Used to set the stressTest variable of the client
+	 * 
+	 * @param stressTest
+	 */
+    public void setStressTest(boolean stressTest) {
+		this.stressTest = stressTest;
+	}
+
+	/**
+	 * @return value of the variable vendor
+	 */
+    public String getVendor() {
+		return vendor;
+	}
+
+	/**
+	 * Used to set the vendor of the client
+	 * 
+	 * @param vendor
+	 */
+    public void setVendor(String vendor) {
+		this.vendor = vendor;
+	}
+
+	/**
+	 * @return value of the variable model
+	 */
+	public String getModel() {
+		return model;
+	}
+
+	/**
+	 * Used to set the model of the client
+	 * 
+	 * @param model
+	 */
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	/**
+	 * @return value of the variable chargeBoxId
+	 */
+	public String getChargeBoxId() {
+		return chargeBoxId;
+	}
+
+	/**
+	 * Used to set the chargeBoxid of the client
+	 * 
+	 * @param chargeBoxId
+	 */
+	public void setChargeBoxId(String chargeBoxId) {
+		this.chargeBoxId = chargeBoxId;
 	}
 }

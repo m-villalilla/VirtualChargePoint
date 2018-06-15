@@ -1,9 +1,9 @@
 package ocpp_client_backend;
 
 public class OCPPServerStressTest {
-	private static Chargepoint [] clients;
-	private static long bootTimeResults[]; 
-	private static long authorizeTimeResults[];
+	private static Chargepoint [] clients = null;
+	private static long bootTimeResults[] = null; 
+	private static long authorizeTimeResults[] = null;
 	
 	/**
 	 * Tests how the server behaves with a certain amount of clients in terms of responds time
@@ -53,26 +53,6 @@ public class OCPPServerStressTest {
 	}
 	
 	/**
-	 * Returns the array with the boot times. 
-	 * Can be used to perform further analysis
-	 * 
-	 * @return Array with the results of boot time
-	 */
-	public static long[] getBootTimeResults() {
-		return bootTimeResults;
-	}
-	
-	/**
-	 * Returns the array with the authorization times. 
-	 * Can be used to perform further analysis
-	 * 
-	 * @return Array with the results of authorization time
-	 */
-	public static long[] getAuthorizeTimeResults() {
-		return authorizeTimeResults;
-	}
-	
-	/**
 	 * Internal function to evaluate the resulted times
 	 * 
 	 * @param nrClients Defines how many clients are used
@@ -103,5 +83,25 @@ public class OCPPServerStressTest {
 		System.out.println("\tMin:     " + minAuthorize + "ms");
 		System.out.println("\tAverage: " + (sumAuthorize/nrClients) + "ms");
 		System.out.println("\tMax:     " + maxAuthorize + "ms");
+	}
+	
+	/**
+	 * Returns the array with the boot times. 
+	 * Can be used to perform further analysis
+	 * 
+	 * @return Array with the results of boot time
+	 */
+	public static long[] getBootTimeResults() {
+		return bootTimeResults;
+	}
+	
+	/**
+	 * Returns the array with the authorization times. 
+	 * Can be used to perform further analysis
+	 * 
+	 * @return Array with the results of authorization time
+	 */
+	public static long[] getAuthorizeTimeResults() {
+		return authorizeTimeResults;
 	}
 }

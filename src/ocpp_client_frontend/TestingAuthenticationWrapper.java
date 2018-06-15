@@ -14,25 +14,36 @@ import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+/**
+ * This class is used, to evaluate the result of a authentication test and displays it in a new stage.
+ */
 public class TestingAuthenticationWrapper implements Observer{
 	private Stage stage = new Stage();
 	
+	/**
+	 * This function is called multiple times while the test is running.
+	 * It collects the results and combines them into one displayable result.
+	 * 
+	 *  @param arg0 - {@inheritDoc}
+	 *  @param arg1 - {@inheritDoc}
+	 */
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Platform.runLater( () -> {
-				Parent root = null;
-				Scene scene;
 				String status = ((AuthorizeConfirmation) arg1).getIdTagInfo().getStatus().toString();
-				
 				FXMLLoader fxmll = new FXMLLoader(getClass().getResource("TestingAuthentification.fxml"));
+				Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+				Image icon = new Image("file:icons/ChargePointIcon.png");
+				Parent root = null;
+				Scene scene = null;
 				
+				if(status != "Accepted") {
+					fxmll.getNamespace().put("authLabelText", "The entered authorization ID is invalid.\nStatus: " + status);
+				} else {
+					fxmll.getNamespace().put("authLabelText", "The entered authorization ID is valid.");
+				}
+								
 				try {
-					if(status != "Accepted") {
-						fxmll.getNamespace().put("authLabelText", "The entered authorization ID is invalid.\nStatus: " + status);
-					} else {
-						fxmll.getNamespace().put("authLabelText", "The entered authorization ID is valid.");
-					}
-					
 					root = fxmll.load();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -41,12 +52,10 @@ public class TestingAuthenticationWrapper implements Observer{
 				scene = new Scene(root,580,357);
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				stage.setScene(scene);
-				Image icon = new Image("file:icons/ChargePointIcon.png");
 				stage.getIcons().add(icon);
 				stage.show();
 				
 				//Message Windows position at center of screen
-				Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 			    stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2); 
 			    stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
 			}
