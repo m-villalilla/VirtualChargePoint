@@ -22,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -50,6 +51,8 @@ public class MainController implements Initializable {
 	private Button btnStart;
 	@FXML
 	private Button btnSettings;
+	@FXML
+	private TableView<VersionRow> tableVersions;
 	
 	//Elements in ComboBox
 	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions", "Getting Server Version", "Testing Authentification", "Testing Transaction");
@@ -70,11 +73,19 @@ public class MainController implements Initializable {
 			idAuthorization.setText("0FFFFFF0");
 			ipAddress.setText("192.168.0.3:8080/steve/websocket/CentralSystemService/");
 			chargePointID.setText("TestPoint00");
-		} else {
+		} else if(arg0.getPath().contains("Advanced")){
 			chargePointVendor.setPromptText("e.g. Siemens");
 			chargePointVendor.setFocusTraversable(false);
 			chargePointModel.setPromptText("e.g. CT4000");
 			chargePointModel.setFocusTraversable(false);
+		} else {
+			//TODO: CHange this to wrapper return or something
+			ObservableList<VersionRow> list = tableVersions.getItems();
+			list.add(new VersionRow("Version 1.0", "Not Supported"));
+			list.add(new VersionRow("Version 1.2", "Not Supported"));
+			list.add(new VersionRow("Version 1.5", "Not Supported"));
+			list.add(new VersionRow("Version 1.6", "Not Supported"));
+			list.add(new VersionRow("Version 2.0", "Not Supported"));
 		}
 	}
 	
@@ -128,15 +139,15 @@ public class MainController implements Initializable {
 				fxmll = new FXMLLoader(getClass().getResource("TestingTransaction.fxml"));
 				fxmll.getNamespace().put("transLabelText", "Test is running...");
 				fxmll.getNamespace().put("transImgUrl", "file:icons/TrafficlightYellow.png");
-				startTest(stage, "trans");
+				//startTest(stage, "trans");
 				break;
 			case "Getting Server Functions":
-				root = FXMLLoader.load(getClass().getResource("ServerFunction.fxml"));
+				fxmll = new FXMLLoader(getClass().getResource("ServerFunction.fxml"));
 				startTest(null, "func");
 				break;
 			case "Getting Server Version":
-				root = FXMLLoader.load(getClass().getResource("ServerVersion.fxml"));
-				//startTest(null, "func");
+				fxmll = new FXMLLoader(getClass().getResource("ServerVersion.fxml"));				
+				//startTest(null, "version");
 				break;
 			default:
 				break;
@@ -183,6 +194,10 @@ public class MainController implements Initializable {
 							case "func":
 								chargepoint.addObserver(new TestingTransactionWrapper());
 								//chargepoint.checkTransactionSupport(idAuthorization.getText());	//Insert call here when done
+								break;
+							case "version":
+								
+
 								break;
 							default:
 								break;
