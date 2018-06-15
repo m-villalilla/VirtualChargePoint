@@ -207,22 +207,31 @@ public class MainController implements Initializable {
 	 * @return true if the input is valid
 	 */
 	private boolean isInputValid() {
-		Pattern ip = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
-		//Pattern url = Pattern.compile("[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)");
-		//is working so far
-		Pattern url = Pattern.compile("\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):\\d{1,5}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)");
-		//Pattern url = Pattern.compile("((\\d{1,3}.){3}\\d{1,3}:\\d+)\\b([-a-zA-Z0-9@:%_\\\\+.~#?&//=]*)");
+		//checking IP:
+		Pattern ip = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b([-a-zA-Z0-9@:%_\\\\+.~#?&//=]*)");
+		
+
+		//checking IP:Port:
+		Pattern ipPort = Pattern.compile("\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):\\d{1,5}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)");
+		
+		//cheking URL:
+		Pattern url = Pattern.compile("[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)");
+		
+		
+		
 		Pattern chargePoint = Pattern.compile("[0-9A-Za-z]+");
 		Pattern id = Pattern.compile("[0-9A-F]{6,8}");
 		
 		Matcher mIp = ip.matcher(ipAddress.getText());
+		Matcher mIPPort = ipPort.matcher(ipAddress.getText());
 		Matcher mUrl = url.matcher(ipAddress.getText());
+		
 		Matcher mChargePoint = chargePoint.matcher(chargePointID.getText());
 		Matcher mId = id.matcher(idAuthorization.getText());
 		
 		Alert inputError = new Alert(AlertType.ERROR);
 		
-		if( (!(mIp.find() && mIp.group().equals(ipAddress.getText())))&& (!(mUrl.find() && mUrl.group().equals(ipAddress.getText()))) ) {
+		if((!(mUrl.find() && mUrl.group().equals(ipAddress.getText()))) && (!(mIp.find() && mIp.group().equals(ipAddress.getText())))&& (!(mIPPort.find() && mIPPort.group().equals(ipAddress.getText()))) ) {
 			inputError.setTitle("Incorrect IP Address or URL");
 			inputError.setContentText("\nPlease enter a correct IP Address or URL!");
 		}
