@@ -1,39 +1,49 @@
 package ocpp_client_frontend;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.ResourceBundle;
 
-import eu.chargetime.ocpp.model.core.AuthorizeConfirmation;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-public class TestingAuthenticationWrapper implements Observer{
+public class TestingVersionsWrapper implements Observer, Initializable {
 	private Stage stage = new Stage();
+	private static VersionRow[] vrs = new VersionRow[5];
+	private int currentRun = 0;
+	private String[] versions = {"Version 1.0", "Version 1.2", "Version 1.5", "Version 1.6", "Version 2.0"};
+	
+	@FXML
+	private TableView<VersionRow> tableVersions;
 	
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Platform.runLater( () -> {
 				Parent root = null;
 				Scene scene;
-				String status = ((AuthorizeConfirmation) arg1).getIdTagInfo().getStatus().toString();
+				String status = (String) arg1;
 				
-				FXMLLoader fxmll = new FXMLLoader(getClass().getResource("TestingAuthentification.fxml"));
+				vrs[currentRun] = new VersionRow(versions[currentRun], status);
 				
-				try {
-					if(status != "Accepted") {
-						fxmll.getNamespace().put("authLabelText", "The entered authorization ID is invalid.\nStatus: " + status);
-					} else {
-						fxmll.getNamespace().put("authLabelText", "The entered authorization ID is valid.");
-					}
+				if(currentRun != 4) {
+					currentRun++;
+					return;
+				}
 					
-					root = fxmll.load();
+				try {
+					root = FXMLLoader.load(getClass().getResource("ServerVersion.fxml"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -51,5 +61,15 @@ public class TestingAuthenticationWrapper implements Observer{
 			    stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
 			}
 		);
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		ObservableList<VersionRow> list = tableVersions.getItems();
+		list.add(vrs[0]);
+		list.add(vrs[1]);
+		list.add(vrs[2]);
+		list.add(vrs[3]);
+		list.add(vrs[4]);		
 	}
 }

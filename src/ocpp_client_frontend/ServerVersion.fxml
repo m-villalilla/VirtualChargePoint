@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.cell.*?> 
+<?import javafx.collections.*?> 
+<?import fxmltableview.*?> 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -9,14 +12,14 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorFunctionVersion" prefHeight="357.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="anchorVersion" prefHeight="357.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ocpp_client_frontend.TestingVersionsWrapper">
    <children>
       <ImageView fitHeight="79.0" fitWidth="149.0" layoutX="7.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="file:icons/LogoGreen.png" />
          </image>
       </ImageView>
-      <Pane fx:id="paneFunctionVersion" layoutX="164.0" layoutY="25.0" prefHeight="79.0" prefWidth="357.0">
+      <Pane fx:id="paneVersion" layoutX="164.0" layoutY="25.0" prefHeight="79.0" prefWidth="357.0">
          <children>
             <Label layoutX="72.0" layoutY="22.0" prefHeight="36.0" prefWidth="213.0" text="SERVER VERSION" textAlignment="CENTER" textFill="WHITE">
                <font>
@@ -25,12 +28,24 @@
             </Label>
          </children>
       </Pane>
-      <TableView layoutX="52.0" layoutY="137.0" prefHeight="187.0" prefWidth="469.0">
+      <TableView fx:id="tableVersions" layoutX="52.0" layoutY="137.0" prefHeight="187.0" prefWidth="469.0">
          <columns>
-            <TableColumn prefWidth="150.0" text="Charge Point ID" />
-            <TableColumn prefWidth="100.0" text="Server" />
-            <TableColumn prefWidth="217.0" text="Version" />
+            <TableColumn prefWidth="220.0" text="Version">
+            	<cellValueFactory>
+            		<PropertyValueFactory property="version" />
+       			</cellValueFactory>
+       		</TableColumn>
+            <TableColumn prefWidth="234.5" text="Supported?">
+                <cellValueFactory>
+            		<PropertyValueFactory property="supported" />
+       			</cellValueFactory>	
+            </TableColumn>
          </columns>
+         <items>
+         	<FXCollections fx:factory="observableArrayList">
+         	
+         	</FXCollections>
+         </items>
       </TableView>
    </children>
 </AnchorPane>

@@ -285,7 +285,7 @@ public class Chargepoint extends Observable {
      */
 	public void checkTransactionSupport(String authorizationID) {
 		try {
-			sendStartTransactionRequest(1, authorizationID, 0);
+			sendStartTransactionRequest(1, authorizationID, 300);
 			Thread.sleep(3000);
 			sendStopTransactionRequest(getTransactionId(), 100);
 		} catch (InterruptedException e) {
@@ -462,11 +462,13 @@ public class Chargepoint extends Observable {
 		try {
 			WebsocketClientConfigurator.setVersion(version);
 			clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + chargeBoxId));
-
 			if(clientEndPoint.userSession != null) clientEndPoint.userSession.close();
 			
-            // Wait 5 seconds for messages from websocket
-            Thread.sleep(5000);
+			setChanged();
+			notifyObservers(clientEndPoint.getStatus());
+			
+            // Wait 2 seconds for messages from websocket
+            Thread.sleep(2000);
         } catch (InterruptedException ex) {
             System.out.println("InterruptedException exception: " + ex.getMessage());
         } catch (URISyntaxException ex) {

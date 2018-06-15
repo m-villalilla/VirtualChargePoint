@@ -81,7 +81,11 @@
 	-fx-background-color: #27627F;
 }
 
-#paneFunctionVersion{
+#paneVersion{
+	-fx-background-color: #27627F;
+}
+
+#paneFunction{
 	-fx-background-color: #27627F;
 }
 

@@ -14,26 +14,32 @@ import javax.websocket.WebSocketContainer;
 public class WebsocketClientEndpoint {
     Session userSession = null;
     private MessageHandler messageHandler;
+    private String status = "pending";
     
     public WebsocketClientEndpoint(URI endpointURI) {
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, endpointURI);
             System.out.println(WebsocketClientConfigurator.getVersion() + " Version Check Successful");
+            status = "Supported";
         } catch (Exception e) {
         	System.out.println(e.getMessage());
         	System.out.println(WebsocketClientConfigurator.getVersion() + " Version Check Failed");
+        	status = "Not supported";
         }
     }
 
-    /**
+    public String getStatus() {
+		return status;
+	}
+
+	/**
      * Callback hook for Connection open events.
      *
      * @param userSession the userSession which is opened.
      */
     @OnOpen
     public void onOpen(Session userSession) {
-        System.out.println("opening websocket");
         this.userSession = userSession;
     }
 
@@ -45,7 +51,6 @@ public class WebsocketClientEndpoint {
      */
     @OnClose
     public void onClose(Session userSession, CloseReason reason) {
-        System.out.println("closing websocket");
         this.userSession = null;
     }
 

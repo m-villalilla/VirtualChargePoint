@@ -51,6 +51,7 @@ public class MainController implements Initializable {
 	@FXML
 	private Button btnSettings;
 	
+	
 	//Elements in ComboBox
 	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions", "Getting Server Version", "Testing Authentification", "Testing Transaction");
 	static Chargepoint chargepoint = new Chargepoint();
@@ -63,15 +64,21 @@ public class MainController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		combobox.setItems(list);
+		if(arg0.getPath().contains("Main")) {
+			combobox.setItems(list);
 
-		// Default values for input fields for development
-		idAuthorization.setText("0FFFFFF0");
-		ipAddress.setText("192.168.0.3:8080/steve/websocket/CentralSystemService/");
-		chargePointID.setText("TestPoint00");
+			// Default values for input fields for development
+			idAuthorization.setText("0FFFFFF0");
+			ipAddress.setText("test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/");
+			chargePointID.setText("TestPoint00");
+		} else if(arg0.getPath().contains("Advanced")){
+			chargePointVendor.setPromptText("e.g. Siemens");
+			chargePointVendor.setFocusTraversable(false);
+			chargePointModel.setPromptText("e.g. CT4000");
+			chargePointModel.setFocusTraversable(false);
+		}
 	}
 	
-	// TODO: Fix vendor and model, maybe a button is needed to save changes
 	//Event Handler for Button Advanced Settings
 	public void settings(ActionEvent event) throws Exception {
 		Stage settingStage = new Stage();
@@ -87,11 +94,14 @@ public class MainController implements Initializable {
 	    settingStage.setX((primScreenBounds.getWidth() - settingStage.getWidth()) / 2); 
 	    settingStage.setY((primScreenBounds.getHeight() - settingStage.getHeight()) / 2);
 	    
-	    settingStage.showAndWait();
-	    chargepoint.setModel(chargePointModel.getText());
-	    chargepoint.setVendor(chargePointVendor.getText());
+	    settingStage.show();
 	}
-		
+	
+	public void saveAdvanced(ActionEvent event) throws Exception {
+	    if(chargePointModel.getText() != "") chargepoint.setModel(chargePointModel.getText());
+	    if(chargePointVendor.getText() != "") chargepoint.setVendor(chargePointVendor.getText());
+	}
+	
 	/**
 	 * regarding selected combobox value pressing start button leads to new message window 
 	 * 
@@ -101,7 +111,7 @@ public class MainController implements Initializable {
 	public void start(ActionEvent event) throws IOException {
 		Stage stage = new Stage();
 		Parent root = null;
-		Scene scene;
+		Scene scene = null;
 		FXMLLoader fxmll = null;
 		
 		if(!isInputValid()) return;
@@ -111,25 +121,27 @@ public class MainController implements Initializable {
 		
 		switch(combobox.getValue()) {
 			case "Testing Authentification":
-				fxmll = new FXMLLoader(getClass().getResource("Authentification.fxml"));
+				fxmll = new FXMLLoader(getClass().getResource("TestingAuthentification.fxml"));
 				fxmll.getNamespace().put("authLabelText", "Test is running...");
 				startTest(stage, "auth");
 				break;
 	    	case "Testing Transaction":
-				root = FXMLLoader.load(getClass().getResource("TestingTransactionRunning.fxml"));
-				startTest(stage, "trans");
+				fxmll = new FXMLLoader(getClass().getResource("TestingTransaction.fxml"));
+				fxmll.getNamespace().put("transLabelText", "Test is running...");
+				fxmll.getNamespace().put("transImgUrl", "file:icons/TrafficlightYellow.png");
+				//startTest(stage, "trans");
 				break;
 			case "Getting Server Functions":
-				root = FXMLLoader.load(getClass().getResource("ServerFunction.fxml"));
+				fxmll = new FXMLLoader(getClass().getResource("ServerFunction.fxml"));
 				startTest(null, "func");
 				break;
-			case "Getting Server Version":
-				root = FXMLLoader.load(getClass().getResource("ServerVersion.fxml"));
-				startTest(null, "func");
-				break;
-			default:
+			case "Getting Server Version":				
+				startTest(null, "version");
+				return; //replace with break as soon as we have a "running" window for version check
+		default:
 				break;
 		}
+		
 		root = fxmll.load();
 		scene = new Scene(root,580,357);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -137,12 +149,11 @@ public class MainController implements Initializable {
 		Image icon = new Image("file:icons/ChargePointIcon.png");
 		stage.getIcons().add(icon);
 		stage.show();
-		
 		//Message Windows position at center of screen
 		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 	    stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2); 
 	    stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
-		
+	    
 	}
 	
 
@@ -170,8 +181,12 @@ public class MainController implements Initializable {
 								chargepoint.checkTransactionSupport(idAuthorization.getText());
 								break;
 							case "func":
-								chargepoint.addObserver(new TestingTransactionWrapper());
+								//chargepoint.addObserver(new TestingTransactionWrapper());
 								//chargepoint.checkTransactionSupport(idAuthorization.getText());	//Insert call here when done
+								break;
+							case "version":
+								chargepoint.addObserver(new TestingVersionsWrapper());
+								chargepoint.testAllVersions(ipAddress.getText());
 								break;
 							default:
 								break;
@@ -249,6 +264,6 @@ public class MainController implements Initializable {
 		
 		inputError.showAndWait();
 			
-		return false; //TODO: CHANGE THAT BACK TO FALSE!!
+		return false;
 	}	
 }
