@@ -63,15 +63,21 @@ public class MainController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		combobox.setItems(list);
+		if(arg0.getPath().contains("Main")) {
+			combobox.setItems(list);
 
-		// Default values for input fields for development
-		idAuthorization.setText("0FFFFFF0");
-		ipAddress.setText("192.168.0.3:8080/steve/websocket/CentralSystemService/");
-		chargePointID.setText("TestPoint00");
+			// Default values for input fields for development
+			idAuthorization.setText("0FFFFFF0");
+			ipAddress.setText("192.168.0.3:8080/steve/websocket/CentralSystemService/");
+			chargePointID.setText("TestPoint00");
+		} else {
+			chargePointVendor.setPromptText("e.g. Siemens");
+			chargePointVendor.setFocusTraversable(false);
+			chargePointModel.setPromptText("e.g. CT4000");
+			chargePointModel.setFocusTraversable(false);
+		}
 	}
 	
-	// TODO: Fix vendor and model, maybe a button is needed to save changes
 	//Event Handler for Button Advanced Settings
 	public void settings(ActionEvent event) throws Exception {
 		Stage settingStage = new Stage();
@@ -87,11 +93,14 @@ public class MainController implements Initializable {
 	    settingStage.setX((primScreenBounds.getWidth() - settingStage.getWidth()) / 2); 
 	    settingStage.setY((primScreenBounds.getHeight() - settingStage.getHeight()) / 2);
 	    
-	    settingStage.showAndWait();
-	    chargepoint.setModel(chargePointModel.getText());
-	    chargepoint.setVendor(chargePointVendor.getText());
+	    settingStage.show();
 	}
-		
+	
+	public void saveAdvanced(ActionEvent event) throws Exception {
+	    if(chargePointModel.getText() != "") chargepoint.setModel(chargePointModel.getText());
+	    if(chargePointVendor.getText() != "") chargepoint.setVendor(chargePointVendor.getText());
+	}
+	
 	/**
 	 * regarding selected combobox value pressing start button leads to new message window 
 	 * 
@@ -127,7 +136,7 @@ public class MainController implements Initializable {
 				break;
 			case "Getting Server Version":
 				root = FXMLLoader.load(getClass().getResource("ServerVersion.fxml"));
-				startTest(null, "func");
+				//startTest(null, "func");
 				break;
 			default:
 				break;
@@ -195,7 +204,7 @@ public class MainController implements Initializable {
 	 */
 	private boolean isInputValid() {
 		Pattern ip = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
-		Pattern url = Pattern.compile("[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)");
+		Pattern url = Pattern.compile("\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):\\d{1,5}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)");
 		Pattern chargePoint = Pattern.compile("[0-9A-Za-z]+");
 		Pattern id = Pattern.compile("[0-9A-F]{6,8}");
 		
@@ -248,6 +257,6 @@ public class MainController implements Initializable {
 		
 		inputError.showAndWait();
 			
-		return true; //TODO: CHANGE THAT BACK TO FALSE!!
+		return false;
 	}	
 }
