@@ -208,7 +208,10 @@ public class MainController implements Initializable {
 	 */
 	private boolean isInputValid() {
 		Pattern ip = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+		//Pattern url = Pattern.compile("[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)");
+		//is working so far
 		Pattern url = Pattern.compile("\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):\\d{1,5}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)");
+		//Pattern url = Pattern.compile("((\\d{1,3}.){3}\\d{1,3}:\\d+)\\b([-a-zA-Z0-9@:%_\\\\+.~#?&//=]*)");
 		Pattern chargePoint = Pattern.compile("[0-9A-Za-z]+");
 		Pattern id = Pattern.compile("[0-9A-F]{6,8}");
 		
