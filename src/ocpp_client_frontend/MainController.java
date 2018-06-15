@@ -51,8 +51,7 @@ public class MainController implements Initializable {
 	private Button btnStart;
 	@FXML
 	private Button btnSettings;
-	@FXML
-	private TableView<VersionRow> tableVersions;
+	
 	
 	//Elements in ComboBox
 	ObservableList<String> list = FXCollections.observableArrayList("Getting Server Functions", "Getting Server Version", "Testing Authentification", "Testing Transaction");
@@ -78,14 +77,6 @@ public class MainController implements Initializable {
 			chargePointVendor.setFocusTraversable(false);
 			chargePointModel.setPromptText("e.g. CT4000");
 			chargePointModel.setFocusTraversable(false);
-		} else {
-			//TODO: CHange this to wrapper return or something
-			ObservableList<VersionRow> list = tableVersions.getItems();
-			list.add(new VersionRow("Version 1.0", "Not Supported"));
-			list.add(new VersionRow("Version 1.2", "Not Supported"));
-			list.add(new VersionRow("Version 1.5", "Not Supported"));
-			list.add(new VersionRow("Version 1.6", "Not Supported"));
-			list.add(new VersionRow("Version 2.0", "Not Supported"));
 		}
 	}
 	
@@ -146,10 +137,10 @@ public class MainController implements Initializable {
 				startTest(null, "func");
 				break;
 			case "Getting Server Version":
-				fxmll = new FXMLLoader(getClass().getResource("ServerVersion.fxml"));				
-				//startTest(null, "version");
-				break;
-			default:
+				//fxmll = new FXMLLoader(getClass().getResource("ServerVersion.fxml"));				
+				startTest(null, "version");
+				return; //replace with break
+		default:
 				break;
 		}
 		
@@ -192,12 +183,12 @@ public class MainController implements Initializable {
 								chargepoint.checkTransactionSupport(idAuthorization.getText());
 								break;
 							case "func":
-								chargepoint.addObserver(new TestingTransactionWrapper());
+								//chargepoint.addObserver(new TestingTransactionWrapper());
 								//chargepoint.checkTransactionSupport(idAuthorization.getText());	//Insert call here when done
 								break;
 							case "version":
-								
-
+								chargepoint.addObserver(new TestingVersionsWrapper());
+								chargepoint.testAllVersions(ipAddress.getText());
 								break;
 							default:
 								break;

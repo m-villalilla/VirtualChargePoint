@@ -462,9 +462,10 @@ public class Chargepoint extends Observable {
 		try {
 			WebsocketClientConfigurator.setVersion(version);
 			clientEndPoint = new WebsocketClientEndpoint(new URI("ws://" + serverURL + chargeBoxId));
-
 			if(clientEndPoint.userSession != null) clientEndPoint.userSession.close();
 			
+			setChanged();
+			notifyObservers(clientEndPoint.getStatus());
             // Wait 5 seconds for messages from websocket
             Thread.sleep(5000);
         } catch (InterruptedException ex) {
