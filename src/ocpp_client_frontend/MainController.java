@@ -22,7 +22,6 @@ import javafx.scene.image.Image;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -70,7 +69,7 @@ public class MainController implements Initializable {
 
 			// Default values for input fields for development
 			idAuthorization.setText("0FFFFFF0");
-			ipAddress.setText("192.168.0.3:8080/steve/websocket/CentralSystemService/");
+			ipAddress.setText("test-ocpp.ddns.net:8080/steve/websocket/CentralSystemService/");
 			chargePointID.setText("TestPoint00");
 		} else if(arg0.getPath().contains("Advanced")){
 			chargePointVendor.setPromptText("e.g. Siemens");
@@ -136,10 +135,9 @@ public class MainController implements Initializable {
 				fxmll = new FXMLLoader(getClass().getResource("ServerFunction.fxml"));
 				startTest(null, "func");
 				break;
-			case "Getting Server Version":
-				//fxmll = new FXMLLoader(getClass().getResource("ServerVersion.fxml"));				
+			case "Getting Server Version":				
 				startTest(null, "version");
-				return; //replace with break
+				return; //replace with break as soon as we have a "running" window for version check
 		default:
 				break;
 		}

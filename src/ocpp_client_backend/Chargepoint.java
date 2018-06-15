@@ -466,8 +466,9 @@ public class Chargepoint extends Observable {
 			
 			setChanged();
 			notifyObservers(clientEndPoint.getStatus());
-            // Wait 5 seconds for messages from websocket
-            Thread.sleep(5000);
+			
+            // Wait 2 seconds for messages from websocket
+            Thread.sleep(2000);
         } catch (InterruptedException ex) {
             System.out.println("InterruptedException exception: " + ex.getMessage());
         } catch (URISyntaxException ex) {

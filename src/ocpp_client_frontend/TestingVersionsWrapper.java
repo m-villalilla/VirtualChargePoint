@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 
 public class TestingVersionsWrapper implements Observer, Initializable {
 	private Stage stage = new Stage();
-	private VersionRow[] vrs = new VersionRow[5];
+	private static VersionRow[] vrs = new VersionRow[5];
 	private int currentRun = 0;
 	private String[] versions = {"Version 1.0", "Version 1.2", "Version 1.5", "Version 1.6", "Version 2.0"};
 	
@@ -43,8 +43,7 @@ public class TestingVersionsWrapper implements Observer, Initializable {
 				}
 					
 				try {
-					FXMLLoader fxmll = new FXMLLoader(getClass().getResource("ServerVersion.fxml"));
-					root = fxmll.load();
+					root = FXMLLoader.load(getClass().getResource("ServerVersion.fxml"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
