@@ -17,6 +17,8 @@ import eu.chargetime.ocpp.feature.profile.ClientCoreProfile;
 import eu.chargetime.ocpp.model.Confirmation;
 import eu.chargetime.ocpp.model.Request;
 import eu.chargetime.ocpp.model.core.*;
+import eu.chargetime.ocpp.feature.profile.*;
+
 
 /*
  * ChargeTime.eu - Java-OCA-OCPP
@@ -435,5 +437,37 @@ public class Chargepoint extends Observable {
 	 */
 	public void setChargeBoxId(String chargeBoxId) {
 		this.chargeBoxId = chargeBoxId;
+	}
+	
+	/**
+	 * Used to test which features the server supports
+	 * 
+	 * @param 
+	 */
+	public void testServerFeatures() {
+		ClientFirmwareManagementProfile firmwareManagement = new ClientFirmwareManagementProfile(null);
+		
+		
+		core.getFeatureList();
+		//core.createAuthorizeRequest(chargeBoxId); // can maybe reuse sentAuthorizeRequest?
+		//core.createBootNotificationRequest(vendor, model); // can maybe reuse sentBootNotificationRequest?
+		try {
+		core.createDataTransferRequest(vendor);
+		core.createHeartbeatRequest();
+		core.createMeterValuesRequest(0, Calendar.getInstance(), "1");
+		//core.createStartTransactionRequest(connectorId, idTag, meterStart, timestamp); // same as comments above
+		
+		core.createStatusNotificationRequest(0, ChargePointErrorCode.NoError, ChargePointStatus.Preparing);
+		} catch(PropertyConstraintException e) {
+			System.out.println(e.getMessage());
+			
+		}
+		//core.createStopTransactionRequest(meterStop, timestamp, transactionId); // same as comments above
+		
+		// firmwareManagement DiagnosticsStatusNotification, FirmwareStatusNotification Requests need to be selfmade 
+		// because createRequest functions dont exists yet
+		
+		
+		
 	}
 }
