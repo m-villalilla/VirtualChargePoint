@@ -16,12 +16,22 @@ import javafx.stage.Stage;
 public class TestingFunctionVersionWrapper implements Observer {
 	private Stage stage = new Stage();
 	
+	/**
+	 * This function is called multiple times while the test is running.
+	 * It collects the results and combines them into one displayable result.
+	 * 
+	 *  @param arg0 - {@inheritDoc}
+	 *  @param arg1 - {@inheritDoc}
+	 */
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Platform.runLater( () -> {
 				// TODO: Check what is in arg1 and decide based on that which window to open
+				Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+				Image icon = new Image("file:icons/ChargePointIcon.png");	
 				Parent root = null;
-				Scene scene;
+				Scene scene = null;
+				
 				try {
 					root = FXMLLoader.load(getClass().getResource("ServerFunctionVerion.fxml"));
 				} catch (IOException e) {
@@ -31,12 +41,10 @@ public class TestingFunctionVersionWrapper implements Observer {
 				scene = new Scene(root,580,357);
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				stage.setScene(scene);
-				Image icon = new Image("file:icons/ChargePointIcon.png");
 				stage.getIcons().add(icon);
 				stage.show();
 				
 				//Message Windows position at center of screen
-				Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 			    stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2); 
 			    stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
 			}

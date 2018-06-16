@@ -29,10 +29,6 @@ public class WebsocketClientEndpoint {
         }
     }
 
-    public String getStatus() {
-		return status;
-	}
-
 	/**
      * Callback hook for Connection open events.
      *
@@ -86,10 +82,17 @@ public class WebsocketClientEndpoint {
 
     /**
      * Message handler.
-     *
      */
     public static interface MessageHandler {
 
         public void handleMessage(String message);
     }
+    
+    /**
+     * @return - Returns the status of the websocket
+     */
+    public String getStatus() {
+		return status;
+	}
+
 }

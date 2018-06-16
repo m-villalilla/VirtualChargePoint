@@ -35,6 +35,9 @@ public class Main extends Application {
 		}
 	}
 	
+	/**
+	 * On close the application shall disconnect the server connection, if there is any.
+	 */
 	@Override
 	public void stop() {
 		MainController.chargepoint.disconnect();
