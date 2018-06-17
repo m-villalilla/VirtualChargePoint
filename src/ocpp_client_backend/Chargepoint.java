@@ -17,6 +17,8 @@ import eu.chargetime.ocpp.feature.profile.ClientCoreProfile;
 import eu.chargetime.ocpp.model.Confirmation;
 import eu.chargetime.ocpp.model.Request;
 import eu.chargetime.ocpp.model.core.*;
+import eu.chargetime.ocpp.feature.profile.*;
+
 
 /*
  * ChargeTime.eu - Java-OCA-OCPP
@@ -169,8 +171,11 @@ public class Chargepoint extends Observable {
     		if(!this.isConnected) throw new NotConnectedException();
     		request = core.createBootNotificationRequest(vendor, model);
 			client.send(request).whenComplete((s, ex) -> functionComplete(s, ex, startTime));
-		} catch (OccurenceConstraintException | UnsupportedFeatureException | NotConnectedException e) {
+		} catch (OccurenceConstraintException | NotConnectedException e) {
 			System.out.println("Error in sendBootNotification()");
+			e.printStackTrace();
+		} catch ( UnsupportedFeatureException e) {
+			System.out.println("BootRequest Feature is not supported");
 			e.printStackTrace();
 		}
     }
@@ -195,8 +200,11 @@ public class Chargepoint extends Observable {
 			    		throw new InvalidIdException("ID was not accepted by the server.");
 				} catch (InvalidIdException e) {}
 			});
-		} catch (OccurenceConstraintException | UnsupportedFeatureException | PropertyConstraintException | NotConnectedException e) {
+		} catch (OccurenceConstraintException | PropertyConstraintException | NotConnectedException e) {
 			System.out.println("Error in sendAuthorizeRequest()");
+			e.printStackTrace();
+		} catch ( UnsupportedFeatureException e) {
+			System.out.println("AuthorizeRequest Feature is not supported");
 			e.printStackTrace();
 		}
     }
@@ -222,8 +230,11 @@ public class Chargepoint extends Observable {
 				this.transactionId = ((StartTransactionConfirmation) s).getTransactionId();
 				
 			});
-		} catch (OccurenceConstraintException | UnsupportedFeatureException | PropertyConstraintException | NotConnectedException e) {
+		} catch (OccurenceConstraintException | PropertyConstraintException | NotConnectedException e) {
 			System.out.println("Error in sendStartTransactionRequest()");
+			e.printStackTrace();
+		} catch ( UnsupportedFeatureException e) {
+			System.out.println("StartTransactionRequest Feature is not supported");
 			e.printStackTrace();
 		}
     }
@@ -247,8 +258,11 @@ public class Chargepoint extends Observable {
 				functionComplete(s, ex, startTime);
 				this.transactionId = 0;
 			});
-		} catch (OccurenceConstraintException | UnsupportedFeatureException | NotConnectedException | NoTransactionException e) {
+		} catch (OccurenceConstraintException | NotConnectedException | NoTransactionException e) {
 			System.out.println("Error in sendStopTransactionRequest()");
+			e.printStackTrace();
+		} catch ( UnsupportedFeatureException e) {
+			System.out.println("StopTransactionRequest Feature is not supported");
 			e.printStackTrace();
 		}
     }
@@ -435,5 +449,79 @@ public class Chargepoint extends Observable {
 	 */
 	public void setChargeBoxId(String chargeBoxId) {
 		this.chargeBoxId = chargeBoxId;
+	}
+	
+	
+	public void testFeature(Request request) {
+		try {
+			if(!this.isConnected) throw new NotConnectedException();
+			client.send(request);
+			Thread.sleep(2000);
+			System.out.println(request.toString() + " Feature is supported");
+		} catch (UnsupportedFeatureException e) {
+			System.out.println(e.getMessage());
+			System.out.println(request.toString() + " Feature is not supported");
+		}  catch (NotConnectedException e) {
+			e.printStackTrace();
+			System.out.println("Client is not connected");
+		} catch(OccurenceConstraintException | InterruptedException e) {
+			System.out.println("OccurenceConstraint or Interrupted Exception occured while testing a Feature");
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * Used to test which features the server supports
+	 * 
+	 * @param authorizationID Sets the authorization id used in the transaction test
+	 */
+	public void testServerFeatures(String authorizationID) {
+		//ClientFirmwareManagementProfile firmwareManagement = new ClientFirmwareManagementProfile(null);
+		try {
+			Request authRequest = core.createAuthorizeRequest(authorizationID);
+			testFeature(authRequest);
+		} catch (PropertyConstraintException e) {
+			
+		}
+			
+		Request bootRequest = core.createBootNotificationRequest(vendor, model);
+		testFeature(bootRequest);
+			
+		Request dataRequest = core.createDataTransferRequest(vendor);
+		testFeature(dataRequest);
+		
+		Request heartbeatRequest = core.createHeartbeatRequest();
+		testFeature(heartbeatRequest);
+		
+		try {
+		Request startTransRequest = core.createStartTransactionRequest(1, authorizationID, 300, Calendar.getInstance());
+		testFeature(startTransRequest);
+		} catch (PropertyConstraintException e) {
+		
+		}
+		
+		Request stopTransRequest = core.createStopTransactionRequest(100, Calendar.getInstance(), getTransactionId());
+		testFeature(stopTransRequest);
+		
+		try {
+			Request meterValueRequest = core.createMeterValuesRequest(1, Calendar.getInstance(), "1");
+			testFeature(meterValueRequest);
+		} catch (PropertyConstraintException e) {
+			
+		}
+		
+		try {
+			Request statusNotificRequest = core.createStatusNotificationRequest(1, ChargePointErrorCode.NoError, ChargePointStatus.Preparing);
+			testFeature(statusNotificRequest);
+		} catch (PropertyConstraintException e) {
+		
+		}
+		
+		
+		// firmwareManagement DiagnosticsStatusNotification, FirmwareStatusNotification Requests need to be selfmade 
+		// because createRequest functions dont exists yet
+		
+
 	}
 }

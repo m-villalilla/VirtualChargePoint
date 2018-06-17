@@ -26,7 +26,7 @@ public class launchClientBackend {
 		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
 		//String authorizationID = "1234";
 		
-		String whatToTest = "SINGLECLIENT"; //STRESSTEST or SINGLECLIENT or WS or VT
+		String whatToTest = "FT"; //STRESSTEST or SINGLECLIENT or WS or VT or FT
 		Chargepoint client = new Chargepoint(ChargeBoxID, CPVendor, CPModel, false, false);
 
 		switch (whatToTest) {
@@ -75,6 +75,17 @@ public class launchClientBackend {
 				break;
 			case "VT":
 				client.testAllVersions(serverURL);
+				break;
+			case "FT":
+				try {
+					client.connect(serverURL);
+					Thread.sleep(2000);
+					client.testServerFeatures(authorizationID);
+					Thread.sleep(2000);
+					client.disconnect();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				break;
 			default:
 				System.out.println("Please specify what you want to do.");
