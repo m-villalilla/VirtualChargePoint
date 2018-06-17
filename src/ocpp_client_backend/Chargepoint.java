@@ -17,8 +17,6 @@ import eu.chargetime.ocpp.feature.profile.ClientCoreProfile;
 import eu.chargetime.ocpp.model.Confirmation;
 import eu.chargetime.ocpp.model.Request;
 import eu.chargetime.ocpp.model.core.*;
-import eu.chargetime.ocpp.feature.profile.*;
-
 
 /*
  * ChargeTime.eu - Java-OCA-OCPP
@@ -349,6 +347,76 @@ public class Chargepoint extends Observable {
         }
 	}
 	
+	/**
+	 * Used to test a single feature
+	 * 
+	 * @param request which shall be tested
+	 */
+	public void testFeature(Request request) {
+		try {
+			if(!this.isConnected) throw new NotConnectedException();
+			client.send(request);
+			Thread.sleep(2000);
+			System.out.println(request.toString() + " Feature is supported");
+			setChanged();
+			notifyObservers(request.toString() + "*yes");
+		} catch (UnsupportedFeatureException e) {
+			System.out.println(e.getMessage());
+			System.out.println(request.toString() + " Feature is not supported");
+			setChanged();
+			notifyObservers(request.toString() + "*no");
+		}  catch (NotConnectedException e) {
+			e.printStackTrace();
+			System.out.println("Client is not connected");
+		} catch(OccurenceConstraintException | InterruptedException e) {
+			System.out.println("OccurenceConstraint or Interrupted Exception occured while testing a Feature");
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Used to test which features the server supports
+	 * 
+	 * @param authorizationID Sets the authorization id used in the transaction test
+	 */
+	public void testServerFeatures(String authorizationID) {
+		//ClientFirmwareManagementProfile firmwareManagement = new ClientFirmwareManagementProfile(null);
+		try {
+			Request authRequest = core.createAuthorizeRequest(authorizationID);
+			testFeature(authRequest);
+				
+			Request bootRequest = core.createBootNotificationRequest(vendor, model);
+			testFeature(bootRequest);
+				
+			Request dataRequest = core.createDataTransferRequest(vendor);
+			testFeature(dataRequest);
+			
+			Request heartbeatRequest = core.createHeartbeatRequest();
+			testFeature(heartbeatRequest);
+			
+			Request startTransRequest = core.createStartTransactionRequest(1, authorizationID, 300, Calendar.getInstance());
+			testFeature(startTransRequest);
+			
+			
+			Request stopTransRequest = core.createStopTransactionRequest(100, Calendar.getInstance(), getTransactionId());
+			testFeature(stopTransRequest);
+			
+			
+			Request meterValueRequest = core.createMeterValuesRequest(1, Calendar.getInstance(), "1");
+			testFeature(meterValueRequest);		
+		
+			Request statusNotificRequest = core.createStatusNotificationRequest(1, ChargePointErrorCode.NoError, ChargePointStatus.Preparing);
+			testFeature(statusNotificRequest);
+		} catch (PropertyConstraintException e) {
+			e.printStackTrace();
+		}
+		
+		// firmwareManagement DiagnosticsStatusNotification, FirmwareStatusNotification Requests need to be selfmade 
+		// because createRequest functions dont exists yet
+	}
+	
     /**
      * Disconnects the client from the OCPP server
      */
@@ -449,70 +517,5 @@ public class Chargepoint extends Observable {
 	 */
 	public void setChargeBoxId(String chargeBoxId) {
 		this.chargeBoxId = chargeBoxId;
-	}
-	
-	
-	public void testFeature(Request request) {
-		try {
-			if(!this.isConnected) throw new NotConnectedException();
-			client.send(request);
-			Thread.sleep(2000);
-			System.out.println(request.toString() + " Feature is supported");
-			setChanged();
-			notifyObservers(request.toString() + "*yes");
-		} catch (UnsupportedFeatureException e) {
-			System.out.println(e.getMessage());
-			System.out.println(request.toString() + " Feature is not supported");
-			setChanged();
-			notifyObservers(request.toString() + "*no");
-		}  catch (NotConnectedException e) {
-			e.printStackTrace();
-			System.out.println("Client is not connected");
-		} catch(OccurenceConstraintException | InterruptedException e) {
-			System.out.println("OccurenceConstraint or Interrupted Exception occured while testing a Feature");
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	/**
-	 * Used to test which features the server supports
-	 * 
-	 * @param authorizationID Sets the authorization id used in the transaction test
-	 */
-	public void testServerFeatures(String authorizationID) {
-		//ClientFirmwareManagementProfile firmwareManagement = new ClientFirmwareManagementProfile(null);
-		try {
-			Request authRequest = core.createAuthorizeRequest(authorizationID);
-			testFeature(authRequest);
-				
-			Request bootRequest = core.createBootNotificationRequest(vendor, model);
-			testFeature(bootRequest);
-				
-			Request dataRequest = core.createDataTransferRequest(vendor);
-			testFeature(dataRequest);
-			
-			Request heartbeatRequest = core.createHeartbeatRequest();
-			testFeature(heartbeatRequest);
-			
-			Request startTransRequest = core.createStartTransactionRequest(1, authorizationID, 300, Calendar.getInstance());
-			testFeature(startTransRequest);
-			
-			
-			Request stopTransRequest = core.createStopTransactionRequest(100, Calendar.getInstance(), getTransactionId());
-			testFeature(stopTransRequest);
-			
-			
-			Request meterValueRequest = core.createMeterValuesRequest(1, Calendar.getInstance(), "1");
-			testFeature(meterValueRequest);		
-		
-			Request statusNotificRequest = core.createStatusNotificationRequest(1, ChargePointErrorCode.NoError, ChargePointStatus.Preparing);
-			testFeature(statusNotificRequest);
-		} catch (PropertyConstraintException e) {
-			e.printStackTrace();
-		}
-		
-		// firmwareManagement DiagnosticsStatusNotification, FirmwareStatusNotification Requests need to be selfmade 
-		// because createRequest functions dont exists yet
 	}
 }

@@ -130,12 +130,13 @@ public class MainController implements Initializable {
 				startTest(stage, "trans");
 				break;
 			case "Getting Server Functions":
-				//fxmll = new FXMLLoader(getClass().getResource("ServerFunction.fxml"));
-				startTest(null, "func");
-				return; //replace with break as soon as we have a "running" window for version check
-			case "Getting Server Version":				
-				startTest(null, "version");
-				return; //replace with break as soon as we have a "running" window for version check
+				fxmll = new FXMLLoader(getClass().getResource("TestingFunctions.fxml"));
+				startTest(stage, "func");
+				break;
+			case "Getting Server Version":	
+				fxmll = new FXMLLoader(getClass().getResource("TestingVersion.fxml"));
+				startTest(stage, "version");
+				break;
 		default:
 				break;
 		}
