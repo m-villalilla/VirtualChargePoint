@@ -383,32 +383,33 @@ public class Chargepoint extends Observable {
 	 */
 	public void testServerFeatures(String authorizationID) {
 		//ClientFirmwareManagementProfile firmwareManagement = new ClientFirmwareManagementProfile(null);
-		try {
-			Request authRequest = core.createAuthorizeRequest(authorizationID);
-			testFeature(authRequest);
-				
-			Request bootRequest = core.createBootNotificationRequest(vendor, model);
-			testFeature(bootRequest);
-				
-			Request dataRequest = core.createDataTransferRequest(vendor);
-			testFeature(dataRequest);
-			
-			Request heartbeatRequest = core.createHeartbeatRequest();
-			testFeature(heartbeatRequest);
-			
-			Request startTransRequest = core.createStartTransactionRequest(1, authorizationID, 300, Calendar.getInstance());
-			testFeature(startTransRequest);
-			
-			
-			Request stopTransRequest = core.createStopTransactionRequest(100, Calendar.getInstance(), getTransactionId());
-			testFeature(stopTransRequest);
-			
-			
-			Request meterValueRequest = core.createMeterValuesRequest(1, Calendar.getInstance(), "1");
-			testFeature(meterValueRequest);		
+		Request request;
 		
-			Request statusNotificRequest = core.createStatusNotificationRequest(1, ChargePointErrorCode.NoError, ChargePointStatus.Preparing);
-			testFeature(statusNotificRequest);
+		try {
+			request = core.createAuthorizeRequest(authorizationID);
+			testFeature(request);
+				
+			request = core.createBootNotificationRequest(vendor, model);
+			testFeature(request);
+				
+			request = core.createDataTransferRequest(vendor);
+			testFeature(request);
+			
+			request = core.createHeartbeatRequest();
+			testFeature(request);
+			
+			request = core.createStartTransactionRequest(1, authorizationID, 300, Calendar.getInstance());
+			testFeature(request);
+			
+			request = core.createStopTransactionRequest(100, Calendar.getInstance(), getTransactionId());
+			testFeature(request);
+			
+			
+			request = core.createMeterValuesRequest(1, Calendar.getInstance(), "1");
+			testFeature(request);		
+		
+			request = core.createStatusNotificationRequest(1, ChargePointErrorCode.NoError, ChargePointStatus.Preparing);
+			testFeature(request);
 		} catch (PropertyConstraintException e) {
 			e.printStackTrace();
 		}
