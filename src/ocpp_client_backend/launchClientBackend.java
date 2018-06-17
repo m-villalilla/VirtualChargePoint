@@ -18,8 +18,8 @@ public class launchClientBackend {
 		config.load(stream);
 		stream.close();
 		
-		String serverURL  		= config.getProperty("serverURL");
-		//String serverURL = "192.168.0.3:8080/steve/websocket/CentralSystemService/";
+		//String serverURL  		= config.getProperty("serverURL");
+		String serverURL = "192.168.0.3:8080/steve/websocket/CentralSystemService/";
 		String ChargeBoxID 		= config.getProperty("ChargeBoxID.00");				//Use ChargeBoxID.00 as example
 		String CPVendor   		= config.getProperty("CPVendor");
 		String CPModel 	  		= config.getProperty("CPModel");
