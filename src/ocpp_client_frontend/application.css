@@ -71,6 +71,22 @@
 	-fx-background-color: #27627F;
 }
 
+/*TestingVersion.fxml*/
+#anchorTestingVersion{
+	-fx-background-color: white;
+}
+#paneTestingVersion{
+	-fx-background-color: #27627F;
+}
+
+/*TestingFunctions.fxml*/
+#anchorTestingFunctions{
+	-fx-background-color: white;
+}
+#paneTestingFunctions{
+	-fx-background-color: #27627F;
+}
+
 /*Styling alert boxes */
 .dialog-pane {
     -fx-background-color: white;
