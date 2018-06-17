@@ -130,9 +130,9 @@ public class MainController implements Initializable {
 				startTest(stage, "trans");
 				break;
 			case "Getting Server Functions":
-				fxmll = new FXMLLoader(getClass().getResource("ServerFunction.fxml"));
+				//fxmll = new FXMLLoader(getClass().getResource("ServerFunction.fxml"));
 				startTest(null, "func");
-				break;
+				return; //replace with break as soon as we have a "running" window for version check
 			case "Getting Server Version":				
 				startTest(null, "version");
 				return; //replace with break as soon as we have a "running" window for version check
@@ -177,8 +177,8 @@ public class MainController implements Initializable {
 								chargepoint.checkTransactionSupport(idAuthorization.getText());
 								break;
 							case "func":
-								//chargepoint.addObserver(new TestingTransactionWrapper());
-								//chargepoint.checkTransactionSupport(idAuthorization.getText());	//Insert call here when done
+								chargepoint.addObserver(new TestingFeatureWrapper());
+								chargepoint.testServerFeatures(idAuthorization.getText());
 								break;
 							case "version":
 								chargepoint.addObserver(new TestingVersionsWrapper());
