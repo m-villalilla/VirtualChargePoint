@@ -108,32 +108,8 @@
 
 /*Table view of ServerFunction and Server Version */
 .table-view{
-	-fx-font-size: 18;
+	-fx-font-size: 16;
 }
-
-/*miscellaneous*/
-
-/*#pane1{
-	-fx-background-color: dodgerblue;
-}	
-#labelPane{
-	-fx-background-color: #001824;
+.table-view .table-column {
+	-fx-alignment:center;
 }
-#label1{
-	-fx-background-color: white;
-}
-
-#label2{
-	-fx-background-color: white;
-}
-#btnOk1{
-	-fx-background-color: #27627F;
-}
-
-#btnOk2{
-	-fx-background-color: #27627F;
-}
-
-#btnOk3{
-	-fx-background-color: #27627F;
-}*/
