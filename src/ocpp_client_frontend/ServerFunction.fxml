@@ -28,7 +28,7 @@
             </Label>
          </children>
       </Pane>
-      <TableView fx:id="tableFeatures" layoutX="52.0" layoutY="137.0" prefHeight="187.0" prefWidth="469.0">
+      <TableView fx:id="tableFeatures" layoutX="52.0" layoutY="137.0" prefHeight="200.0" prefWidth="469.0">
          <columns>
             <TableColumn prefWidth="217.0" text="Feature">
                 <cellValueFactory>
