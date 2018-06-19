@@ -2,7 +2,9 @@
 
 A software to test any OCPP server software. You can use either the GUI or the API, depending on your use-case.
 
-![GUI](https://raw.githubusercontent.com/m-villalilla/virtualchargepoint/updateReadme/img/GUI.jpg)
+<p align="center"> 
+  <img src="/img/GUI.png" alt="GUI">
+</p>
 
 ## Getting Started
 
