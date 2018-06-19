@@ -36,7 +36,11 @@ Work in progress
 
 ## Authors
 
-* **Marco Villalilla** - Github: [m-villalilla](https://github.com/m-villalilla)
+* **Marco Villalilla** - GitHub: [m-villalilla](https://github.com/m-villalilla)
+* **Samuel Bauer** - GitHub: [Cinazu](https://github.com/Cinazu)
+* **Alexander Belokon** - GitHub: [abelokon](https://github.com/abelokon)
+* **Maria** - GitHub: [MariProgrammer](https://github.com/MariProgrammer)
+
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
