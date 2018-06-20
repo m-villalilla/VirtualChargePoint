@@ -23,6 +23,7 @@ import javafx.stage.Stage;
  * This class is used, to evaluate the result of a version test and displays it in a new stage.
  * It is also used as the controller of the anchorVersion in ServerVersion.fxml
  */
+@SuppressWarnings("deprecation")
 public class TestingFeatureWrapper implements Observer, Initializable {
 	@FXML private TableView<FeatureRow> tableFeatures;
 	private Stage stage = new Stage();

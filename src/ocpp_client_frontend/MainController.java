@@ -26,6 +26,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import ocpp_client_backend.Chargepoint;
 
+@SuppressWarnings("deprecation")
 public class MainController implements Initializable {
 	@FXML private TextField ipAddress;
 	@FXML private TextField chargePointID;

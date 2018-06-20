@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 /**
  * This class is used, to evaluate the result of a authentication test and displays it in a new stage.
  */
+@SuppressWarnings("deprecation")
 public class TestingAuthenticationWrapper implements Observer{
 	private Stage stage = new Stage();
 	

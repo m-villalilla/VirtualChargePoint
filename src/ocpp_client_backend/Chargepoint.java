@@ -45,6 +45,7 @@ import eu.chargetime.ocpp.model.core.*;
  * SOFTWARE.
  */
 
+@SuppressWarnings("deprecation")
 public class Chargepoint extends Observable {
     private IClientAPI client = null;
     private ClientCoreProfile core = null;
@@ -288,7 +289,7 @@ public class Chargepoint extends Observable {
      * @param ex Returned exception from the OCPP server
      * @param startTime - time the function started
      */
-    public void functionComplete(Confirmation s, Throwable ex, long startTime) {
+	public void functionComplete(Confirmation s, Throwable ex, long startTime) {
     	if(!stressTest && ex == null) System.out.println(s);
     	if(!stressTest && s == null) System.out.println(ex);
     	if(measureMode) {
