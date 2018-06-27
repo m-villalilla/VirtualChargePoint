@@ -1,4 +1,4 @@
-package ocpp_client_frontend;
+package virtualchargepoint_gui;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,8 +24,9 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import ocpp_client_backend.Chargepoint;
+import virtualchargepoint_api.Chargepoint;
 
+@SuppressWarnings("deprecation")
 public class MainController implements Initializable {
 	@FXML private TextField ipAddress;
 	@FXML private TextField chargePointID;

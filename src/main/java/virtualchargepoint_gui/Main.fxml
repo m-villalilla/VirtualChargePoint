@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorMain" maxHeight="656.0" maxWidth="792.0" prefHeight="656.0" prefWidth="792.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ocpp_client_frontend.MainController">
+<AnchorPane fx:id="anchorMain" maxHeight="656.0" maxWidth="792.0" prefHeight="656.0" prefWidth="792.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="virtualchargepoint_gui.MainController">
    <children>
       <Pane fx:id="pane2" layoutX="55.0" layoutY="246.0" prefHeight="377.0" prefWidth="280.0">
          <children>

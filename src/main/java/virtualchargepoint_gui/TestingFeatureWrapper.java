@@ -1,4 +1,4 @@
-package ocpp_client_frontend;
+package virtualchargepoint_gui;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,12 +23,12 @@ import javafx.stage.Stage;
  * This class is used, to evaluate the result of a version test and displays it in a new stage.
  * It is also used as the controller of the anchorVersion in ServerVersion.fxml
  */
-public class TestingVersionsWrapper implements Observer, Initializable {
-	@FXML private TableView<VersionRow> tableVersions;
+@SuppressWarnings("deprecation")
+public class TestingFeatureWrapper implements Observer, Initializable {
+	@FXML private TableView<FeatureRow> tableFeatures;
 	private Stage stage = new Stage();
-	private static VersionRow[] vrs = new VersionRow[5];
+	private static FeatureRow[] frs = new FeatureRow[8];
 	private int currentRun = 0;
-	private String[] versions = {"Version 1.0", "Version 1.2", "Version 1.5", "Version 1.6", "Version 2.0"};	
 	
 	/**
 	 * This function is called multiple times while the test is running.
@@ -44,17 +44,19 @@ public class TestingVersionsWrapper implements Observer, Initializable {
 				Image icon = new Image("file:icons/ChargePointIcon.png");
 				Parent root = null;
 				Scene scene = null;
-				String status = (String) arg1;
+				String message = (String) arg1;
+				String feature = message.substring(30, message.indexOf('@'));
+				String support = message.substring(message.indexOf('*') + 1);
 				
-				vrs[currentRun] = new VersionRow(versions[currentRun], status);
+				frs[currentRun] = new FeatureRow(feature, support);
 				
-				if(currentRun != 4) {
+				if(currentRun != 7) {
 					currentRun++;
 					return;
 				}
 					
 				try {
-					root = FXMLLoader.load(getClass().getResource("ServerVersion.fxml"));
+					root = FXMLLoader.load(getClass().getResource("ServerFunction.fxml"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -80,11 +82,14 @@ public class TestingVersionsWrapper implements Observer, Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		ObservableList<VersionRow> list = tableVersions.getItems();
-		list.add(vrs[0]);
-		list.add(vrs[1]);
-		list.add(vrs[2]);
-		list.add(vrs[3]);
-		list.add(vrs[4]);		
+		ObservableList<FeatureRow> list = tableFeatures.getItems();
+		list.add(frs[0]);
+		list.add(frs[1]);
+		list.add(frs[2]);
+		list.add(frs[3]);
+		list.add(frs[4]);
+		list.add(frs[5]);
+		list.add(frs[6]);
+		list.add(frs[7]);
 	}
 }

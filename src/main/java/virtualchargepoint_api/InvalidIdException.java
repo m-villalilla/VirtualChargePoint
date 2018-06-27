@@ -1,4 +1,4 @@
-package ocpp_client_backend;
+package virtualchargepoint_api;
 
 /**
  * Class for a custom exception, which is thrown if the authorization id is invalid.
