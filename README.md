@@ -15,11 +15,7 @@ Go to our releases and download the latest one. Simply launch it, that's it.
 ### API
 
 Go to our releases and download the latest one and add the file to the dependencies of your project.
-A small example how to use it:
-
-```
-Work in progress
-```
+A small example how to use it: [APIUsage.java](https://github.com/m-villalilla/VirtualChargePoint/blob/master/APIUsage.java)
 
 ## Built With
 
