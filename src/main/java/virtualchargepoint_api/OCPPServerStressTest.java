@@ -1,4 +1,4 @@
-package ocpp_client_backend;
+package virtualchargepoint_api;
 
 public class OCPPServerStressTest {
 	private static Chargepoint [] clients = null;

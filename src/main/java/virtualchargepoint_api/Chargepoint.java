@@ -1,4 +1,4 @@
-package ocpp_client_backend;
+package virtualchargepoint_api;
 
 import java.io.IOException;
 import java.net.URI;

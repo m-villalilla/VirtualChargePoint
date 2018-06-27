@@ -1,11 +1,10 @@
-package ocpp_client_frontend;
+package virtualchargepoint_gui;
 
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
 import eu.chargetime.ocpp.model.core.AuthorizeConfirmation;
-import eu.chargetime.ocpp.model.core.StopTransactionConfirmation;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -16,13 +15,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
- * This class is used, to evaluate the result of a transaction test and displays it in a new stage.
- * 
+ * This class is used, to evaluate the result of a authentication test and displays it in a new stage.
  */
 @SuppressWarnings("deprecation")
-public class TestingTransactionWrapper implements Observer {
+public class TestingAuthenticationWrapper implements Observer{
 	private Stage stage = new Stage();
-	private boolean errorOccured = false;
 	
 	/**
 	 * This function is called multiple times while the test is running.
@@ -34,30 +31,25 @@ public class TestingTransactionWrapper implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Platform.runLater( () -> {
-				FXMLLoader fxmll = new FXMLLoader(getClass().getResource("TestingTransaction.fxml"));
+				String status = ((AuthorizeConfirmation) arg1).getIdTagInfo().getStatus().toString();
+				FXMLLoader fxmll = new FXMLLoader(getClass().getResource("TestingAuthentification.fxml"));
 				Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 				Image icon = new Image("file:icons/ChargePointIcon.png");
 				Parent root = null;
 				Scene scene = null;
 				
-				if(errorOccured) return;
-				if(arg1 instanceof AuthorizeConfirmation) {
-					if(((AuthorizeConfirmation) arg1).getIdTagInfo().getStatus().toString() == "Accepted") return;
-					else {
-						errorOccured = true;
-						fxmll.getNamespace().put("transLabelText", "Test was not successful.\nReason: ID invalid.");
-						fxmll.getNamespace().put("transImgUrl", "file:icons/TrafficlightRed.png");
-					}
-				} else if(arg1 instanceof StopTransactionConfirmation && !errorOccured){
-					fxmll.getNamespace().put("transLabelText", "Test was successful.");
-					fxmll.getNamespace().put("transImgUrl", "file:icons/TrafficlightGreen.png");
-				} else return;
-				
+				if(status != "Accepted") {
+					fxmll.getNamespace().put("authLabelText", "The entered authorization ID is invalid.\nStatus: " + status);
+				} else {
+					fxmll.getNamespace().put("authLabelText", "The entered authorization ID is valid.");
+				}
+								
 				try {
 					root = fxmll.load();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				
 				scene = new Scene(root,580,357);
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				stage.setScene(scene);

@@ -1,4 +1,4 @@
-package ocpp_client_frontend;
+package virtualchargepoint_gui;
 	
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

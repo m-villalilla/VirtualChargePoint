@@ -1,4 +1,4 @@
-package ocpp_client_backend;
+package virtualchargepoint_api;
 
 import java.util.Arrays;
 import java.util.List;

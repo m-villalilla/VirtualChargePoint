@@ -1,12 +1,13 @@
-package ocpp_client_backend;
+package virtualchargepoint_api;
 
-import ocpp_client_backend.Chargepoint;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.io.BufferedInputStream;
 import java.util.Properties;
+
+import virtualchargepoint_api.Chargepoint;
 
 public class launchClientBackend {
 	private static Properties config;
@@ -26,7 +27,7 @@ public class launchClientBackend {
 		String authorizationID	= config.getProperty("authorizationID.00");			//Use authorizationID.00 as example
 		//String authorizationID = "1234";
 		
-		String whatToTest = "FT"; //STRESSTEST or SINGLECLIENT or WS or VT or FT
+		String whatToTest = "SINGLECLIENT"; //STRESSTEST or SINGLECLIENT or WS or VT or FT
 		Chargepoint client = new Chargepoint(ChargeBoxID, CPVendor, CPModel, false, false);
 
 		switch (whatToTest) {

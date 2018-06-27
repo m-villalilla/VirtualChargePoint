@@ -1,4 +1,4 @@
-package ocpp_client_frontend;
+package virtualchargepoint_gui;
 
 /**
  * This class is used for the feature test to be displayed in a tableview.
