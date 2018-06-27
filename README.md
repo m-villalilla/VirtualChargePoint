@@ -15,7 +15,8 @@ Go to our releases and download the latest one. Simply launch it, that's it.
 ### API
 
 Go to our releases and download the latest one and add the file to the dependencies of your project.
-A small example how to use it: [APIUsage.java](https://github.com/m-villalilla/VirtualChargePoint/blob/master/APIUsage.java)
+A small example how to use it: 
+[APIUsage.java](https://github.com/m-villalilla/VirtualChargePoint/blob/master/APIUsage.java)
 
 ## Built With
 
@@ -23,12 +24,7 @@ A small example how to use it: [APIUsage.java](https://github.com/m-villalilla/V
 
 ## Dependencies
 * Ocpp client library: [ChargeTimeEU](https://github.com/ChargeTimeEU/Java-OCA-OCPP)
-* [org.glassfish.tyrus.bundles:tyrus-standalone-client:1.13.1](https://github.com/tyrus-project/tyrus)
-* [com.google.collections:google-collections:1.0](http://code.google.com/p/google-collections/)
-* [com.google.code.gson:gson:2.8.5](https://github.com/google/gson)
-* [org.java-websocket:Java-WebSocket:1.3.8](https://github.com/TooTallNate/Java-WebSocket)
-* [org.apache.logging.log4j:log4j-api:2.11.0](https://logging.apache.org/log4j/2.x/log4j-api/)
-* [com.oracle:javafx:2.2](http://www.oracle.com/technetwork/java/javafx2-archive-download-1939373.html)
+* [javax.websocket:javax.websocket-api:1.1](https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api)
 
 ## Authors
 
@@ -36,7 +32,6 @@ A small example how to use it: [APIUsage.java](https://github.com/m-villalilla/V
 * **Samuel Bauer** - GitHub: [Cinazu](https://github.com/Cinazu)
 * **Alexander Belokon** - GitHub: [abelokon](https://github.com/abelokon)
 * **Maria** - GitHub: [MariProgrammer](https://github.com/MariProgrammer)
-
 
 See also the list of [contributors](https://github.com/m-villalilla/VirtualChargePoint/contributors) who participated in this project.
 

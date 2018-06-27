@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorSettings" prefHeight="370.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="virtualchargepoint_gui.MainController">
+   <children>
+      <ImageView fitHeight="79.0" fitWidth="149.0" layoutX="7.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:src/main/resources/LogoGreen.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="paneSettings" layoutX="164.0" layoutY="25.0" prefHeight="79.0" prefWidth="357.0">
+         <children>
+            <Label layoutX="46.0" layoutY="22.0" prefHeight="36.0" prefWidth="265.0" text="ADVANCED SETTINGS" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="paneVendorModel" layoutX="71.0" layoutY="138.0" prefHeight="211.0" prefWidth="296.0">
+         <children>
+            <TextField fx:id="chargePointVendor" layoutX="26.0" layoutY="51.0" prefHeight="39.0" prefWidth="249.0" promptText="CHARGE POINT VENDOR" text="">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="chargePointModel" layoutX="26.0" layoutY="144.0" prefHeight="39.0" prefWidth="249.0" promptText="CHARGE POINT MODEL" text="">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <Label layoutX="26.0" layoutY="106.0" text="CHARGE POINT MODEL:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="26.0" layoutY="14.0" prefHeight="30.0" prefWidth="249.0" text="CHARGE POINT VENDOR:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Button fx:id="btnSave" layoutX="395.0" layoutY="214.0" mnemonicParsing="false" onAction="#saveAdvanced" prefHeight="60.0" prefWidth="126.0" text="SAVE" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
