@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 public class TestingFeatureWrapper implements Observer, Initializable {
 	@FXML private TableView<FeatureRow> tableFeatures;
 	private Stage stage = new Stage();
-	private static FeatureRow[] frs = new FeatureRow[8];
+	private static FeatureRow[] frs = new FeatureRow[10];
 	private int currentRun = 0;
 	
 	/**
@@ -49,7 +49,7 @@ public class TestingFeatureWrapper implements Observer, Initializable {
 				
 				frs[currentRun] = new FeatureRow(feature, support);
 				
-				if(currentRun != 7) {
+				if(currentRun != 9) {
 					currentRun++;
 					return;
 				}
@@ -90,5 +90,7 @@ public class TestingFeatureWrapper implements Observer, Initializable {
 		list.add(frs[5]);
 		list.add(frs[6]);
 		list.add(frs[7]);
+		list.add(frs[8]);
+		list.add(frs[9]);
 	}
 }
