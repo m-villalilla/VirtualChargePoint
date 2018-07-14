@@ -17,6 +17,10 @@ import eu.chargetime.ocpp.feature.profile.ClientCoreProfile;
 import eu.chargetime.ocpp.model.Confirmation;
 import eu.chargetime.ocpp.model.Request;
 import eu.chargetime.ocpp.model.core.*;
+import eu.chargetime.ocpp.model.firmware.DiagnosticsStatus;
+import eu.chargetime.ocpp.model.firmware.DiagnosticsStatusNotificationRequest;
+import eu.chargetime.ocpp.model.firmware.FirmwareStatus;
+import eu.chargetime.ocpp.model.firmware.FirmwareStatusNotificationRequest;
 
 /*
  * ChargeTime.eu - Java-OCA-OCPP
@@ -410,12 +414,19 @@ public class Chargepoint extends Observable {
 		
 			request = core.createStatusNotificationRequest(1, ChargePointErrorCode.NoError, ChargePointStatus.Preparing);
 			testFeature(request);
+			
+			//DiagnosticsStatusNotification
+			DiagnosticsStatusNotificationRequest dr = new DiagnosticsStatusNotificationRequest();
+			dr.setStatus(DiagnosticsStatus.Idle);
+			testFeature(dr);
+			
+			//FirmwareStatusNotification
+			FirmwareStatusNotificationRequest fr = new FirmwareStatusNotificationRequest();
+			fr.setStatus(FirmwareStatus.Idle);
+			testFeature(fr);
 		} catch (PropertyConstraintException e) {
 			e.printStackTrace();
 		}
-		
-		// firmwareManagement DiagnosticsStatusNotification, FirmwareStatusNotification Requests need to be selfmade 
-		// because createRequest functions dont exists yet
 	}
 	
     /**
